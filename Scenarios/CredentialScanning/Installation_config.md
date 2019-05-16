@@ -1,5 +1,21 @@
 # Installation & Configuration
 
+Once you have installed the extension into the org, you can start to add components into the pipeline.  You need to add the following four components in order to have an effective pipeline.
+
+- CredScan
+  -  You can use a suppression file if you have created one.  See [Suppressions](./Suppressions.md) for guidance.
+
+- Create Security Analysis Report
+  - Ensure CredScan is checked under tools parameter
+
+- Publish Security Analysis Logs
+  - Ensure CredScan is checked under tools parameter
+
+- Post Analysis
+  - Ensure CredScan is checked under tools parameter
+
+![CredScan basic pipeline](./images/CredScan_Pipeline_Components.png)
+
 ## External Links
 
 - [CredScan Install](https://secdevtools.azurewebsites.net/helpcredscan.html)
