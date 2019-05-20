@@ -45,4 +45,4 @@ CredScan failed with 4 issues found.
 
 To correct the failures, follow guidance on creating suppressions [here](https://microsoft.sharepoint.com/teams/CESecEngineering/CredScan/CredScan%20Wiki/Suppression%20Usage%20Examples.aspx).
 
-I fixed the above failurs using inline or linenext guidance and then reran the pipeline.  All failures were resolved.  Be sure to include justification in the suppression so others know why you suppressed the result.
+I fixed the above failures using inline or linenext guidance and then reran the pipeline.  All failures were resolved.  Be sure to include justification in the suppression so others know why you suppressed the result.
