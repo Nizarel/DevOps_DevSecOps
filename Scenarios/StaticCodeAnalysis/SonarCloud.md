@@ -3,6 +3,8 @@
 Sonarcloud offers Static code analysis with SaaS offering. You can easy to set up the CI/CD pipleline and PR validation. 
 Sonarcloud recommends to have a workflow with Validating the code by Pull Requests. 
 
+![SonarCloud PR validation](images/SonarCloudPRvalidation.png =700x500)
+
 # Setup 
 
 You can follow this documentation. You can configure the Sonarcloud with PR validation which is recommended. 
