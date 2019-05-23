@@ -1,72 +1,72 @@
-# Sonarcloud 
+# SonarCloud 
 
-Sonarcloud offers Static code analysis with SaaS offering. You can easy to set up the CI/CD pipleline and PR validation. 
-Sonarcloud recommends to have a workflow with Validating the code by Pull Requests. 
+SonarCloud offers static code analysis with their cloud-based software as a service product. It is easy to set up a CI/CD pipeline with PR validation with SonarCloud in Azure DevOps.
+
+SonarCloud recommends that the workflow uses pull requests to control changes, which can be configured to validate the code.
 
 ![SonarCloud PR validation](images/SonarCloudPRvalidation.png =700x500)
 
 # Setup 
 
-You can follow this documentation. You can configure the Sonarcloud with PR validation which is recommended. 
+This documentation will help you to configure SonarCloud with Pull Request validation (the recommended setup).
 
 * [Integrate Visual Studio Team Services with SonarCloud](https://docs.microsoft.com/en-us/labs/devops/sonarcloudlab/)
 
-# Tips and recommendataions
+# Tips and Recommendataions
 
-## Eliminate false positive 
+## Eliminate False Positives
 
-SonarCloud have a feature to report failse positive. It also have a feature of bulk report for the false positive. 
-The report of the false positive is inherited to the master after the PR merged. One of the issue of the workflow of the 
-false positive report is, only the Administrator report the false positives. 
+SonarCloud has a feature to report false positives. It also has a feature to bulk report on the false positives. 
+The false positive report is inherited by the master after the PR is merged. One issue of this workflow is that 
+only the Administrator role can report the false positives. 
   
-You can see the False positive on your PR, however, you can't report from the false positive on the PR. Also you need to ask 
-Administrator to report false postivies. We might have a room to improvement of the reporting False positve. 
-One of the idea is creating a bot to the Pull Request. Please refer the bot strategy on the next chapter. 
+While a developer can see the false positive on the pull request, they cannot themselves report a false positive on the PR.
+This means a developer would need to ask the Administrator to report false positives; this is possible room for future improvement.
+One idea is to create a bot to manage Pull Requests. Please refer to the bot strategy in the next chapter. 
 
-## Work Item integration 
+## Work Item Integration 
 
-SonarCloud doesn't have a feature of creating work item automatically. The reason is, SonarCloud recommend to use PR validation workflow. 
-That is why the SonarCloud task of the Azure DevOps never fails. However PR validation fails. PR should be linked with WorkItem already. 
+SonarCloud doesn't have a feature of creating work items automatically; instead, they recommend the use of the PR validation workflow. 
+This is the reason why the SonarCloud task in Azure DevOps never fails. However, if a PR is submitted and fails validation, that 
+PR should be linked with a Work Item. 
 
-However, if you want it, I recommmend to have a Pull Request bot for creating work item integration. We can track the PR creation with 
-Service hook of Azure DevOps, once start the PR, the bot poll the status of the Pull Request. If you want to create a work item for a specific code smell/bug, 
-then you can comment like '@workitem' then a work item created by bot with the contents of the code smell/bug. 
-If you need this solution, I'd happy to develop a PoC. The same strategy can be used for reporting false postiives.   
+With that idea in mind, we recommmend creation of a Pull Request bot that integrates the creation of work items. We can track the PR creation with the
+service hook of Azure DevOps; once the developer kicks off a PR, the bot polls the status of the Pull Request. If the developer wants to create a work item for a specific code smell/bug, 
+then they can add a comment like '@workitem' then a work item ID created by the bot with the contents of the code smell/bug. A similar strategy can be used for reporting false positives.
 
 ## Fail on CI without Pull Request
 
 SonarCloud recommends us to use PR validation. However, you might want to fail the CI by Quality Gates. 
-In this case, you need create a custom PowerShell task after the SonarCloud Tasks. This is a sample code for it. It check the API of SonarCloud, 
-then if it against the quality gate, it will fail. 
+In this case, you need to create a custom PowerShell task **after** the SonarCloud tasks. For example, the following checks the SonarCloud API to query
+the quality gate associated with a specific project key, and fail accordingly:
 
-```
+```powershell
 $token = [System.Text.Encoding]::UTF8.GetBytes($env:SONAR_TOKEN_ENV_VAR + ":")
 $base64 = [System.Convert]::ToBase64String($token)
  
 $basicAuth = [string]::Format("Basic {0}", $base64)
 $headers = @{ Authorization = $basicAuth }
  
-$result = Invoke-RestMethod -Method Get -Uri http://sonarcloud.io/api/qualitygates/project_status?projectKey=TsuyoshiUshio_VulnerableApp -Headers $headers
+$result = Invoke-RestMethod -Method Get -Uri http://sonarcloud.io/api/qualitygates/project_status?projectKey=MY_PROJECT_KEY_GOES_HERE -Headers $headers
 $result | ConvertTo-Json | Write-Host
  
 if ($result.projectStatus.status -eq "OK") {
-Write-Host "Quality Gate Succeeded"
-}else{
-Write-Error "Quality Gate Failed"
-exit 1
+    Write-Host "Quality Gate Succeeded"
+} else {
+    Write-Error "Quality Gate Failed"
+    exit 1
 }
 ```
 
-This is the sample implementation. 
+A sample implementation can be found at 
 https://dev.azure.com/csedevops/devsecopshack/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=46
 
 
-## Mono project scanning
+## Mono Project Scanning
 
-If you have a mono project, I recommend to move to the .NetCore project. SonarCloud support .NetCore/Standard and .NetFramework currently. 
-If you really want to build the mono project, you can do it with [old version](https://github.com/SonarSource/sonar-scanner-msbuild/releases?after=4.1.1.1164). However it is no longer supported for the latest version and 
-include the binary to the repo. Then execute it using mono. 
-
+In the case of a Mono project, we advise the developers migrate it to a .NET Core project. SonarCloud currently supports .NETCore/Standard and .NET Framework. There are [older versions](https://github.com/SonarSource/sonar-scanner-msbuild/releases?after=4.1.1.1164)
+of the scanner, which support building a Mono project. However, this is not supported with the latest version of SonarCloud.
+More information on this can be found:
 * [MSBuild 15 on macOS with Mono does not work with SonarQube MSBuild Scanner](https://github.com/Microsoft/msbuild/issues/1956)
 
 
