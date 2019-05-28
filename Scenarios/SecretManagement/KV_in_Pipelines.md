@@ -1,14 +1,13 @@
 # Secret management with Azure KeyVault
 
 - [Secret management with Azure KeyVault](#secret-management-with-azure-keyvault)
-    - [Azure Keyvault integration with Azure Devops](#azure-keyvault-integration-with-azure-devops)
-        - [Integration by using Variable groups](#integration-by-using-variable-groups)
-        - [Integration by using Azure KeyVault task](#integration-by-using-azure-keyvault-task)
-    - [Azure Keyvault integration with Jenkins](#azure-keyvault-integration-with-jenkins)
-    - [Automatic secret rotation wth Azure Keyvault](#automatic-secret-rotation-wth-azure-keyvault)
-    - [Design/split secrets across environments for AZDO with KV](#designsplit-secrets-across-environments-for-azdo-with-kv)
-        - [One KV to store credentails for all environments (Dev/QA/Prod)](#one-kv-to-store-credentails-for-all-environments-devqaprod)
-        - [One KV to store credentails Per environment (Dev/QA/Prod)](#one-kv-to-store-credentails-per-environment-devqaprod)
+  - [Azure Keyvault integration with Azure Devops](#azure-keyvault-integration-with-azure-devops)
+    - [Integration by using Variable groups](#integration-by-using-variable-groups)
+    - [Integration by using Azure KeyVault task](#integration-by-using-azure-keyvault-task)
+  - [Azure Keyvault integration with Jenkins](#azure-keyvault-integration-with-jenkins)
+  - [Design/split secrets across environments for AZDO with KV](#designsplit-secrets-across-environments-for-azdo-with-kv)
+    - [One KV to store credentails for all environments (Dev/QA/Prod)](#one-kv-to-store-credentails-for-all-environments-devqaprod)
+    - [One KV to store credentails Per environment (Dev/QA/Prod)](#one-kv-to-store-credentails-per-environment-devqaprod)
 
 ## Azure Keyvault integration with Azure Devops
 
@@ -24,7 +23,7 @@ Manual integration with an existing keyvault, as apart of the pipeline setup.
 
 4- In the variable groups page, choose + Add to select specific secrets from your vault that will be mapped to this variable group.
 
-Notes:
+**Notes:**
 
 1- Only the secret names are mapped to the variable group, not the secret values. The latest version of the secret's value is fetched from the vault and used in the pipeline linked to the variable group during the run.
 
@@ -35,6 +34,10 @@ Notes:
 4- Variable groups linked to KV can be linked in the build/release pipelines.
 
 5- You can control users, and thier access roles to the linked variable group, from the security tab in the variable group.
+
+Refernences:
+- [Key vault with varibale groups](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml)
+
 
 ### Integration by using Azure KeyVault task
 
@@ -52,15 +55,16 @@ The task can be used to fetch the latest values of all or a subset of secrets fr
 
 6- Handeling certificate encryption/decryption sample [Here](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops)
 
-Notes :
+**Notes:**
 
 1- Newly added, or deleted secrets to the vault are automatically reflected in created task variablesif you chose '*' in secret filter field in task setup.
 
+Refernences:
+- [Key vault task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops)
+
+
 ## Azure Keyvault integration with Jenkins
 TO be investigated
-
-## Automatic secret rotation wth Azure Keyvault
-To be investigated
 
 ## Design/split secrets across environments for AZDO with KV
 
