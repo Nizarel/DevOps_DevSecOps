@@ -250,10 +250,105 @@ NAME       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                  
 aqua-web   LoadBalancer   10.0.94.99   13.66.214.195   443:30029/TCP,8080:30734/TCP   1m
 ```
 
-Go to the `http://13.66.214.195:8080` for the HTTP access in this case. 
+Go to the `http://13.66.214.195:8080` for the HTTP access in this case. You requested administrator passowrd then you will see the this screen.
 
-
+![Token input](images/token.png)
 
 Copy the token from the https://my.aquasec.com and paste on this screen. 
 
+![my.aquqsec.com token](images/token2.png)
+
 Now you can see the dashboard. 
+
+# Configure Azure Container Registry integration 
+
+You can refer this document if you are interested. 
+* [Image Vulnerability Scanning in Azure Container Registry](https://blog.aquasec.com/image-vulnerability-scanning-in-azure-container-registry)
+
+Go to the aqua dashborad, System > integration 
+
+![Azure Container Registry integration](images/aqua-integration.png)
+
+Input the value of the Container Registry, then Save Changes > Test Connection. 
+
+
+
+Then Go to Images, push `ADD IMAGES` 
+
+![Add Images](images/images.png)
+
+
+## Security report 
+
+You will see various Security report on your k8s cluster. In this case, `http://13.66.214.195:8080` enter username as administrator and password you specified. 
+
+![dashboard](images/risk.PNG)
+![Scan images](images/scan-images.PNG)
+![Resource](images/Resources.png)
+![Sensitive Data](images/sensitive.png)
+![Vulnerability](images/vulnerability.png)
+
+# Configure CI pipeline with Azure DevOps
+
+Create a pipeline with Linux based hosted agent. e.g. Hosted Ubuntu 1604.  The pipeline is created by for tasks. 
+
+* Build a target image 
+* Login to the Aqua registry
+* Pull the scanner image
+* Scan the image
+
+![CI overview](images/CI.png)
+
+## Build a target image
+
+Build your docker image on this task. Don't forget to add tag.  The container registry settings is for your Container Registry. DockerHub or Azure Container Registry. 
+
+![Docker build](images/docker-build.png)
+
+Click Manage link and configure the host/username/password.
+
+![Service Connection (Azure Container Registry)](images/ContainerRegistrySettings.png)
+
+![Azure Portal (Azure Container Registry)](images/containerRegistry.png)
+
+## Loginto the Aqua registry
+
+Login to the Aqua registry. The container registry settings is for the Aqua registry.
+
+
+![Docker login](images/docker-login.png)
+
+ Click Manage link and configure it. The username/password is for the my.aquqsec.com of yours.
+
+ ![Aqua registry](images/ContainerRegistrySettingsForAqua.png)
+## Pull the scanner image 
+
+Donwload the scannar image. It is coming from Aqua registry. 
+
+![Download the scanner](images/docker-pull.png)
+
+## Scan the image 
+
+Docker task (build) automatically add the Azure Container Registry hostname as a prefix of the image. Also, it requires version tag. 
+
+![Image scan](images/docker-aqua-scan.png)
+
+Also, you need to configure Aqua Management Console Connection. This is for the console which you created already on the kubernetes cluster. 
+set the IP address from k8s and username is administrator by default, and put the password you specified on it. 
+
+![Aqua management console connection](images/aqua-management-console-connection-settings.png)
+
+# Security report. 
+
+## Pipeline report
+
+You can see the report on the Pipeline result on Azure DevOps. 
+
+![Pipeline report](images/pipeline-report.png)
+
+## Dashboard report
+
+You will see various Security report on your k8s cluster. In this case, `http://13.66.214.195:8080` enter username as administrator and password you specified. 
+
+Go to 
+![Dashboard report](images/dashboard-report.png)
