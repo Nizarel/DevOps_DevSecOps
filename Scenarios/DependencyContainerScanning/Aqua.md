@@ -290,6 +290,10 @@ You will see various Security report on your k8s cluster. In this case, `http://
 
 # Configure CI pipeline with Azure DevOps
 
+You can install Aqua Container Security. 
+
+* [Container Security](https://marketplace.visualstudio.com/items?itemName=aquasec.aquasec)
+
 Create a pipeline with Linux based hosted agent. e.g. Hosted Ubuntu 1604.  The pipeline is created by for tasks. 
 
 * Build a target image 
@@ -342,7 +346,7 @@ set the IP address from k8s and username is administrator by default, and put th
 
 ## Pipeline report
 
-You can see the report on the Pipeline result on Azure DevOps. 
+You can see the report on the Pipeline result on Azure DevOps. Go to the Aqua Scanner Report. 
 
 ![Pipeline report](images/pipeline-report.png)
 
@@ -350,5 +354,5 @@ You can see the report on the Pipeline result on Azure DevOps.
 
 You will see various Security report on your k8s cluster. In this case, `http://13.66.214.195:8080` enter username as administrator and password you specified. 
 
-Go to 
+Go to Images > CI/CD Scans. You can find your container images which is created by the CI pipeline. 
 ![Dashboard report](images/dashboard-report.png)
