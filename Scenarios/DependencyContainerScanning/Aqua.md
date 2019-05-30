@@ -23,7 +23,7 @@ $ az login
 $ az aks get-credentials -n <YOUR CLUSTER NAME> -g <RESOURCE GROUP NAME>
 ```
 
-## Create a security
+## Create a security namespace
 
 ```
 $ kubectl create namespace aqua-security
