@@ -362,3 +362,26 @@ You will see various Security report on your k8s cluster. In this case, `http://
 
 Go to Images > CI/CD Scans. You can find your container images which is created by the CI pipeline. 
 ![Dashboard report](images/dashboard-report.png)
+
+# Windows Container Scanning with CI on the Self-Hosted agent
+
+We need to install scanner-cli on the self-hosted agent in advance.  You can download the scanner-cli from here. 
+Download the scanner-cli from scanner-cli (Windows).
+
+# Download and install scanner-cli
+
+* [Version 3.5.0.3 (2019 Jan 14)](https://docs.aquasec.com/v3.5/docs/version-3503)
+
+The installer asks the URL of Aqua DashBoard(on k8s) with Username/password. Input that. You can automate it with msiexec. 
+
+# Integration with Azure Pipeline 
+
+You can configure it with Task. You don't need to pull the scanner docker image since it is already installed. Additional setting is 
+ 
+
+* [Azure DevOps (Microsoft VSTS) Integration](https://docs.aquasec.com/docs/azure-devops-integration)
+* [Scanner-CLI](https://docs.aquasec.com/v3.5/docs/command-line)
+
+
+
+
