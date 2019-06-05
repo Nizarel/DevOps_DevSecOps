@@ -376,8 +376,10 @@ The installer asks the URL of Aqua DashBoard(on k8s) with Username/password. Inp
 
 # Integration with Azure Pipeline 
 
-You can configure it with Task. You don't need to pull the scanner docker image since it is already installed. Additional setting is 
+You can configure it with Task. You don't need to pull the scanner docker image since it is already installed. Additional setting is showed below. 
+For the specifiying image, it is the same as the Linux pipeline. 
  
+ ![Aqua Security Task](images/scanning.png)
 
 * [Azure DevOps (Microsoft VSTS) Integration](https://docs.aquasec.com/docs/azure-devops-integration)
 * [Scanner-CLI](https://docs.aquasec.com/v3.5/docs/command-line)
