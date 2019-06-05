@@ -53,6 +53,12 @@ EOF
 
 ```
 
+### Create a secret for AquqDB 
+
+```
+kubectl create secret generic aqua-db --from-literal=password=<DB_PASSWORD> -n aqua-security
+```
+
 ## Create a YAML file 
 
 for deploying Aqua Server, Database and Gateway. Aquq use PostgreSQL on the k8s cluster. 
