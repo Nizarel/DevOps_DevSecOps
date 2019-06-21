@@ -1,6 +1,6 @@
 # Rotate Service principal account for deployed AKS
 
-This bash script uses Azure CLI to create a new service principal account to be used in a deployed AKS instead of the current service principal.
+This bash script uses Azure CLI to create a new service principal account to be used in a deployed [AKS](https://docs.microsoft.com/en-us/azure/aks/) instead of the current service principal.
 
 This script provides secret rotation mechanism that can be part of a defined security policy.
 
@@ -20,7 +20,7 @@ Before you run the script ensure the machine has Azure CLI version 2.0.65 or lat
 #Requires jq and az cli
 usage(){
         echo "***Rotate AKS Service Priciple credentials***"
-        echo "Usage: ./SP_rotation.sh <rgName> <aksClusterName><azSubscriptionId><yearsValidfor>"
+        echo "Usage: ./SP_rotation.sh <rgName> <aksClusterName> <azSubscriptionId> <yearsValidfor>"
 		echo "Expects 2 arguments: rgName, aksClusterName, azSubscriptionId AKS cluster resource group and cluster name, the azure subscription id, and number of years new service principal account is valid for"
 }
 
@@ -66,7 +66,7 @@ yearsValidfor=$4
 #Requires jq and az cli
 usage(){
         echo "***Rotate AKS Service Priciple credentials by updating existing service principal***"
-        echo "Usage: ./SP_rotation.sh <rgName> <aksClusterName><azSubscriptionId><expiryDate>"
+        echo "Usage: ./SP_rotation.sh <rgName> <aksClusterName> <azSubscriptionId> <expiryDate>"
 		echo "Expects 2 arguments: rgName, aksClusterName, azSubscriptionId AKS cluster resource group, cluster name, the azure subscription id, and desired new expiry date"
 }
 
