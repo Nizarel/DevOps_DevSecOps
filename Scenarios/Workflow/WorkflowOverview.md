@@ -6,6 +6,7 @@ This article shows the best practices of the DevSecOps workflow.
 
 We used to have a security testing on the staging phase. The idea of shift left is moving the security testing eariler stage of development to get feedback more quickly. 
 
+![Shift Left](images/ShiftLeft.png =800x400)
 
 We recommend to security test to shif left. If you have all security testing on the Local Development phase, it might be ideal. Especially for Credential, SSN, CreditCard number scanning. It protect to push your code with sensitive data. However, it depends on the support of the Service/Product. 
 If you are available, we recomment to use it. Generally, speaking, we recommend to start the security testing on Pull Request review. 
@@ -24,9 +25,14 @@ For the pull request model, some products support that it just report the delta 
 It helps to developers to focus on what they change and fix it. Also we can specify a quality gate for the pull request. The quality gate start a CI pipeline and validate the code. Unless developers pass the gate, 
 the PR is never get merged. Pull request also help to developers to notice all vulnerablity in one place. 
 
+![Overview](images/Overview.png =1000x500)
+
 For the advanced scenario, we can use PR Bot to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
 
 ## WorkFlow patterns
+
+![WorkFlowType](images/WorkFlowType.png =800x400)
+
 
 ### Serial Flow 
 
@@ -39,7 +45,7 @@ If you don't need to execute the serially, you can use the parrllel flow. It hel
 ### Enforce Policy
 
 If you want to inject specific task for all pipeline on your organization or project, you can use this strategy. 
-Please refer the [Enforce policy](../enforce%2Fpolicy/README.md) Documentation. 
+Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Documentation. 
 
 # Configration 
 
@@ -47,6 +53,8 @@ Please refer the [Enforce policy](../enforce%2Fpolicy/README.md) Documentation.
 
 If you have Job A, job B, Job C, you need to configure the dependency and condition. 
 Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed. 
+
+![SerialFlow](images/SerialFlow.png =800x400)
 
 ## Parallel Flow configuration 
 
