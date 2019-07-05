@@ -51,25 +51,35 @@ Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Documen
 
 ## Serial Flow configuration 
 
+Create multiple jobs then configrue a dependency and condition for each jobs. 
+
 If you have Job A, job B, Job C, you need to configure the dependency and condition. 
 Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed. 
 
-![SerialFlow](images/SerialFlow.png =800x400)
+![SerialFlow](images/SerialFlowOverview.png =800x400)
+
+You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
 
 ## Parallel Flow configuration 
 
-For the parallel, you don't need to specify any dependency. Jobs work pallarelly by default.
+Create multiple jobs. Jobs run parallelly in default. 
 
-## Fail if the quality gate has failed. 
+You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).
+
+## Tips for the configurations
+
+You can refer the Scanners configuration detail on this repo. This document will explain Workflow specific tips for you. 
+
+### Fail if the quality gate has failed. 
 
 Scanners have a quality gate. Usually, each task has a future of fail if it doesn't reach the quality gate, however, some of them don't have the future for that. 
-SonarCloud it the one. In case of Sonar Cloud, you can use a task. 
+SonarCloud is the one. In case of Sonar Cloud, you can use a task. 
 
 * [SonarCloud build breaker](https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonarcloud-buildbreaker) 
 
-You can find it for SonarQube as well. For the configuration of the Sonar Cloud pipeline and PR validation, please refer [This]() page. 
+You can find it for SonarQube as well. For the configuration of the Sonar Cloud pipeline and PR validation, please refer [This](../StaticCodeAnalysis/SonarCloud.md) page. 
 
-## Create Work Item 
+### Create Work Item 
 
 If you want to create a work item when the scan is failed, you can use Create Work Item task. 
 
@@ -108,20 +118,21 @@ The title incluce the pull request id.
 
 One more tips is please specify the `outputVariables` as `CWI.Id=System.Id`. It enable us to get the WorkItem.Id on the subsequnt task. 
 
-
 **NOTE:** Currently, this task has a bug that fails when there is a work item that has the same Title name. We have a branch to fix it. However, it is going to be merged soon. 
 
-## Create a comment to link 
+### Create a comment to PR
 
-[Create WorkItem task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview)
+[Create WorkItem task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment. 
+
+![Create PR Comment](images/Comment.png =500x250)
 
 Since this is an alpha version for internal use, we don't push it to the market place. You can use to follow this. 
 
-### isntall tfx command 
+#### isntall tfx command 
 
 Go to [Node CLI for Azure DevOps](https://github.com/Microsoft/tfs-cli) and install the cli. 
 
-### Login your AzureDevOps organization 
+#### Login your AzureDevOps organization 
 
 Get the Personal Access Token of your Azure DevOps, then login it using the cli. 
 
@@ -129,7 +140,7 @@ Get the Personal Access Token of your Azure DevOps, then login it using the cli.
 tfx login -t {Your personal access token} -u https://{your organization name}.visualstudio.com/DefaultCollection
 ```
 
-### Upload task 
+#### Upload task 
 
 ```
 cd Task
@@ -138,20 +149,14 @@ tsc
 tfx build tasks --task-path .\Task\
 ```
 
-## Workaround 
+#### Configuration
 
-Currently, Create WorkItem doesn't expose the workItem.Id if there is already created. To avoid this issue, create a powershell task with this inline script. 
+Configure comment body and condition. In some case, `CWI.Id` will be Null. Azure Pipe represent Null as ''.  more details in [here](https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline?noredirect=1#comment100347634_56875665).
 
-```
-if ($env:CWI_Id -eq $null) {
-    Write-Host "##vso[task.setvariable variable=SkipCreatePRComment]True"
-}
-```
-
-Then configure the Control Option > Custom Condition 
+![Create PR Comment Task](images/CreatePRCommentTask.png)
 
 ```
-and(failed(), ne(variables['SkipCreatePRComment'], 'True'))
+and(failed(), ne(variables['CWI.Id'], ''))
 ```
 
 
