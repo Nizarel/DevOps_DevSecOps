@@ -122,9 +122,9 @@ One more tips is please specify the `outputVariables` as `CWI.Id=System.Id`. It 
 
 ### Create a comment to PR
 
-[Create WorkItem task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment. 
+[Create PR Comment task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment. 
 
-![Create PR Comment](images/Comment.png =500x250)
+![Create PR Comment](images/Comment.png)
 
 Since this is an alpha version for internal use, we don't push it to the market place. You can use to follow this. 
 
@@ -153,10 +153,12 @@ tfx build tasks --task-path .\Task\
 
 Configure comment body and condition. In some case, `CWI.Id` will be Null. Azure Pipe represent Null as ''.  more details in [here](https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline?noredirect=1#comment100347634_56875665).
 
-![Create PR Comment Task](images/CreatePRCommentTask.png)
-
 ```
 and(failed(), ne(variables['CWI.Id'], ''))
 ```
+
+
+![Create PR Comment Task](images/CreatePRCommentTask.png)
+
 
 
