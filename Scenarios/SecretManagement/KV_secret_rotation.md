@@ -122,7 +122,7 @@ Add-AzureRmAccount -ServicePrincipal -TenantId $servicePrincipalConnection.Tenan
 # ------- Required for Azure Automatio Runbook --------- #
 $keyVaultName = 'YOURKEYVAULTNAME'
 $keyVaultSecret= 'SECRETNAME'
-$KeyVaultSecretNewValue= 'NEWSECRETVALUE'
+$KeyVaultSecretNewValue= -join ((33..126) | Get-Random -Count 32 | % {[char]$_}) 
 
 #convert the valut to a to secure String
 $Secret = ConvertTo-SecureString -String $KeyVaultSecretNewValue -AsPlainText -Force
