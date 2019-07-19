@@ -1,8 +1,8 @@
 # Find stale secrets within Azure Keyvault
 
-Using Azure CLI, and the logging feature in azure Keyvault you can track/report secrets that have been stale within you vault.
+Using Azure CLI, and the logging feature in azure Keyvault you can track/report secrets that have been stale within your vault.
 
-Azure Keyvault uses Azure storage account service to store the logs of every event executed on the a keyvault. The logs are stored as blobs where every log blob contains the logs of the events executed on the key vault for one hour. 
+Azure Keyvault uses Azure storage account service to store the logs of every event executed on a keyvault. The logs are stored as blobs where every log blob contains the logs of the events executed on the key vault for one hour. 
 
 ## Azure Keyvault logging setup :
 
