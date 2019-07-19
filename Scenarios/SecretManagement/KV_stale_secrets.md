@@ -55,7 +55,6 @@ ReportKVStaleSecrets(){
 	for ((idx=0; idx<${#kvsecretslist[@]}; ++idx)); do
 			secret=${kvsecretslist[idx]}
 			kvsecretslastuselist+=([$secret]=$(date -d 2000-01-01T01:00:00.5444810Z- +%F))		
-			echo ${kvsecretslastuselist[$secret]}
 	done
 	
 	#Get the list of azure blobs names
