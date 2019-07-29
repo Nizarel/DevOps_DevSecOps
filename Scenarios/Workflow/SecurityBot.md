@@ -2,7 +2,7 @@
 
 Security Bot is a reference implementation of the DevSecOps Pull Request centered validation, operation system. 
 
-[![Strikes demo](https://img.youtube.com/vi/_c-dvMDlnsY/0.jpg)](https://www.youtube.com/watch?v=_c-dvMDlnsY)
+[![SecurityBot demo](https://img.youtube.com/vi/_c-dvMDlnsY/0.jpg)](https://www.youtube.com/watch?v=_c-dvMDlnsY)
 
 
 ## Issue to solve 
