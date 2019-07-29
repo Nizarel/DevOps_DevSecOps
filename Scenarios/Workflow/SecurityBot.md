@@ -37,7 +37,7 @@ It only requires Storage Account with Serucity tools access tokens. For more det
 
 ### Install
 
-Go to the GitHub project page then click Deploy to Azure button. 
+Go to the [GitHub project page](https://github.com/TsuyoshiUshio/SecurityBot) then click Deploy to Azure button. 
 
 ### Current support status
 
