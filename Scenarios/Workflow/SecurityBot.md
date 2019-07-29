@@ -2,6 +2,8 @@
 
 Security Bot is a reference implementation of the DevSecOps Pull Request centered validation, operation system. 
 
+You can see the demo. Click the image.
+
 [![SecurityBot demo](https://img.youtube.com/vi/_c-dvMDlnsY/0.jpg)](https://www.youtube.com/watch?v=_c-dvMDlnsY)
 
 
@@ -22,7 +24,7 @@ This bot decorate pull request with all of these issues as a pull request commen
 of issues in one place. Also, you can invoke a command just reply a comment. for example, suppress false-positive, or create work item. 
 It help developers and handle all of the security issue in one place. 
 
-
+![Overview](images/SecurityBotOverview.png)
 
 ## Reference implementation
 
@@ -40,6 +42,8 @@ Go to the GitHub project page then click Deploy to Azure button.
 ### Current support status
 
 Currently, we implement three providers. For repository, we can use GitHub, For scanner, we can use Sonar Cloud, and WorkItem, We can use Azure DevOps. However, you can add provider without chaning the main code. 
+
+![Support status](images/CurrentSupport.png)
 
 ### Architecture 
 
