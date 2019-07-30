@@ -78,8 +78,8 @@ The xml content above can be saved in a file e.g. “buildsearcher.xml”
 and saved in a convenient location so that it can be used in your Azure
 DevOps pipeline.
 
-Using a Custom Searcher in the CredScan Azure Devops Extension
---------------------------------------------------------------
+## Using a Custom Searcher in the CredScan Azure Devops Extension
+---
 
 In the Advanced section of the CredScan Azure DevOps Task, Make the
 following Selections:
@@ -91,14 +91,14 @@ following Selections:
     and retrieve it during pipeline execution. This way it does not need
     to be embedded manually in every project)
 
-<img src="./images/Searcher_Settings.png" width="589" height="172" />
+![](images/Searcher_Settings.png)
 
 Now you can configure that Match Results for your new Custom scanner
 causes your build to break and you can receive some useful feedback with
 respect to where the patterns were matched
 
-<img src="./images/Searcher_PL_Error.png" width="1025" height="329" />
+![](images/Searcher_PL_Error.png)
 
 Details Reflected in the logs below
 
-<img src="./images/Searcher_PL_Log.png" width="1013" height="290" />
+![](images/Searcher_PL_Log.png)
