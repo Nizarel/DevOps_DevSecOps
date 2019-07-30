@@ -24,6 +24,16 @@ Set-AzDiagnosticSetting -ResourceId $kv.ResourceId -StorageAccountId $sa.Id -Ena
 
 ```
 
+If you use Azure CLI
+
+```bash
+$ StorageId=$(az storage account show -n YOURSTORAGEACCOUNTNAME -g RG01 --query id -o tsv)
+$ KeyVaultId=$(az keyvault show -n YOURVAULTNAME -g RG01 --query id -o tsv)
+$ az monitor diagnostic-settings create -n mydiagnostics --resource $KeyVaultId --storage-account $StorageId --logs '[{"category": "AuditEvent", "enabled": true, "retentionPolicy": { "enabled": true, "days": 180}}]'
+```
+
+It takes several minutes to find the log on the storage account.
+
 ## Report Azure keyvault stale secrets :
 
 Now that you have the logging enabled on your keyvault. you can run the following bash script to report the stale secrets that have not been used in the last X days
