@@ -4,3 +4,4 @@
 - [Installing the CredScan Extension](./Installation.md)
 - [Adding Suppressions](./Suppressions.md)
 - [Tuning CredScan](./TuningScanner.md)
+- [Implementing Custom Searchers for CredScan](./CredScanSearcher.md)
