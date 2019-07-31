@@ -19,16 +19,15 @@ This reference solution solve all of these problem.
 
 ## General Idea 
 
-The general idea of the Security Bot is, through the Pull Request Validation, we can scan source code and find several issues by several 3rd party services. 
-This bot decorate pull request with all of these issues as a pull request comments. It centerlize the issue on a Pull Request so that Developer can handle oll 
-of issues in one place. Also, you can invoke a command just reply a comment. for example, suppress false-positive, or create work item. 
-It help developers and handle all of the security issue in one place. 
+The general idea of the Security Bot is, through the Pull Request Validation, we can scan source code and find several issues produced by several 3rd party services.
+This bot will decorate the pull request with all of these issues as pull request comments that will need to be resolved in order for the merge to be approved. It centralizes the issue/s on a Pull Request so that a developer can handle all of the issues in one place. You can also invoke a command by just replying to a comment. e.g. suppressing false-positives or creating work items by replying "suppress false positive" or "create work item".
+It can help developers and handle all of the security issue in one place.
 
 ![Overview](images/SecurityBotOverview.png)
 
 ## Reference implementation
 
-We develop a reference implementation on the GitHub. 
+We developed a reference implementation on GitHub.
 
 * [TsuyoshiUshio/SecurityBot](https://github.com/TsuyoshiUshio/SecurityBot)
 
