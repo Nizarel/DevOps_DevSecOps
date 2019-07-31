@@ -1,11 +1,11 @@
 # Whitesource Container Scanning
 # Status: In Development
 
-![whitesource for containers](../assets/ws-for-container.png)
+![whitesource for containers](./images/ws-for-container.png)
 
 ## Requirements for Azure Container Registry Usage
 - Authorized account to Azure Container Registry
-- Permissions for image pulling from Azure Continer Registry
+- Permissions for image pulling from Azure Container Registry
 - Docker installed
 
 Download the Unified Agent and Configuration File
@@ -31,7 +31,7 @@ Search the configuration for the "SCAN MODE: Docker images" heading. The entries
     docker.azure.userPassword=ThIsDoEsNoTSeEmSeCuRe
     docker.azure.registryName=myazureregistry
 
-    #this configuration will scan all of your docker images (as well as configured package manger scans) in thie registry. 
+    #this configuration will scan all of your docker images (as well as configured package manger scans) in this registry. 
 
     ...
 ```

@@ -31,7 +31,7 @@ A template configuration for WhiteSource can be found [here](https://s3.amazonaw
 
 With the project's whitesourece config set as described above any policy violations will cause the pipeline to fail. We simply need to create a couple of task in the pipeline that run the scanner. Firstly, we will need to download the scanner into our build agent. In a new or existing pipeline agent add 2 task of the type "CMD". 
 
-![add cmd task](../assets/add-cmd.png)
+![add cmd task](images/add-cmd.png)
 
 Configure the first task to download the WhiteSource agent into the build agent. 
  - Set the display name to something like "Download WS Agent"
@@ -40,7 +40,7 @@ Configure the first task to download the WhiteSource agent into the build agent.
 ```
     curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar
 ```
-![download WS agent](../assets/agent-download.png)
+![download WS agent](images/agent-download.png)
 
 Finally, add the other mentioned "CMD" task and configure it to run the scanner
 
@@ -52,7 +52,7 @@ Finally, add the other mentioned "CMD" task and configure it to run the scanner
 ```
 *NOTE:* Although the API key can be added to the configuration file added to the source code repo it is recommended that keys of that type be secured. As a best practice adding the API Key to the pipeline configuration offers better control. 
 
-![run the WS scanner](../assets/run-scanner.png)
+![run the WS scanner](images/run-scanner.png)
 
 ## Run the pipeline
 
