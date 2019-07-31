@@ -31,8 +31,8 @@ We developed a reference implementation on GitHub.
 
 * [TsuyoshiUshio/SecurityBot](https://github.com/TsuyoshiUshio/SecurityBot)
 
-This bot is implemented by C# Azure Functions. You can deploy it to Azure with one click from the repository. It is deployed as a Consumption plan which is pay-par-use.
-It only requires Storage Account with Serucity tools access tokens. For more details, you can see the repo. The bot has a good extension mechanism. It has Providers to which we can easy to extend as creating a provider.
+This bot is implemented by C# Azure Functions. You can deploy it to Azure with one click from the repository. It is deployed as a Consumption plan which is pay-per-use.
+It only requires a Storage Account with Security tools access tokens. For more details, you can take a look at the repo. The bot has a good extension mechanism. It uses Providers and therefore it is easy to extend by creating a new provider for the tool that you would like to support.
 
 ### Install
 
@@ -40,7 +40,7 @@ Go to the [GitHub project page](https://github.com/TsuyoshiUshio/SecurityBot) th
 
 ### Current support status
 
-Currently, we implement three providers. For repository, we can use GitHub, For scanner, we can use Sonar Cloud, and WorkItem, We can use Azure DevOps. However, you can add provider without chaning the main code. 
+Currently, we implement three providers. For repository, we can use GitHub, For scanner, we can use Sonar Cloud, and WorkItem, We can use Azure DevOps. However, you can add provider without changing the main code. 
 
 ![Support status](images/CurrentSupport.png)
 
