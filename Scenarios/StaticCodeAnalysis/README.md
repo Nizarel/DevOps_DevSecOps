@@ -1,8 +1,6 @@
-# Static Code Analysis 
+# Static Code Analysis
 
-We investigate several tools for Static Analysis. 
+We investigated several tools for Static Analysis.
 
-* [Sonarcloud](SonarCloud.md)
-* [Fortify]()
-* [WhiteSource]()
-
+- [Sonarcloud](./SonarCloud.md)
+- [Roslyn Analyzers](./RoslynAnalyzers.md)
