@@ -9,6 +9,7 @@ This topic provide an overview and how to implement three strategies.
 [KeyVault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol) provide us an integration Azure KeyVault with Kubernetes. Secrets, keys, and certificates in a key management system become a volume accessible to pods. 
 However, once it is mounted, the secret will not reflect the change of Key Vault. Once KeyVautl Change happnes, we need to restart the pod. 
 
+![](images/flexVolume.png =950x500)
 
 ## Setup the KeyVault Flex Volume
 
@@ -26,12 +27,16 @@ For example, If you have a deployment, you can restart the pod, one by one using
 
 By reloading the pods, the change has been reflected to your pod. 
 
+![](images/flexVolumeWithAzDO.png =950x500)
+
 # Notifications for Azure KeyVault (Preview)
 
 Azure KeyVault has a preview feature [Notifications for Azure keyVault](https://keyvaultdocs.azurewebsites.net/KeyVault/Notifications/OnBoarding.html). It is designed to allow users to be notified when the status of a secret stored in key vault has changed.
 Currently, the link is available MSFT only. You need to submit the request to use this preview feature. 
 
 Once the secret has been changed, you can get the notification through the EventGrid. Then you can restart the pod with Azure Functions for example. 
+
+![](images/KeyVaultNotification.png =950x500)
 
 # HashiCrop Vault Secret Rotation
 
@@ -60,12 +65,15 @@ vault kv put secret/myapp/config username='appuser' password='suP4rsec(et!' ttl=
 You can find the tips when you deploy HashiCorp Vault with AKS integration, I wrote a blog post to it. 
 See more detail on the blog. 
 
-# Vault Miller (TODO)
+![](images/Vault.png =950x500)
+
+# Vault Mirror (TODO)
 
 HashiCorp Vault provide dynamic secret rotation feature. If you want have with KeyVault, We can create the same tools like Vault Agent and Consul Template. 
-However, the easiest way for using KeyVault might be develop an small daemon called `Vault Miller`. It watch the KeyVault once change happens, it mirror the secret on HashiCorp Vault. 
+However, the easiest way for using KeyVault might be develop an small daemon called `Vault Mirror`. It watch the KeyVault once change happens, it mirror the secret on HashiCorp Vault. 
 I'd like to provide a sample implementation of Vault Miller in the near future. It will use polling model or KeyVault notification feature. 
 
+![](images/VaultMirror.png =950x500)
 
 # How to choose your strategy?
 
@@ -74,7 +82,7 @@ you need to include restart command. It might required REST API call or Client L
 `HashiCorp Vault` strategy provide a dynamic rotation and very good tools when customer want onPrem solution. `Vault Miller` strategy is good when you want to centerize the secret on KeyVault however, 
 want to use HashiCorp vault tools on Kubernetes. 
 
-
+![](images/ProsCons.png =950x500)
 
 
 
