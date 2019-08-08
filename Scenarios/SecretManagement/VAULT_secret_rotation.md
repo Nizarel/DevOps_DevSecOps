@@ -70,7 +70,7 @@ See more detail on the blog.
 # Vault Mirror (TODO)
 
 HashiCorp Vault provide dynamic secret rotation feature. If you want have with KeyVault, We can create the same tools like Vault Agent and Consul Template. 
-However, the easiest way for using KeyVault might be develop an small daemon called `Vault Mirror`. It watch the KeyVault once change happens, it mirror the secret on HashiCorp Vault. 
+However, the easiest way for using KeyVault might be developing a small daemon called `Vault Mirror`. It watches the KeyVault once change happens, it mirrors the secret on HashiCorp Vault. 
 I'd like to provide a sample implementation of Vault Miller in the near future. It will use polling model or KeyVault notification feature. 
 
 ![](images/VaultMirror.png =950x500)
