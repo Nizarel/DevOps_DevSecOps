@@ -65,6 +65,8 @@ vault kv put secret/myapp/config username='appuser' password='suP4rsec(et!' ttl=
 You can find the tips when you deploy HashiCorp Vault with AKS integration, I wrote a blog post to it. 
 See more detail on the blog. 
 
+* [Secret Rotation with HashiCorp Vault on AKS](https://medium.com/@tsuyoshiushio/secret-rotation-with-hashicorp-vault-on-aks-f7dd9b32371b)
+
 ![](images/Vault.png =950x500)
 
 # Vault Mirror (TODO)
