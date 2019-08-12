@@ -59,7 +59,7 @@ Add in the step to run the OWASP/ZAP Scanner.
     provideCustomContext: false
     port: 5000
 ```
-> **Important** _all of the remaining steps include 'condition: always()'. This makes sure that if the build fails we still get a useful report. Otherwise, our scan results will not be presented in a useful manner when a threshold is surpassed. 
+> **Important** _all of the remaining steps include 'condition: always()'. This makes sure that if the build fails we still get a useful report. Otherwise, our scan results will not be presented in a useful manner when a threshold is surpassed._ 
 
 We need to copy the output from the can for publishing.
 

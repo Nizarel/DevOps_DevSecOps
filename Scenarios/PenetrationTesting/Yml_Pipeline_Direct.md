@@ -1,8 +1,8 @@
-## Directly Coded YAML Pipeline
+# Directly Coded YAML Pipeline
 
 > There are various tools used in preparation and execution of pen-testing application. Following details discuss simple addition of pen-testing to Azure DevOps through a yml pipeline directly. 
 
-###  OWASP Zed Attack Prozy (ZAP)
+##  OWASP Zed Attack Prozy (ZAP)
 
 
 - Additional Steps may be required for [self-hosted agents](./Self_Hosted.md). 
@@ -106,6 +106,9 @@ _The scoring factors for the scan can be retrieved from the scan reports that we
     FAIL_THRESHOLD: 100
   continueOnError: true
 ```
+
+> **Important** _all of the remaining steps include 'condition: always()'. This makes sure that if the build fails we still get a useful report. Otherwise, our scan results will not be presented in a useful manner when a threshold is surpassed._ 
+
 Copy the build artifcats (tests results) to the Artifact Directory
 
 ``` YAML
@@ -183,6 +186,8 @@ Install handlebars to take advantage of the templating for a simple reporting da
    {{/each}}
    EOF
   displayName: 'owasp nunit template'
+  condition: always()
+
 ```
 
 Use the handlebars template and json report from the ZAP scan to generate an xml report in the nunit style to display. 
@@ -191,6 +196,8 @@ Use the handlebars template and json report from the ZAP scan to generate an xml
 
 - bash: ' handlebars /tmp/owaspzap/report.json < /tmp/owaspzap/nunit-template.hbs > /tmp/owaspzap/test-results.xml'
   displayName: 'generate nunit type file'
+  condition: always()
+
 ```
 
 **Publish the NUnit Style report**
@@ -202,6 +209,10 @@ Use the handlebars template and json report from the ZAP scan to generate an xml
   inputs:
     testResultsFormat: NUnit
     testResultsFiles: '/tmp/owaspzap/test-results.xml'
+  condition: always()
+
 ```
 
 **_View_** your lovely report.
+
+![full report view](./images/scan-results-collapsed.png)
