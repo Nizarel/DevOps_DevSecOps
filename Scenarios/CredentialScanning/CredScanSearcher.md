@@ -8,7 +8,6 @@ searchers and by reaching out to <credscancore@microsoft.com> if you
 need additional scanners to be added to the tool.
 
 ## Defining Your Own Searcher
----
 
 There are Scnarios that you may want to implement your own searcher in
 order to identify patterns of secrets that you may be aware of kreeping
@@ -28,77 +27,65 @@ DevOps Extension:
 | **Matchdetails**              | Provides the info field content for a match using Prefast report format.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | **Recommendation**            | Provides the suggestions field content for a match using Prefast report format.                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | **Severity**                  | Provides the rank field content for a match using Prefast output.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **SearchValidatorClassName** | (Optional) Provides the fully qualified name of a post matching validator class which implements Microsoft.Art.ContentSearch.ISearchValidator interface. Complex validation logic beyond Regex matching can be implemented in this class. (e.g. To verify a base64 encoded string match can be deserialized as a certificate object which contains private key)                                                                                                                                                                                         |
+| **SearchValidatorClassName** | (Optional) Provides the fully qualified name of a post matching validator class which implements Microsoft.Art.ContentSearch.ISearchValidator interface. Complex validation logic beyond Regex matching can be implemented in this class. (e.g. To verify a base64 encoded string match can be deserialized as a certificate object which contains private key)
 
-## Example Implementing Custom Searchers to Filter out Social Security Numbers and Credit Cards 
----
+## Example Implementing Custom Searchers to Filter out Social Security Numbers and Credit Cards
 
 The example below demonstrates creating a file that can be passed to the
 CredScan tool as an argument. The Custom scanner will be appended to the
 Default scanner at runtime to insure scans for the new content search
 patters are available.
 
-~~~~~
+```XML
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfContentSearcher xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<ContentSearcher>
+  <ContentSearcher>
     <Name>Social Security Numbers</Name>
     <RuleId>CSCAN0170</RuleId>
-    <ResourceMatchPattern>
-        \\.(cs|xml|config|json|ts|cfg|txt|ps1|bat|cscfg|publishsettings|cmd|psm1|aspx|asmx|vbs|added\_cluster|clean|pubxml|ccf|ini|svd|sql|c|xslt|csv|FF|ExtendedTests|settings|cshtml|template|trd|argfile)$|(config|certificate|publish|UT)\\.js$|(commands|user|tests)\\.cpp$
-    </ResourceMatchPattern>
+    <ResourceMatchPattern>\.(cs|xml|config|json|ts|cfg|txt|ps1|bat|cscfg|publishsettings|cmd|psm1|aspx|asmx|vbs|added_cluster|clean|pubxml|ccf|ini|svd|sql|c|xslt|csv|FF|ExtendedTests|settings|cshtml|template|trd|argfile)$|(config|certificate|publish|UT)\.js$|(commands|user|tests)\.cpp$</ResourceMatchPattern>
     <ContentSearchPatterns>
-        <string>(?!219-09-9999|078-05-1120)(?!666|000|9\\d{2})\\d{3}-(?!00)\\d{2}-(?!0{4})\\d{4}</string>
-    </ContentSearchPatterns>
+      <string>(?!219-09-9999|078-05-1120)(?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4}|(?!219099999|078051120)(?!666|000|9\d{2})\d{3}(?!00)\d{2}(?!0{4})\d{4}</string>
+      </ContentSearchPatterns>
     <MatchDetails>Found file matching possible Social Security Number.</MatchDetails>
-    <Recommendation>
-        Validate whether the file contains a Social Security Number and remove. For additional information on secret remediation see https://aka.ms/credscan 
-    </Recommendation>
+    <Recommendation>Validate whether the file contains a Social Security Number and remove. For additional information on secret remediation see https://aka.ms/credscan </Recommendation>
     <Severity>3</Severity>
-</ContentSearcher>
-<ContentSearcher>
-    <Name>Major Credit Card Numbers</Name>
+  </ContentSearcher>
+    <ContentSearcher>
+    <Name>Credit Card Numbers</Name>
     <RuleId>CSCAN0180</RuleId>
-    <ResourceMatchPattern>
-        \\.(cs|xml|config|json|ts|cfg|txt|ps1|bat|cscfg|publishsettings|cmd|psm1|aspx|asmx|vbs|added\_cluster|clean|pubxml|ccf|ini|svd|sql|c|xslt|csv|FF|ExtendedTests|settings|cshtml|template|trd|argfile)$|(config|certificate|publish|UT)\\.js$|(commands|user|tests)\\.cpp$
-    </ResourceMatchPattern>
+    <ResourceMatchPattern>\.(cs|xml|config|json|ts|cfg|txt|ps1|bat|cscfg|publishsettings|cmd|psm1|aspx|asmx|vbs|added_cluster|clean|pubxml|ccf|ini|svd|sql|c|xslt|csv|FF|ExtendedTests|settings|cshtml|template|trd|argfile)$|(config|certificate|publish|UT)\.js$|(commands|user|tests)\.cpp$</ResourceMatchPattern>
     <ContentSearchPatterns>
-        <string>((67\\d{2})|(4\\d{3})|(5\[1-5\]\\d{2})|(6011))(-?\\s?\\d{4}){3}|(3\[4,7\])\\d{2}-?\\s?\\d{6}-?\\s?\\d{5}</string>
-    </ContentSearchPatterns>
+      <string>((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))(-?\s?\d{4}){3}|(3[4,7])\d{2}-?\s?\d{6}-?\s?\d{5}</string>
+      </ContentSearchPatterns>
     <MatchDetails>Found a file matching possible Major Credit Card Number.</MatchDetails>
-    <Recommendation>
-        Validate whether the file contains a Credit Number and remove. For additional information on secret remediation see
-        https://aka.ms/credscan </Recommendation>
+    <Recommendation>Validate whether the file contains a Credit Number and remove. For additional information on secret remediation see https://aka.ms/credscan </Recommendation>
     <Severity>3</Severity>
-</ContentSearcher>
+  </ContentSearcher>
 </ArrayOfContentSearcher>
-~~~~~
+```
 
 The xml content above can be saved in a file e.g. “buildsearcher.xml”
 and saved in a convenient location so that it can be used in your Azure
 DevOps pipeline.
 
 ## Using a Custom Searcher in the CredScan Azure Devops Extension
----
 
 In the Advanced section of the CredScan Azure DevOps Task, Make the
 following Selections:
 
-1.  Set the Searcher File Type Property to “Default & Custom”
+1. Set the **Searchers File Type** Property to **Default & Custom**
 
-2.  Set the Searcher File Property to “<Location of your custom
-    buildsearcher.xml file>” (Try to store this file in Blob Storage
-    and retrieve it during pipeline execution. This way it does not need
-    to be embedded manually in every project)
+2. Set the **Searchers File** Property to “<Location of your custom
+    buildsearcher.xml file>” (TIP: Store this file in Git Repo/Blob Storage
+    and retrieve it during pipeline execution allowing centralized management of searchers).
 
-![](images/Searcher_Settings.png)
+![searcher settings](images/Searcher_Settings.png)
 
-Now you can configure that Match Results for your new Custom scanner
-causes your build to break and you can receive some useful feedback with
-respect to where the patterns were matched
+Once configured, **match results** for the custom scanner
+cause pipeline execution to fail and you can receive useful feedback with where the custom patterns were matched
 
-![](images/Searcher_PL_Error.png)
+![searcher error](images/Searcher_PL_Error.png)
 
-Details Reflected in the logs below
+Example of tool output detailsrReflected in the screenshot of logs below
 
-![](images/Searcher_PL_Log.png)
+![searcher log](images/Searcher_PL_Log.png)
