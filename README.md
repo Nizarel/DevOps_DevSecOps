@@ -14,6 +14,10 @@ The documentation in this repository is meant to guide engineers through adding 
 - [Setup](./Scenarios/Setup/Whitesource.md)
 - [Static Code Analysis](./Scenarios/StaticCodeAnalysis/README.md)
 
+## Licensing
+
+Please note that some of the components used in these scenarios are third party components that may require licensing from the product vendor. Unless expressly stated otherwise, none of the third party products used here are an endorsement, they serve merely as examples. Independent evaluation should be conducted to find the product mix that supports your goals and meets your budget 
+
 ## Code Contributions
 
 ### TODO Move repos to common location and publish
