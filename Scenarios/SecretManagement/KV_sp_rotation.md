@@ -2,6 +2,8 @@
 
 In this article, you can learn how to rotate Servcie Prinicpal for KeyVault. 
 
+![Servcie Principal Rotation](images/SPRotation.png)
+
 ## Create a Servcie Principal to create Service Prinicipal
 
 We need to create a servcie principal to create service prinicpals. 
