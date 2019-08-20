@@ -159,6 +159,29 @@ I create an sample application with ASP.NET (.Net core). I create [a pipeline to
 
 You can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
 
+## Create Secret 
+
+Create a service principal to access KeyVault from the sample app and set it to the secret. 
+
+```
+$ az ad sp create-rbac --name ServicePrinipalForApp 
+
+$ kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
+```
+
+
+## Set Policy to the KeyVault
+
+Add policy to the KeyVault.
+
+```
+az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>
+
+az keyvault set-policy -n $KV_NAME --key-permissions get --spn <YOUR SPN CLIENT ID>
+az keyvault set-policy -n $KV_NAME --secret-permissions get --spn <YOUR SPN CLIENT ID>
+az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN CLIENT ID>
+```
+
 ## Apply
 
 After publishing the sample app's image, you can deploy it to the k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment. 
