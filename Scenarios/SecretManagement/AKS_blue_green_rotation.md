@@ -1,18 +1,18 @@
 # Azure Kubernetes Service Secret Rotation with Blue Green Rotation
 
-In this article, you can learn how to rotate secret without downtime for rotating storage account connection string. 
+In this article you will learn to rotate Azure Key Vault secrets used to securely store Azure storage account connection strings without incurring downtime.
 
-We introduce Secret Rotation with [Automatic secret rotation wth Azure Keyvault](./KV_secret_rotation.md). We use Azure Automation for that scenario. However, for an AKS scenario, Azure DevOps might be a best option to execute shell since Azure Automation doesn't support `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script. It work well with `kubectl` command.
+We introduced Secret Rotation with [Automatic secret rotation wth Azure Keyvault](./KV_secret_rotation.md). We use Azure Automation for that scenario. However, for an AKS scenario, Azure DevOps might be the best option to execute shell commands since Azure Automation doesn't support the `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script, because it works well with the `kubectl` command.
 
 ## Overview
 
-Blue Green Secret rotation is an idea to rotate secret without downtime. For example, Storage account has two connection string. Insted of rotating both of them, we can rotate it one by one and put it on a secret on Kubernetes. 
+Blue Green Secret rotation is an idea to rotate secrets without downtime. For example, Storage accounts have two connection strings. Instead of rotating both of them simultaneously, we can rotate it one by one and update the secrets on Kubernetes. 
 
 ![Blue Green Rotation](images/BlueGreen.png)
 
-## Create ConfigMap
+## Create a ConfigMap
 
-This configmap is used for which connection string you are using. You can find it in [here](https://dev.azure.com/csedevops/DevSecOps/_git/SecretRotation?path=%2FconfigMap.yml&version=GBmaster).
+This configmap is used to determine which connection string you are using. You can find it in [here](https://dev.azure.com/csedevops/DevSecOps/_git/SecretRotation?path=%2FconfigMap.yml&version=GBmaster).
 
 _configMap.yml_
 
@@ -41,9 +41,9 @@ data:
 
 Storage Account 
 
-`kubectl rollout restart {deployment name}` will restart the pod one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished. 
+`kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished. 
 
-NOTE: For execute this pipeline, a service prinicpal that executes this pipeline requires set keyvault secret. double check if the service principal can access the target keyvault. see the KeyVault > Access Policies on your portal.
+NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set keyvault secrets. Double check if the service principal can access the target keyvault. See KeyVault > Access Policies on your portal.
 
 You can see the full configuration of this pipeline in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
 
@@ -149,15 +149,15 @@ steps:
 ```
 # Deploy application
 
-For testing the pipeline, you can deploy a sample application. The application fetch the contents on the blob storage. To run this application, you need these things.  
+For testing the pipeline, you can deploy a sample application. The application fetches contents from blob storage. To run this application, you will need these things.  
 
 * Service Principal that can fetch data from KeyVault. 
 * Storage Account with a text file(verysecret.txt) in a container (container).
 * Build Deploy the application to a Kubernetes Cluster
 
-I create an sample application with ASP.NET (.Net core). I create [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The images is already pushed. This app refer fetch the `container/verysecret.txt` file on your blob with a secret on the KeyVault. using [KeyVault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
+I created a sample application with ASP.NET (.Net core). I also created [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The image is already pushed. This app references the `container/verysecret.txt` file on your blob with a secret on the KeyVault. using [KeyVault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
 
-You can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
+This is where you can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
 
 ## Create Secret 
 
@@ -184,7 +184,7 @@ az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN
 
 ## Apply
 
-After publishing the sample app's image, you can deploy it to the k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment. 
+After publishing the sample app's image, you can deploy it to a k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment. 
 
 _storage-viewer.yml_
 
@@ -240,7 +240,7 @@ storage-viewer-deployment-6d9b9495fd-gpph4    1/1     Running   0          45m
 storage-viewer-deployment-6d9b9495fd-sl7xz    1/1     Running   0          159d
 ```
 
-You will find the pod is deployed to the cluster. 
+You will find that the pod is deployed to the cluster. 
 
 ```
  kubectl port-forward pod/storage-viewer-deployment-6d9b9495fd-9pz9 8090:80
@@ -250,4 +250,4 @@ You can see the web page to access `http://localhost:8090`
 
 ![images/WebPage.png](images/WebPage.png)
 
-It download the `verysecret.txt` file from blob storage and show the contents after the `Secret:`. If it is successfully showed up, You secret (storageAccount connection string) is fetched correctly. 
+It downloaded the `verysecret.txt` file from blob storage and displays the contents after the `Secret:`. If it is successfully displayed, your secret (storageAccount connection string) is fetched correctly. 

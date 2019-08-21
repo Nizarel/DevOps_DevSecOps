@@ -1,12 +1,12 @@
 # Service Prinicipal Rotation for KeyVault
 
-In this article, you can learn how to rotate Servcie Prinicpal for KeyVault. 
+In this article, you can learn how to rotate a Servcie Principal for KeyVault. 
 
 ![Servcie Principal Rotation](images/SPRotation.png)
 
-## Create a Servcie Principal to create Service Prinicipal
+## Create a Service Principal to create Service Prinicipal
 
-We need to create a servcie principal to create service prinicpals. 
+We need to create a service principal with the ability to create service principals. 
 
 * [Least privilege for a service principal to create another service principal](https://stackoverflow.com/questions/42296277/least-privilege-for-a-service-principal-to-create-another-service-principal)
 
@@ -16,7 +16,7 @@ We need to create a servcie principal to create service prinicpals.
 ### Create a Service Principal
 Use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) for [creating Service Prinicpal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest). 
 
-It requires owner role to assign role. For more details [Built-in roles for Azure resources](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor).
+It requires owner role permission to assign the role. For more details [Built-in roles for Azure resources](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor).
 
 ```bash
 $ az ad sp create-rbac --name MasterServciePrincipal --role owner
@@ -41,13 +41,13 @@ Deploy a sample application with [Key Vault FlexVolume](https://github.com/Azure
 
 ### Deploy flex volume
 
-Enable kubctl command. If you don't know how to do it, please refer this [tutorial](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
+Enable kubctl command. If you don't know how to do it, please refer to this [tutorial](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
 
 ```
 $ kubectl create -f https://raw.githubusercontent.com/Azure/kubernetes-keyvault-flexvol/master/deployment/kv-flexvol-installer.yaml
 ```
 
-For more detail, you can refer [the instruction](https://github.com/Azure/kubernetes-keyvault-flexvol). 
+For more detail, you can refer to [these instructions](https://github.com/Azure/kubernetes-keyvault-flexvol). 
 
 ### create secret
 
@@ -66,7 +66,7 @@ az role assignment create --role Reader --assignee <principalid> --scope /subscr
 az keyvault set-policy -n $KV_NAME --key-permissions get --spn <YOUR SPN CLIENT ID>
 az keyvault set-policy -n $KV_NAME --secret-permissions get --spn <YOUR SPN CLIENT ID>
 az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN CLIENT ID>
-``
+```
 
 _nginx.yml_
 
@@ -111,13 +111,13 @@ spec:
             tenantid: "YOUR_TENANT_ID"                    # [REQUIRED] the tenant ID of the KeyVault
 ```
 
-Deploy it. On portal, create Secret named hello with some value. Then Apply the yaml file.
+Deploy the application. On portal, create a Secret named "hello" with some value. Then Apply the yaml file.
 
 ```
 $ kubectl apply -f nginx.yaml
 ```
 
-Check the vaule of the KeyVault secret is referenced on a pod. 
+Check the value of the KeyVault secret referenced on the pod. 
 
 ```
 $ kubectl get pods
@@ -135,17 +135,17 @@ root@nginx-deployment-796d454c59-2rrzz:/kvmnt# cat secret.json
 world
 ```
 
-## Create a Servcie Connection for Service Principal
+## Create a Service Connection for Service Principal
 
 ### Service Connection Settings for Servcie Principal
 
-Create a servcie connection for the Service Principal. 
+Create a service connection for the Service Principal. 
 Azure DevOps > Project Settings > Servcie Connections. 
 Select `Azure Resource Manager`. Input the Service Principal information. 
 
 ### Service Connection Settings for Kubernentes
 
-Create a servcie connection for Kubernetes Cluster. 
+Create a service connection for the Kubernetes Cluster. 
 Azure DevOps > Project Settings > Sevice Connections.
 Select `Kubernetes`. Input the Kubernetes Cluster's information. 
 
@@ -251,4 +251,4 @@ steps:
 
 # Consideration
 
-This pipeline continuously create Servcie Principal. You can carefully configure the expriation also, you can create a script to remove Old Service Principal once it expried using KeyVault notifications.
+This pipeline continuously creates Service Principals. You should carefully configure the expiration of the service principal. You can create a script to remove Old Service Principal once it has expired using [KeyVault notifications](AKS_secret_rotation_strategies.md).
