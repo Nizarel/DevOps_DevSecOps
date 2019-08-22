@@ -1,12 +1,12 @@
 # Kubernetes Secret Rotation Strategies
 
-Secret rotation provide us to automate the process of reflecting secret change to your applications. However, we need to additional technique to 
+Secret rotation provides us a way to automate the process of reflecting secret change to your applications. However, we need to an additional technique to 
 reflect the change to your pod on kubernetes. 
-This topic provide an overview and how to implement three strategies. 
+This topic provide an overview and three strategies to implement. 
 
 # Key Vault Flex Volume with Restarting 
 
-[Key Vault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol) provide us an integration Azure Key Vault with Kubernetes. Secrets, keys, and certificates in a key management system become a volume accessible to pods. 
+[Key Vault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol) provides us an integration Azure Key Vault with Kubernetes. Secrets, keys, and certificates in a key management system become a volume accessible to pods. 
 However, once it is mounted, the secret will not reflect the change of Key Vault. Once KeyVautl Change happnes, we need to restart the pod. 
 
 ![](images/flexVolume.png =950x500)
