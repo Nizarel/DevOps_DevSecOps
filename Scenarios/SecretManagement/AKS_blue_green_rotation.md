@@ -27,7 +27,7 @@ data:
 ```
 
 ## Create Azure DevOps pipeline
-  Create Azure DevOps pipeline with Linux Based Agent. This pipline do ing following step. 
+  Create Azure DevOps pipeline with Linux Based Agent. This pipline doing following step. 
 
   1- Get current connection string from ConfigMap
 
