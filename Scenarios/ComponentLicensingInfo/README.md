@@ -20,3 +20,17 @@ Contact Tilak Yalamanchili <tilaky@aquasec.com> for any new or trial license req
 - Host OS Version. eg ( Ubuntu 16.04 / Windows 10 / Windows Server)
 - Network Overlay. eg ( VPN / Proxies / Express Routes)
 - Use Case. eg ( Top 2 or 3.)
+
+
+## WhiteSource Open Source Scanning 
+
+WhiteSource offers a comprehensive suite of tools that provide security scanning and vulnerability accessments related to the use of Open Source components in your development projects. 
+
+### Licensing Contact Information
+
+Contact Doyle Turner <doyle.turner@microsoft.com> for a temporary license/environment. _Please Note:_ this is the route for short one-time engagement accounts and not for handing off to customers after engagemnets. 
+
+### Information that will be needed to set up the trial
+
+- Duration of the engagement for which the license is required
+- Email addresses of users indicated user/admin role
