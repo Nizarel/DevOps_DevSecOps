@@ -1,24 +1,24 @@
 # Kubernetes Secret Rotation Strategies
 
-Secret rotation provide us to automate the process of reflecting secret change to your applications. However, we need to additional technique to 
+Secret rotation provides us a way to automate the process of reflecting secret change to your applications. However, we need to an additional technique to 
 reflect the change to your pod on kubernetes. 
-This topic provide an overview and how to implement three strategies. 
+This topic provide an overview and three strategies to implement. 
 
-# KeyVault Flex Volume with Restarting 
+# Key Vault Flex Volume with Restarting 
 
-[KeyVault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol) provide us an integration Azure KeyVault with Kubernetes. Secrets, keys, and certificates in a key management system become a volume accessible to pods. 
+[Key Vault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol) provides us an integration Azure Key Vault with Kubernetes. Secrets, keys, and certificates in a key management system become a volume accessible to pods. 
 However, once it is mounted, the secret will not reflect the change of Key Vault. Once KeyVautl Change happnes, we need to restart the pod. 
 
 ![](images/flexVolume.png =950x500)
 
-## Setup the KeyVault Flex Volume
+## Setup the Key Vault Flex Volume
 
 Follow the instruction [here](https://github.com/Azure/kubernetes-keyvault-flexvol). 
 
 ## Azure DevOps Secret Rotation with Restart
 
 [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) provide us the feature [Scheduled Trigger](https://docs.microsoft.com/en-us/azure/devops/pipelines/build/triggers?view=azure-devops&tabs=yaml#scheduled-triggers).
-Execute [KeyVault Secret Rotation](KV_secret_rotation.md) script on the Azure DevOps as a Pipeline. Once the rotation is finished, execute the command of rotation. 
+Execute [Key Vault Secret Rotation](KV_secret_rotation.md) script on the Azure DevOps as a Pipeline. Once the rotation is finished, execute the command of rotation. 
 For example, If you have a deployment, you can restart the pod, one by one using this command. You restart all pods on the `nginx-deployment` deployment. 
 
 ```
@@ -29,9 +29,9 @@ By reloading the pods, the change has been reflected to your pod.
 
 ![](images/flexVolumeWithAzDO.png =950x500)
 
-# Notifications for Azure KeyVault (Preview)
+# Notifications for Azure Key Vault (Preview)
 
-Azure KeyVault has a preview feature [Notifications for Azure keyVault](https://keyvaultdocs.azurewebsites.net/KeyVault/Notifications/OnBoarding.html). It is designed to allow users to be notified when the status of a secret stored in key vault has changed.
+Azure Key Vault has a preview feature [Notifications for Azure Key Vault](https://keyvaultdocs.azurewebsites.net/KeyVault/Notifications/OnBoarding.html). It is designed to allow users to be notified when the status of a secret stored in key vault has changed.
 Currently, the link is available MSFT only. You need to submit the request to use this preview feature. 
 
 Once the secret has been changed, you can get the notification through the EventGrid. Then you can restart the pod with Azure Functions for example. 
@@ -71,17 +71,17 @@ See more detail on the blog.
 
 # Vault Mirror (TODO)
 
-HashiCorp Vault provide dynamic secret rotation feature. If you want have with KeyVault, We can create the same tools like Vault Agent and Consul Template. 
-However, the easiest way for using KeyVault might be developing a small daemon called `Vault Mirror`. It watches the KeyVault once change happens, it mirrors the secret on HashiCorp Vault. 
-I'd like to provide a sample implementation of Vault Miller in the near future. It will use polling model or KeyVault notification feature. 
+HashiCorp Vault provide dynamic secret rotation feature. If you want have with Key Vault, We can create the same tools like Vault Agent and Consul Template. 
+However, the easiest way for using Key Vault might be developing a small daemon called `Vault Mirror`. It watches the Key Vault once change happens, it mirrors the secret on HashiCorp Vault. 
+I'd like to provide a sample implementation of Vault Miller in the near future. It will use polling model or Key Vault notification feature. 
 
 ![](images/VaultMirror.png =950x500)
 
 # How to choose your strategy?
 
 This article introduce four strategies. Flex Volume solution requires Pod restarting. In case of `Flex Volume with Rotation` strategy, in your secret rotation script, 
-you need to include restart command. It might required REST API call or Client Library of Kubernetes. `Flex Volume with KeyVault Notification` strategy enable to restart it by Webhook of KeyVault which the secret changes.
-`HashiCorp Vault` strategy provide a dynamic rotation and very good tools when customer want onPrem solution. `Vault Miller` strategy is good when you want to centerize the secret on KeyVault however, 
+you need to include restart command. It might required REST API call or Client Library of Kubernetes. `Flex Volume with Key Vault Notification` strategy enable to restart it by Webhook of Key Vault which the secret changes.
+`HashiCorp Vault` strategy provide a dynamic rotation and very good tools when customer want onPrem solution. `Vault Miller` strategy is good when you want to centerize the secret on Key Vault however, 
 want to use HashiCorp vault tools on Kubernetes. 
 
 ![](images/ProsCons.png =950x500)
