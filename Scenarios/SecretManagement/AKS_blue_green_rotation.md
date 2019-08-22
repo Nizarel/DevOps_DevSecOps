@@ -2,7 +2,7 @@
 
 In this article you will learn to rotate Azure Key Vault secrets used to securely store Azure storage account connection strings without incurring downtime.
 
-We introduced Secret Rotation with [Automatic secret rotation wth Azure Keyvault](./KV_secret_rotation.md). We use Azure Automation for that scenario. However, for an AKS scenario, Azure DevOps might be the best option to execute shell commands since Azure Automation doesn't support the `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script, because it works well with the `kubectl` command.
+We introduced Secret Rotation with [Automatic secret rotation wth Azure Key Vault](./KV_secret_rotation.md). We use Azure Automation for that scenario. However, for an AKS scenario, Azure DevOps might be the best option to execute shell commands since Azure Automation doesn't support the `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script, because it works well with the `kubectl` command.
 
 ## Overview
 
@@ -33,7 +33,7 @@ data:
 
   2- ReGenerate the other connection string
 
-  3- Update KeyVault secret with the other connection string
+  3- Update Key Vault secret with the other connection string
 
   4- Update ConfigMap 
 
@@ -43,7 +43,7 @@ Storage Account
 
 `kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished. 
 
-NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set keyvault secrets. Double check if the service principal can access the target keyvault. See KeyVault > Access Policies on your portal.
+NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set Key Vault secrets. Double check if the service principal can access the target Key Vault. See Key Vault > Access Policies on your portal.
 
 You can see the full configuration of this pipeline in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
 
@@ -151,17 +151,17 @@ steps:
 
 For testing the pipeline, you can deploy a sample application. The application fetches contents from blob storage. To run this application, you will need these things.  
 
-* Service Principal that can fetch data from KeyVault. 
+* Service Principal that can fetch data from Key Vault. 
 * Storage Account with a text file(verysecret.txt) in a container (container).
 * Build Deploy the application to a Kubernetes Cluster
 
-I created a sample application with ASP.NET (.Net core). I also created [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The image is already pushed. This app references the `container/verysecret.txt` file on your blob with a secret on the KeyVault. using [KeyVault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
+I created a sample application with ASP.NET (.Net core). I also created [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The image is already pushed. This app references the `container/verysecret.txt` file on your blob with a secret on the Key Vault. using [Key Vault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
 
 This is where you can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
 
 ## Create Secret 
 
-Create a service principal to access KeyVault from the sample app and set it to the secret. 
+Create a service principal to access Key Vault from the sample app and set it to the secret. 
 
 ```
 $ az ad sp create-rbac --name ServicePrinipalForApp 
@@ -170,9 +170,9 @@ $ kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --fro
 ```
 
 
-## Set Policy to the KeyVault
+## Set Policy to the Key Vault
 
-Add policy to the KeyVault.
+Add policy to the Key Vault.
 
 ```
 az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>

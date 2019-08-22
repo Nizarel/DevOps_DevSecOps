@@ -1,6 +1,6 @@
-# Service Prinicipal Rotation for KeyVault
+# Service Prinicipal Rotation for Key Vault
 
-In this article, you can learn how to rotate a Servcie Principal for KeyVault. 
+In this article, you can learn how to rotate a Servcie Principal for Key Vault. 
 
 ![Servcie Principal Rotation](images/SPRotation.png)
 
@@ -51,16 +51,16 @@ For more detail, you can refer to [these instructions](https://github.com/Azure/
 
 ### create secret
 
-Create secret which include service prinicipal to access KeyVault from your app. To create a service principal see [here](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#create-a-service-principal). 
+Create secret which include service prinicipal to access Key Vault from your app. To create a service principal see [here](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#create-a-service-principal). 
 
 ```
 kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
 ```
 
-### create role assignment and policy to KeyVault
+### create role assignment and policy to Key Vault
 
 ```
-# Assign Reader Role to the service principal for your keyvault
+# Assign Reader Role to the service principal for your Key Vault
 az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>
 
 az keyvault set-policy -n $KV_NAME --key-permissions get --spn <YOUR SPN CLIENT ID>
@@ -117,7 +117,7 @@ Deploy the application. On portal, create a Secret named "hello" with some value
 $ kubectl apply -f nginx.yaml
 ```
 
-Check the value of the KeyVault secret referenced on the pod. 
+Check the value of the Key Vault secret referenced on the pod. 
 
 ```
 $ kubectl get pods
@@ -155,7 +155,7 @@ Following `azure-pipeline.yml` consists of four part.
 
 1- Create a new Service Prinicpal
 
-2- Set it to the Azure KeyVault policy
+2- Set it to the Azure Key Vault policy
 
 3- Restart the Pods 
 
@@ -251,4 +251,4 @@ steps:
 
 # Consideration
 
-This pipeline continuously creates Service Principals. You should carefully configure the expiration of the service principal. You can create a script to remove Old Service Principal once it has expired using [KeyVault notifications](AKS_secret_rotation_strategies.md).
+This pipeline continuously creates Service Principals. You should carefully configure the expiration of the service principal. You can create a script to remove Old Service Principal once it has expired using [Key Vault notifications](AKS_secret_rotation_strategies.md).
