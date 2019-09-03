@@ -2,17 +2,17 @@
 
 In this article you will learn to rotate Azure Key Vault secrets used to securely store Azure storage account connection strings without incurring downtime.
 
-We introduced Secret Rotation with [Automatic secret rotation wth Azure Key Vault](./KV_secret_rotation.md). We use Azure Automation for that scenario. However, for an AKS scenario, Azure DevOps might be the best option to execute shell commands since Azure Automation doesn't support the `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script, because it works well with the `kubectl` command.
+We introduced Secret Rotation with [Automatic secret rotation with Azure Key Vault](./KV_secret_rotation.md) using Azure Automation. However, for an AKS scenario, Azure DevOps might be the best option to execute shell commands since Azure Automation doesn't support the `kubectl` command. We use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to create the bash script, because it works well with the `kubectl` command.
 
 ## Overview
 
-Blue Green Secret rotation is an idea to rotate secrets without downtime. For example, Storage accounts have two connection strings. Instead of rotating both of them simultaneously, we can rotate it one by one and update the secrets on Kubernetes. 
+Blue Green Secret rotation idea is to rotate secrets without downtime. For example, Storage accounts have two connection strings. Instead of rotating both of them simultaneously, we can rotate it one by one and update the secrets on Kubernetes. 
 
 ![Blue Green Rotation](images/BlueGreen.png)
 
 ## Create a ConfigMap
 
-This configmap is used to determine which connection string you are using. You can find it in [here](https://dev.azure.com/csedevops/DevSecOps/_git/SecretRotation?path=%2FconfigMap.yml&version=GBmaster).
+Use the following configmap to determine which connection is used. You can find it in [here](https://dev.azure.com/csedevops/DevSecOps/_git/SecretRotation?path=%2FconfigMap.yml&version=GBmaster).
 
 _configMap.yml_
 
@@ -27,7 +27,7 @@ data:
 ```
 
 ## Create Azure DevOps pipeline
-  Create Azure DevOps pipeline with Linux Based Agent. This pipline doing following step. 
+  Create Azure DevOps pipeline with Linux Based Agent that includes the following steps. 
 
   1- Get current connection string from ConfigMap
 
@@ -43,7 +43,7 @@ Storage Account
 
 `kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished. 
 
-NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set Key Vault secrets. Double check if the service principal can access the target Key Vault. See Key Vault > Access Policies on your portal.
+NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set Key Vault secrets.To double check if the service principal can access the target Key Vault See Key Vault > Access Policies on your portal.
 
 You can see the full configuration of this pipeline in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
 
@@ -149,10 +149,10 @@ steps:
 ```
 # Deploy application
 
-For testing the pipeline, you can deploy a sample application. The application fetches contents from blob storage. To run this application, you will need these things.  
+To test the pipeline, Deploy a sample application. The application fetches contents from blob storage. To run this application, you need the following.  
 
-* Service Principal that can fetch data from Key Vault. 
-* Storage Account with a text file(verysecret.txt) in a container (container).
+* A Service Principal that can fetch data from Key Vault. 
+* A Storage Account with a text file(verysecret.txt) in a container (container).
 * Build Deploy the application to a Kubernetes Cluster
 
 I created a sample application with ASP.NET (.Net core). I also created [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The image is already pushed. This app references the `container/verysecret.txt` file on your blob with a secret on the Key Vault. using [Key Vault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
