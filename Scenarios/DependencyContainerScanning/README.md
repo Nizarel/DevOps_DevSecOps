@@ -1,8 +1,18 @@
 # Dependency and Container Scanning Scenarios
 
-- [Aqua Dependency and Container scanning](./Aqua.md)
+When selecting third-party components (both commercial and open source), it’s important to understand the impact that a vulnerability in the component could have on the overall security of the system. Software Composition Analysis tools can assist with licensing exposure, provide an accurate inventory of components, and report any vulnerabilities with referenced components. This applies to dependencies at both component and container level.
+
+## Dependency Scanning
+
+- [Aqua Dependency scanning](./Aqua.md)
 - [Dependency Scanning with Sonar Qube](./sonarQube-Dependency.md)
-- [Container Scanning with WhiteSource](./WhiteSource-Container.md)
 - [Dependency Scanning with WhiteSource](./Scenarios//WhiteSource-Dependency.md)
-- [Sonar Qube - dependency scanning](./sonarQube-Dependency.md)
-- [FOSSA license scanning](./FOSSA.md)
+
+## Container Scanning
+
+- [Aqua Container scanning](./Aqua.md)
+- [Container Scanning with WhiteSource](./WhiteSource-Container.md)
+
+## License Scanning
+
+- [OSS License scanning with FOSSA](./FOSSA.md)
