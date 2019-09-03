@@ -62,7 +62,7 @@ You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csed
 
 ## Parallel Flow configuration 
 
-Create multiple jobs. Jobs run parallelly in default. 
+Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.
 
 You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).
 
