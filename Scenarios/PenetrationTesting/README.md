@@ -11,5 +11,4 @@ Penetration testing is a vital part of defensive securirty that can help to iden
 
 - [Coded Pipeline](./Yml_Pipeline_Direct.md)
 - [Codeed Pipeline w/ Extension](./Yml_Pipeline_Extension.md)
-- [Classic Editor w/ Extension](./AzDo_Extension_Classic.md)
 
