@@ -1,7 +1,7 @@
 ## Self-hosted Agents and Pen-Testing
 
 - Create or select an existing VM to host the Linux agent.
-- Install the requirements for an agent as well as the agent. https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops
+- Install a [self-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops). 
 
 **NOTES:** 
  - Installing Docker via snap may cause permissions and file errors with the scanner. Please avoid using the extension with docker install via this manner. 

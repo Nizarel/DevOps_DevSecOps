@@ -27,7 +27,7 @@ steps:
 
 ```
 
-_If the scan is to be executed against a **containerized applicaition** add something similar to the following (with your port and image details) so the container is running in the background on your agent during the scan:_
+_If the scan is to be executed against a **containerized application** add something similar to the following (with your port and image details) so the container is running in the background on your agent during the scan:_
 
 ``` YAML
 
@@ -58,7 +58,7 @@ _**Next:** add the following to our script in to pull down the latest stable OWA
 
     docker run -v /tmp/owaspzap:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t << scan-target >> -J report.json -r report.html
 ```
-_Next, define the failing threshold for the scan if one has not already been defined as an environmental variable. This threshold defines the score at which scans will fail your build. **Note:** This threshold can optionally be set as an environment variable [FAIL_THRESHOLD=value]. 
+_Next, define the failing threshold for the scan if one has not already been defined as an environmnet variable. This threshold defines the score at which scans will fail your build. **Note:** This threshold can optionally be set as an environment variable [FAIL_THRESHOLD=value]. 
 
 ``` YAML
     # Check if the environment variable "FAIL_THRESHOLD" is set; if not, set it
@@ -69,7 +69,7 @@ _Next, define the failing threshold for the scan if one has not already been def
 ```
 _The scoring factors for the scan can be retrieved from the scan reports that we dumped to report.json in our docker attached volume during the scan. We can use them to generate the score for this scan session. 
 
-**IMPORTANT:** These scores are not a measure of application security. Instead they offer a point to engage the Security and Engineering Teams in discussion around continued improvment of the applicaitons security. 
+**IMPORTANT:** These scores are not a measure of application security. Instead they offer a point to engage the Security and Engineering Teams in discussion around continued improvment of the application's security. 
 
 ``` YAML
 
@@ -91,7 +91,7 @@ _The scoring factors for the scan can be retrieved from the scan reports that we
 **Did we pass the scan?**
 
 - Finish up the scanning script by setting the script name and setting the threshold if we don't want to use the fallback score defined above.
-- Make sure that this script is set to continue on error so that we can get better reports and persist our artificats.
+- Make sure that this script is set to continue on error so that we can get better reports and persist our artifacts.
 
 ``` YAML
     if [ $POINTS -ge $THRESHOLD ] ; then
@@ -109,7 +109,7 @@ _The scoring factors for the scan can be retrieved from the scan reports that we
 
 > **Important** _all of the remaining steps include 'condition: always()'. This makes sure that if the build fails we still get a useful report. Otherwise, our scan results will not be presented in a useful manner when a threshold is surpassed._ 
 
-Copy the build artifcats (tests results) to the Artifact Directory
+Copy the build artifacts (tests results) to the Artifact Directory
 
 ``` YAML
 
@@ -119,7 +119,7 @@ Copy the build artifcats (tests results) to the Artifact Directory
     SourceFolder: '/tmp/owaspzap/'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 ```
-Publish the reports so they are availble in the pipeline build page.
+Publish the reports so they are available in the pipeline build page.
 
 ``` YAML
 

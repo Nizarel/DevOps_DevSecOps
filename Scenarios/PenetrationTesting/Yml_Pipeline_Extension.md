@@ -165,7 +165,7 @@ Use the handlebars template and json report from the ZAP scan to generate an xml
 
 ```
 
-You should now have 'test' tab on the pipeline build that displays useful infomration about vulnerabilities revealed during the scan. The vulnerability test results are not reliant on the pass/fail outcome of the build. This means that even with a scan that is acceptable by the threshold you could have some areas of convern to explore in the repot. 
+You should now have 'test' tab on the pipeline build that displays useful infomration about vulnerabilities revealed during the scan. The vulnerability test results are not reliant on the pass/fail outcome of the build. This means that even with a scan that is acceptable by the threshold you could have some areas of concern to explore in the repot. 
 
 ![full report view](./images/scan-results-collapsed.png)
 
