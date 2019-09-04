@@ -58,7 +58,7 @@ _**Next:** add the following to our script in to pull down the latest stable OWA
 
     docker run -v /tmp/owaspzap:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t << scan-target >> -J report.json -r report.html
 ```
-_Next, define the failing threshold for the scan if one has not already been defined as an environmnet variable. This threshold defines the score at which scans will fail your build. **Note:** This threshold can optionally be set as an environment variable [FAIL_THRESHOLD=value]. 
+_Next, define the failing threshold for the scan if one has not already been defined as an environment variable. This threshold defines the score at which scans will fail your build. **Note:** This threshold can optionally be set as an environment variable [FAIL_THRESHOLD=value]. 
 
 ``` YAML
     # Check if the environment variable "FAIL_THRESHOLD" is set; if not, set it
