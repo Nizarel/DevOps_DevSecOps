@@ -1,1 +1,0 @@
-# Adding OWASP Scanner to Classic Azure DevOps Pipeline
