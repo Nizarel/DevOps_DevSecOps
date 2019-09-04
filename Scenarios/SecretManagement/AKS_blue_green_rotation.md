@@ -59,14 +59,14 @@ pool:
   
 variables:
   Namespace: 'default'
-  StorageAccount: 'oht39abj0storage'
-  ResourceGroup: 'oht39abj0rg'
+  StorageAccount: 'YOURSTORAGEACCOUNTNAME'
+  ResourceGroup: 'YOURRESOURCeGROUPNAME'
   ConnectionStringKeyVaultSecret: 'storageConnectionString'
-  KeyVaultName: 'oht39abj0kv'
+  KeyVaultName: 'YOURKEYVAULTNAME'
   ConfigMapName: 'current-storage-key'
-  SubscriptionServiceEndpoint: 'Microsoft Azure Internal Consumption (rguthrie) (ed2c4253-6227-43ef-97e3-4a5fff36888e)'
-  KubernetesName: 'oht39abj0aks'
-  KubernetesServiceConnection: 'oht39abj0'
+  SubscriptionServiceEndpoint: 'YOURAZURESUBSCRIPTION'
+  KubernetesName: 'YOURKUBERNETESSERVICENAME'
+  KubernetesServiceConnection: 'YOURKUBERNETESSERVICECONNECTIONNAME'
   KubernetesDeployment: 'deployment/storage-viewer-deployment'
 
 steps:
