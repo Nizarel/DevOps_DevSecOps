@@ -1,13 +1,5 @@
 # Secret management with Azure KeyVault
-
-- [Secret management with Azure KeyVault](#secret-management-with-azure-keyvault)
-  - [Azure Keyvault integration with Azure Devops](#azure-keyvault-integration-with-azure-devops)
-    - [Integration by using Variable groups](#integration-by-using-variable-groups)
-    - [Integration by using Azure KeyVault task](#integration-by-using-azure-keyvault-task)
-  - [Azure Keyvault integration with Jenkins](#azure-keyvault-integration-with-jenkins)
-  - [Design/split secrets across environments for AZDO with KV](#designsplit-secrets-across-environments-for-azdo-with-kv)
-    - [One KV to store credentails for all environments (Dev/QA/Prod)](#one-kv-to-store-credentails-for-all-environments-devqaprod)
-    - [One KV to store credentails Per environment (Dev/QA/Prod)](#one-kv-to-store-credentails-per-environment-devqaprod)
+Use Key Vault to safeguard and manage cryptographic keys and secrets used by cloud applications and services.
 
 ## Azure Keyvault integration with Azure Devops
 
