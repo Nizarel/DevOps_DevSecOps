@@ -1,9 +1,9 @@
 ## WhiteSource account/trial required. 
-    - The correct login link and creds will be provided by WhiteSource on account creation
-    - Addition users or Admins can be added by initial admin. 
+    - Account login creds are required for the following work. 
+    - Additional users or Admins can be added by designated account admin. 
     - In order to create and use the scanner in a pipeline we will need a “Product” and “Project” in WhiteSource to associate the scan with. 
 
-## WhiteSource Side Setup
+## Setup
 
 WhiteSource has a couple of concepts that should be considered and must be implemented prior to configuring pipelines. A “product” acts as a container for a specific product line and within a product multiple “projects” can exist. 
 
@@ -47,4 +47,3 @@ From the Issue Tracker Settings page the Work Items URL and Creds must be provid
 The final piece of adding work items is to add a policy with the Match set to "By Security Vulnerability" with an appropirate level for your intented failure level and the action set to "Issue". For "Tracker Type" select "Work Items". You should see a list of the available projects to record the issues in based on the credentials provided during the Issue Tracker Settings configuration. You will also need to configure the Issue Type and Assignee on the board. Make sure to save the policy after you are redirected back to the Policy page!
 
 ![add issues](images/ws-setup.add-issues-policy.png)
-
