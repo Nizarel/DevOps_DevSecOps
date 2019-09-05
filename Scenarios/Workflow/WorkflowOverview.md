@@ -1,19 +1,19 @@
 # DevSecOps Workflow
 
-This article shows the best practices of the DevSecOps workflow. 
+This article shows the best practices of the DevSecOps workflow.
 
 ## Shift left
 
-We used to have a security testing on the staging phase. The idea of shift left is moving the security testing eariler stage of development to get feedback more quickly. 
+We used to have a security testing on the staging phase. The idea of shift left is moving the security testing eariler stage of development to get feedback more quickly.
 
-![Shift Left](images/ShiftLeft.png =800x400)
+![Shift Left](images/ShiftLeft.png)
 
-We recommend to security test to shif left. If you have all security testing on the Local Development phase, it might be ideal. Especially for Credential, SSN, CreditCard number scanning. It protect to push your code with sensitive data. However, it depends on the support of the Service/Product. 
-If you are available, we recomment to use it. Generally, speaking, we recommend to start the security testing on Pull Request review. 
+We recommend to security test to shif left. If you have all security testing on the Local Development phase, it might be ideal. Especially for Credential, SSN, CreditCard number scanning. It protect to push your code with sensitive data. However, it depends on the support of the Service/Product.
+If you are available, we recomment to use it. Generally, speaking, we recommend to start the security testing on Pull Request review.
 
 ## Security Testing with Pull Request
 
-The reason why we recommend pull request validation for security testing is 
+The reason why we recommend pull request validation for security testing is
 
 * It reduce the number of issue in one validation
 * Quality Gate integrated with CI
@@ -21,11 +21,11 @@ The reason why we recommend pull request validation for security testing is
 * As a developer, we want to see several vulnerablity reports in one place
 * Want to suppress false positives (Optional)
 
-For the pull request model, some products support that it just report the delta for the issue. 
-It helps to developers to focus on what they change and fix it. Also we can specify a quality gate for the pull request. The quality gate start a CI pipeline and validate the code. Unless developers pass the gate, 
-the PR is never get merged. Pull request also help to developers to notice all vulnerablity in one place. 
+For the pull request model, some products support that it just report the delta for the issue.
+It helps to developers to focus on what they change and fix it. Also we can specify a quality gate for the pull request. The quality gate start a CI pipeline and validate the code. Unless developers pass the gate,
+the PR is never get merged. Pull request also help to developers to notice all vulnerablity in one place.
 
-![Overview](images/Overview.png =1000x500)
+![Overview](images/Overview.png)
 
 For the advanced scenario, we can use PR Bot to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
 
@@ -33,8 +33,7 @@ For the advanced scenario, we can use PR Bot to suppress false positives and cre
 
 ![WorkFlowType](images/WorkFlowType.png =800x400)
 
-
-### Serial Flow 
+### Serial Flow
 
 If you have a flow that you need to execute one by one, use the Serial folow pattern.
 
@@ -44,23 +43,23 @@ If you don't need to execute the serially, you can use the parrllel flow. It hel
 
 ### Enforce Policy
 
-If you want to inject specific task for all pipeline on your organization or project, you can use this strategy. 
-Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Documentation. 
+If you want to inject specific task for all pipeline on your organization or project, you can use this strategy.
+Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Documentation.
 
-# Configration 
+## Configration
 
-## Serial Flow configuration 
+## Serial Flow configuration
 
-Create multiple jobs then configrue a dependency and condition for each jobs. 
+Create multiple jobs then configrue a dependency and condition for each jobs.
 
-If you have Job A, job B, Job C, you need to configure the dependency and condition. 
-Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed. 
+If you have Job A, job B, Job C, you need to configure the dependency and condition.
+Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed.
 
-![SerialFlow](images/SerialFlowOverview.png =800x400)
+![SerialFlow](images/SerialFlowOverview.png)
 
 You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
 
-## Parallel Flow configuration 
+## Parallel Flow configuration
 
 Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.
 
@@ -68,26 +67,26 @@ You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/cs
 
 ## Tips for the configurations
 
-You can refer the Scanners configuration detail on this repo. This document will explain Workflow specific tips for you. 
+You can refer the Scanners configuration detail on this repo. This document will explain Workflow specific tips for you.
 
-### Fail if the quality gate has failed. 
+### Fail if the quality gate has failed
 
-Scanners have a quality gate. Usually, each task has a future of fail if it doesn't reach the quality gate, however, some of them don't have the future for that. 
-SonarCloud is the one. In case of Sonar Cloud, you can use a task. 
+Scanners have a quality gate. Usually, each task has a future of fail if it doesn't reach the quality gate, however, some of them don't have the future for that.
+SonarCloud is the one. In case of Sonar Cloud, you can use a task.
 
-* [SonarCloud build breaker](https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonarcloud-buildbreaker) 
+* [SonarCloud build breaker](https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonarcloud-buildbreaker)
 
-You can find it for SonarQube as well. For the configuration of the Sonar Cloud pipeline and PR validation, please refer [This](../StaticCodeAnalysis/SonarCloud.md) page. 
+You can find it for SonarQube as well. For the configuration of the Sonar Cloud pipeline and PR validation, please refer [This](../StaticCodeAnalysis/SonarCloud.md) page.
 
-### Create Work Item 
+### Create Work Item
 
-If you want to create a work item when the scan is failed, you can use Create Work Item task. 
+If you want to create a work item when the scan is failed, you can use Create Work Item task.
 
 * [Create Work Item](https://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem)
 
-You can find a sample configuration for the task. For more detail of the configuration, please refer the link above. 
+You can find a sample configuration for the task. For more detail of the configuration, please refer the link above.
 
-```
+```YAML
 variables:
   AssignTo: 'Tsuyoshi Ushio <tsushi@microsoft.com>'
 
@@ -111,38 +110,38 @@ steps:
   condition: failed()
 ```
 
-This task suppress to create a duplicate work item by setting `keyFields` and preventDuplicates. In this example, this task compare the Title and if it is the same, then this task doesn't create a new work item. 
-The title incluce the pull request id. 
+This task suppress to create a duplicate work item by setting `keyFields` and preventDuplicates. In this example, this task compare the Title and if it is the same, then this task doesn't create a new work item.
+The title incluce the pull request id.
 
-`condition` should be `failed` or `Only when a previous task has failed.` 
+`condition` should be `failed` or `Only when a previous task has failed.`
 
-One more tips is please specify the `outputVariables` as `CWI.Id=System.Id`. It enable us to get the WorkItem.Id on the subsequnt task. 
+One more tips is please specify the `outputVariables` as `CWI.Id=System.Id`. It enable us to get the WorkItem.Id on the subsequnt task.
 
-**NOTE:** Currently, this task has a bug that fails when there is a work item that has the same Title name. We have a branch to fix it. However, it is going to be merged soon. 
+**NOTE:** Currently, this task has a bug that fails when there is a work item that has the same Title name. We have a branch to fix it. However, it is going to be merged soon.
 
 ### Create a comment to PR
 
-[Create PR Comment task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment. 
+[Create PR Comment task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment.
 
 ![Create PR Comment](images/Comment.png)
 
-Since this is an alpha version for internal use, we don't push it to the market place. You can use to follow this. 
+Since this is an alpha version for internal use, we don't push it to the market place. You can use to follow this.
 
-#### isntall tfx command 
+#### isntall tfx command
 
-Go to [Node CLI for Azure DevOps](https://github.com/Microsoft/tfs-cli) and install the cli. 
+Go to [Node CLI for Azure DevOps](https://github.com/Microsoft/tfs-cli) and install the cli.
 
-#### Login your AzureDevOps organization 
+#### Login your AzureDevOps organization
 
-Get the Personal Access Token of your Azure DevOps, then login it using the cli. 
+Get the Personal Access Token of your Azure DevOps, then login it using the cli.
 
-```
+```BASH
 tfx login -t {Your personal access token} -u https://{your organization name}.visualstudio.com/DefaultCollection
 ```
 
-#### Upload task 
+#### Upload task
 
-```
+```BASH
 cd Task
 tsc
 (update the task.json version)
@@ -153,12 +152,8 @@ tfx build tasks --task-path .\Task\
 
 Configure comment body and condition. In some case, `CWI.Id` will be Null. Azure Pipe represent Null as ''.  more details in [here](https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline?noredirect=1#comment100347634_56875665).
 
-```
+```JSON
 and(failed(), ne(variables['CWI.Id'], ''))
 ```
 
-
 ![Create PR Comment Task](images/CreatePRCommentTask.png)
-
-
-
