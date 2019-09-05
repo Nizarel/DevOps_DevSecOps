@@ -1,0 +1,50 @@
+resources:
+  repositories:
+  - repository: eShopOnWeb
+    type: git
+    name: eShopOnWeb
+
+trigger:
+- master
+
+pool:
+  name: Hosted Ubuntu 1604
+
+variables:
+  eShopDockerFile: 'Dockerfile'
+  ACRName: 'YOURACRNAME'
+  AquaServiceConnection: 'YOURAQUASERVICECONNECTIONNAME'
+  AquaImage: 'registry.aquasec.com/scanner:3.5'
+  REPOSITORY: 'eShopOnWeb'
+  AquaManagementConsoleServiceConnection: 'YOURAQUAMAANGMENTSERVICECONNECTIONNAME'
+
+steps:
+- task: Docker@2
+  displayName: Build
+  inputs:
+    containerRegistry: $(ACRName)
+    repository: $(REPOSITORY)
+    command: build
+    Dockerfile: $(eShopDockerFile)
+
+- task: Docker@2
+  displayName: Login
+  inputs:
+    containerRegistry: $(AquaServiceConnection)
+    command: login
+
+- task: Docker@1
+  displayName: 'pull Aqua scanner image'
+  inputs:
+    command: pull
+    arguments: $(AquaImage)
+
+- task: aquasec.aquasec.showCommits.aquasecScanner@4
+  displayName: 'Scan Image'
+  inputs:
+    image: '$(ACRNAME)/$(REPOSITORY):$(Build.BuildId)'
+    register: true
+    registry: '$(ACRNAME)'
+    connection: $(AquaManagementConsoleServiceConnection)
+    caCertificates: true
+
