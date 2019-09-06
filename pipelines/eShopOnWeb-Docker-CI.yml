@@ -11,32 +11,21 @@ resources:
     type: git
     name: eShopOnWeb
 
-variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'YOURSERVICECONNECTION'
-  imageRepository: 'eshoponweb'
-  containerRegistry: 'YOURACR.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
-  
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+variables:
+  azureSubscriptionEndpoint: 'YOURAZURESERVICEENDPOINT'
+  ACR: 'YOURACLOGINSERVER'
+  
+steps:
+- task: Docker@1
+  displayName: 'Build an image'
+  inputs:
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(ACR)
+
+- task: Docker@1
+  displayName: Push
+  inputs:
+    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureContainerRegistry: $(ACR)
+    command: 'Push an image'
