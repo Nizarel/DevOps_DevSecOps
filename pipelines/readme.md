@@ -1,4 +1,4 @@
-#The contents.
+# The contents.
 This folder provides you with sample yml pipelines for every Secops you are about to implement within the Dev SecOps OpenHack Lite. Naviagte through each scenario folder and check out the sample piplines generated and ready to use.
 
 On the root of this folder, there are two yml files to help you get started with build and test the 'eShopOnWeb'.
@@ -9,3 +9,7 @@ The [eShopOnWeb-Docker-CI.yml](./eShopOnWeb-Docker-CI.yml) is a docker based CI 
 
 # Notes
 All the samples are configureable,, Hence you might need to check the 'Variables' section in a template and replace the variables with your own values.
+
+# Refrences
+
+- [YAML schema reference](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example)
