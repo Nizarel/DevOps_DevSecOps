@@ -1,0 +1,28 @@
+pool:
+  name: Azure Pipelines
+
+variables:
+  AzureSubScription: 'YOURAZURESUBSCRIPTIONSERVICECONNECTION'
+  ACRLoginServer: 'YOURACRNAME.azurecr.io'
+  ACRID: "/subscriptions/YOURAZURESUBID/resourceGroups/YOURRGNAME/providers/Microsoft.ContainerRegistry/registries/YOURACRNAME"
+
+steps:
+- task: Docker@0
+  displayName: 'Build an image'
+  inputs:
+    azureSubscription: $(AzureSubScription)
+    azureContainerRegistry: '{"loginServer":$(ACRLoginServer), "id" : $(ACRID)}'
+    dockerFile: StorageViewer/Dockerfile
+    defaultContext: false
+    imageName: 'storageviewer:$(Build.BuildId)'
+    includeLatestTag: true
+
+- task: Docker@0
+  displayName: 'Push an image'
+  inputs:
+    azureSubscription: $(AzureSubScription)
+    azureContainerRegistry: '{"loginServer":$(ACRLoginServer), "id" : $(ACRID)}'
+    action: 'Push an image'
+    imageName: 'storageviewer:$(Build.BuildId)'
+    includeLatestTag: true
+
