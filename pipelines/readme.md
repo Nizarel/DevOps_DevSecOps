@@ -1,0 +1,11 @@
+#The contents.
+This folder provides you with sample yml pipelines for every Secops you are about to implement within the Dev SecOps OpenHack Lite. Naviagte through each scenario folder and check out the sample piplines generated and ready to use.
+
+On the root of this folder, there are two yml files to help you get started with build and test the 'eShopOnWeb'.
+
+The [eShopOnWeb-CI.yml](./eShopOnWeb-CI.yml.yml) is an ASP based yml CI template to build the eShopOnWeb application and run the tests. It is trigred on changes on changes to master branch.
+
+The [eShopOnWeb-Docker-CI.yml](./eShopOnWeb-Docker-CI.yml) is a docker based CI yml CI to build and push the eShopOnWeb application to an Azure Container Registry Instance of your choice.It is trigred on changes to master branch.
+
+# Notes
+All the samples are configureable,, Hence you might need to check the 'Variables' section in a template and replace the variables with your own values.
