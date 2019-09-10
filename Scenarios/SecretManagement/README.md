@@ -7,4 +7,3 @@
 - [Keyvault - Secret Rotation](KV_secret_rotation.md)
 - [Keyvault - Stale Secrets detection](./KV_stale_secrets.md)
 - [Keyvault - Service Prinicpal Rotation](./KV_sp_rotation.md)
-
