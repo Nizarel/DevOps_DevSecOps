@@ -5,7 +5,7 @@ Once you have installed the extension into the org from the marketplace, you can
 - CredScan
   - You can use a suppression file if you have created one.  See [Suppressions](./Suppressions.md) for guidance.  This is also where you enable custom searchers and can tune execution parameters.
 
-- Create Security Analysis Report
+- Security Analysis Report
   - Ensure CredScan is checked under tools parameter
 
 - Publish Security Analysis Logs
