@@ -53,7 +53,7 @@ The task can be used to fetch the latest values of all or a subset of secrets fr
 
 1- Newly added, or deleted secrets to the vault are automatically reflected in created task variablesif you chose '*' in secret filter field in task setup.
 
-Refernences:
+References:
 
 - [Key vault task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops)
 

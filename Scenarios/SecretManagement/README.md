@@ -1,7 +1,7 @@
 # Secret Management Scenarios
 
-- [AKS Secret Rotation](./AKS_secret_rotation.md)
-- [AKS Blue Green Rotation](./AKS_blue_green_rotation.md)
+- [AKS Secret Rotation](./AKS_secret_rotation.md) - Rotate the Service Principal used by AKS
+- [AKS Blue Green Rotation](./AKS_blue_green_rotation.md) -
 - [AKS Secret Rotation Strategies](./AKS_secret_rotation_strategies.md)
 - [Keyvault in Pipelines](./KV_in_Pipelines.md)
 - [Keyvault - Secret Rotation](KV_secret_rotation.md)

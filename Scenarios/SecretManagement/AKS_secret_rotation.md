@@ -72,13 +72,13 @@ yearsValidFor=$4
 #Requires jq and az cli
 usage(){
 	echo "***Rotate AKS Service Priciple credentials by updating existing service principal***"
-	echo "Usage: ./rotate_existing_SP.sh <rgName> <aksClusterName> <azSubscriptionId> <yearsValidFor>"
+	echo "Usage: ./rotate_existing_SP.sh <rgName> <aksClusterName> <azSubscriptionId> <expiryDate>"
 	echo ""
 	echo "Expects 4 arguments:"
 	echo "    rgName = AKS cluster resource group name"
 	echo "    aksClusterName = name of AKS cluster"
 	echo "    azSubscriptionId = the azure subscription id"
-	echo "    yearsValidFor = number of years new service principal account is valid for"
+	echo "    expiryDate = expiry time of service principal, example formats '2020-12-31T11:59:59+00:00' or '2299-12-31'."
 }
 
 RotateAKSCred(){
@@ -97,7 +97,7 @@ RotateAKSCred(){
 	fi
 
 	echo "Reset credentials for AKS service principle account: "$spAppId
-	newSP=$(az ad sp credential reset --name $spAppId --years $yearsValidFor)
+	newSP=$(az ad sp credential reset --name $spAppId --end-date $expiryDate)
 
 	if [ -z "$newSP" ]
 	then
@@ -110,7 +110,7 @@ RotateAKSCred(){
 	echo $spcredList
 
 	spPassword=$(echo $newSP | jq -r .password)
-	echo "Service principal accountId: "$spAppId" credentials reset to expire in "$yearsValidFor" years"
+	echo "Service principal accountId :"$spAppId" credentials reset to new expiry date: "$expiryDate
 
 	echo "Update AKS:"$aksClusterName" to use new service principal:"$spAppId" credentials"
 	aksUpdated=$(az aks update-credentials --resource-group $rgName -n $aksClusterName --reset-service-principal --service-principal $spAppId --client-secret $spPassword)
@@ -120,7 +120,7 @@ RotateAKSCred(){
 rgName=$1
 aksClusterName=$2
 azSubscriptionId=$3
-yearsValidFor=$4
+expiryDate=$4
 #check arguments
 [[ $# < 4 ]] && { usage && exit 1; } || RotateAKSCred "$@"
 ```
