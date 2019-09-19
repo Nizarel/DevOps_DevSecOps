@@ -6,7 +6,7 @@ We introduced Secret Rotation with [Automatic secret rotation with Azure Key Vau
 
 ## Overview
 
-Blue Green Secret rotation idea is to rotate secrets without downtime. For example, Storage accounts have two connection strings. Instead of rotating both of them simultaneously, we can rotate it one by one and update the secrets on Kubernetes. 
+Blue Green Secret rotation idea is to rotate secrets without downtime. For example, Storage accounts have two connection strings. Instead of rotating both of them simultaneously, we can rotate it one by one and update the secrets on Kubernetes.
 
 ![Blue Green Rotation](images/BlueGreen.png)
 
@@ -14,9 +14,9 @@ Blue Green Secret rotation idea is to rotate secrets without downtime. For examp
 
 Use the following configmap to determine which connection is used. You can find it in [here](https://dev.azure.com/csedevops/DevSecOps/_git/SecretRotation?path=%2FconfigMap.yml&version=GBmaster).
 
-_configMap.yml_
+Example _configMap.yml_
 
-```
+```Yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -27,28 +27,28 @@ data:
 ```
 
 ## Create Azure DevOps pipeline
-  Create Azure DevOps pipeline with Linux Based Agent that includes the following steps. 
 
-  1- Get current connection string from ConfigMap
+  Create Azure DevOps pipeline with Linux Based Agent that includes the following steps.
 
-  2- ReGenerate the other connection string
+  1. Get current connection string from ConfigMap
 
-  3- Update Key Vault secret with the other connection string
+  2. ReGenerate the new connection string
 
-  4- Update ConfigMap 
+  3. Update Key Vault secret with the new connection string
 
-  5- Restart Pods
+  4. Update ConfigMap
 
-Storage Account 
+  5. Restart Pods
 
-`kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished. 
+Storage Account
+
+`kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished.
 
 NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set Key Vault secrets.To double check if the service principal can access the target Key Vault See Key Vault > Access Policies on your portal.
 
 You can see the full configuration of this pipeline in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
 
-
-_azure_pipeline.yml_
+Example _azure_pipeline.yml_
 
 ```yaml
 trigger:
@@ -56,7 +56,7 @@ trigger:
 
 pool:
   vvmImage: 'ubuntu-latest'
-  
+
 variables:
   Namespace: 'default'
   StorageAccount: 'YOURSTORAGEACCOUNTNAME'
@@ -78,32 +78,32 @@ steps:
     azureSubscription: '$(SubscriptionServiceEndpoint)'
     scriptLocation: inlineScript
     inlineScript: |
-     
+
      # download the kubernetes secrets
      az aks get-credentials --name $(KubernetesName) --resource-group $(ResourceGroup)
 
      currentKeyId=$(kubectl get configmap $(ConfigMapName) -n $(Namespace) -o json | jq '.data.CurrentAccountKeyId' | sed s/\"//g)
-     
+
      keyName="secondary"
      if [ "$currentKeyId" == "secondary" ]; then
          echo "regenerating primary key"
          keyName="primary"
-     else 
+     else
         echo "regenerating secondary key"
      fi
-     
+
      # regen the key
      az storage account keys renew --account-name $(StorageAccount) --key $keyName -g $(ResourceGroup)
-     
+
      # update the secret in key vault
      echo "updating the secret in keyvault"
-     
+
      # show connection string
      connectionString=$(az storage account show-connection-string -n $(StorageAccount) -g $(ResourceGroup) --key $keyName | jq '.connectionString')
-     
-     # update the key vault 
+
+     # update the key vault
      az keyvault secret set -n $(ConnectionStringKeyVaultSecret) --value $connectionString --vault-name $(KeyVaultName)
-     
+
      echo "Setting the pipeline variable with $keyName"
 
      echo "##vso[task.setvariable variable=NewStorageAccountKeyName;]$keyName"
@@ -124,7 +124,7 @@ steps:
   displayName: Create configMap yaml file
 - task: Kubernetes@1
   displayName: "kubectl create configmap"
-  inputs: 
+  inputs:
     namespace: $(Namespace)
     kubernetesServiceEndpoint: $(KubernetesServiceConnection)
     command: apply
@@ -144,14 +144,13 @@ steps:
     command: rollout
     arguments: 'status $(KubernetesDeployment)'
     checkLatest: true
-
-
 ```
-# Deploy application
 
-To test the pipeline, Deploy a sample application. The application fetches contents from blob storage. To run this application, you need the following.  
+## Deploy application
 
-* A Service Principal that can fetch data from Key Vault. 
+To test the pipeline, Deploy a sample application. The application fetches contents from blob storage. To run this application, you need the following.
+
+* A Service Principal that can fetch data from Key Vault.
 * A Storage Account with a text file(verysecret.txt) in a container (container).
 * Build Deploy the application to a Kubernetes Cluster
 
@@ -159,22 +158,21 @@ I created a sample application with ASP.NET (.Net core). I also created [a pipel
 
 This is where you can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
 
-## Create Secret 
+## Create Secret
 
-Create a service principal to access Key Vault from the sample app and set it to the secret. 
+Create a service principal to access Key Vault from the sample app and set it to the secret.
 
+```Bash
+az ad sp create-rbac --name ServicePrinipalForApp
+
+kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
 ```
-$ az ad sp create-rbac --name ServicePrinipalForApp 
-
-$ kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
-```
-
 
 ## Set Policy to the Key Vault
 
 Add policy to the Key Vault.
 
-```
+```Bash
 az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>
 
 az keyvault set-policy -n $KV_NAME --key-permissions get --spn <YOUR SPN CLIENT ID>
@@ -184,11 +182,11 @@ az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN
 
 ## Apply
 
-After publishing the sample app's image, you can deploy it to a k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment. 
+After publishing the sample app's image, you can deploy it to a k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment.
 
-_storage-viewer.yml_
+Example _storage-viewer.yml_
 
-```
+```Yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -202,9 +200,9 @@ spec:
       app: storage-viewer
   template:
     metadata:
-      labels: 
+      labels:
         app: storage-viewer
-    spec:   
+    spec:
       containers:
       - name: storage-viewer-flex-kv
         image: oht39abj0acr.azurecr.io/storageviewer:latest
@@ -229,10 +227,11 @@ spec:
             tenantid: "YOUR_TENANT_ID"                    # [REQUIRED] the tenant ID of the KeyVault
 ```
 
-## Test 
+## Test
 
-```
-$ kubectl get pods
+```Bash
+kubectl get pods
+
 NAME                                          READY   STATUS    RESTARTS   AGE
          151d
 storage-viewer-deployment-6d9b9495fd-9pz95    1/1     Running   0          45m
@@ -240,9 +239,9 @@ storage-viewer-deployment-6d9b9495fd-gpph4    1/1     Running   0          45m
 storage-viewer-deployment-6d9b9495fd-sl7xz    1/1     Running   0          159d
 ```
 
-You will find that the pod is deployed to the cluster. 
+You will find that the pod is deployed to the cluster.
 
-```
+```Bash
  kubectl port-forward pod/storage-viewer-deployment-6d9b9495fd-9pz9 8090:80
  ```
 
@@ -250,4 +249,4 @@ You can see the web page to access `http://localhost:8090`
 
 ![images/WebPage.png](images/WebPage.png)
 
-It downloaded the `verysecret.txt` file from blob storage and displays the contents after the `Secret:`. If it is successfully displayed, your secret (storageAccount connection string) is fetched correctly. 
+It downloaded the `verysecret.txt` file from blob storage and displays the contents after the `Secret:`. If it is successfully displayed, your secret (storageAccount connection string) is fetched correctly.

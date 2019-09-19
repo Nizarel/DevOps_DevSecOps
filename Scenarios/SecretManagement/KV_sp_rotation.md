@@ -1,39 +1,39 @@
 # Service Prinicipal Rotation for Key Vault
 
-In this article, you can learn how to rotate a Servcie Principal for Key Vault. 
+In this article, you can learn how to rotate a Servcie Principal for Key Vault.
 
 ![Servcie Principal Rotation](images/SPRotation.png)
 
 ## Create a Service Principal to create Service Prinicipal
 
-We need to create a service principal with the ability to create service principals. 
+First, you will need to create a service principal with the ability to create service principals.
 
 * [Least privilege for a service principal to create another service principal](https://stackoverflow.com/questions/42296277/least-privilege-for-a-service-principal-to-create-another-service-principal)
 
 * [Azure AD - create a new Service Principal programmatically](https://stackoverflow.com/questions/56408340/azure-ad-create-a-new-service-principal-programmatically)
 
+### Create a Service Principal using CLI
 
-### Create a Service Principal
-Use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) for [creating Service Prinicpal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest). 
+Use [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) for [creating Service Prinicpal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest).
 
 It requires owner role permission to assign the role. For more details [Built-in roles for Azure resources](https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor).
 
 ```bash
-$ az ad sp create-rbac --name MasterServciePrincipal --role owner
+az ad sp create-rbac --name MasterServciePrincipal --role owner
 ```
+
 ### Add API Permission
 
 Go to Azure Active Directory > App registrations > {Your Service Principal Name} > API permissions.  Add API permissions. In `Microsoft Graph` `Application.ReadWrite.All` and `ApplicationReadWrite.OwnedBy`. Then grant consent.
 
-![](./images/APIPermissions.png)
+![APIPermissions](./images/APIPermissions.png)
 
 ### Add Global Administrator
 
-Go to Azure Active Directory > Roles and administrators > Global administrator. 
-Add assignment to your application. 
+Go to Azure Active Directory > Roles and administrators > Global administrator.
+Add assignment to your application.
 
-![](./images/GlobalAdministrator.png)
-
+![GlobalAdministrator](./images/GlobalAdministrator.png)
 
 ## Deploy a sample app
 
@@ -41,25 +41,25 @@ Deploy a sample application with [Key Vault FlexVolume](https://github.com/Azure
 
 ### Deploy flex volume
 
-Enable kubctl command. If you don't know how to do it, please refer to this [tutorial](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
+Enable kubectl command. Refer to this [tutorial](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) for enabling kubectl.
 
+```Bash
+kubectl create -f https://raw.githubusercontent.com/Azure/kubernetes-keyvault-flexvol/master/deployment/kv-flexvol-installer.yaml
 ```
-$ kubectl create -f https://raw.githubusercontent.com/Azure/kubernetes-keyvault-flexvol/master/deployment/kv-flexvol-installer.yaml
-```
 
-For more detail, you can refer to [these instructions](https://github.com/Azure/kubernetes-keyvault-flexvol). 
+For more detail, you can refer to [these instructions](https://github.com/Azure/kubernetes-keyvault-flexvol).
 
-### create secret
+### Create the secret
 
-Create secret which include service prinicipal to access Key Vault from your app. To create a service principal see [here](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#create-a-service-principal). 
+Create secret which include service prinicipal to access Key Vault from your app. To create a service principal see [here](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#create-a-service-principal).
 
-```
+```Bash
 kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
 ```
 
 ### create role assignment and policy to Key Vault
 
-```
+```Bash
 # Assign Reader Role to the service principal for your Key Vault
 az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>
 
@@ -68,9 +68,9 @@ az keyvault set-policy -n $KV_NAME --secret-permissions get --spn <YOUR SPN CLIE
 az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN CLIENT ID>
 ```
 
-_nginx.yml_
+Example _nginx.yml_
 
-```yaml
+```Yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -113,13 +113,13 @@ spec:
 
 Deploy the application. On portal, create a Secret named "hello" with some value. Then Apply the yaml file.
 
-```
-$ kubectl apply -f nginx.yaml
+```Bash
+kubectl apply -f nginx.yaml
 ```
 
-Check the value of the Key Vault secret referenced on the pod. 
+Check the value of the Key Vault secret referenced on the pod.
 
-```
+```Bash
 $ kubectl get pods
 NAME                                READY   STATUS    RESTARTS   AGE
 nginx-deployment-796d454c59-2rrzz   1/1     Running   0          40s
@@ -139,30 +139,28 @@ world
 
 ### Service Connection Settings for Servcie Principal
 
-Create a service connection for the Service Principal. 
-Azure DevOps > Project Settings > Servcie Connections. 
-Select `Azure Resource Manager`. Input the Service Principal information. 
+Create a service connection for the Service Principal in Azure DevOps by going to Azure DevOps > Project Settings > Servcie Connections.
+Select `Azure Resource Manager`. Input the Service Principal information.
 
 ### Service Connection Settings for Kubernentes
 
-Create a service connection for the Kubernetes Cluster. 
+Create a service connection for the Kubernetes Cluster.
 Azure DevOps > Project Settings > Sevice Connections.
-Select `Kubernetes`. Input the Kubernetes Cluster's information. 
+Select `Kubernetes`. Input the Kubernetes Cluster's information.
 
-## Create a Pipeline on Azure DevOps 
+## Create a Pipeline on Azure DevOps
 
-Following `azure-pipeline.yml` consists of four part. 
+Following `azure-pipeline.yml` consists of four part.
 
 1- Create a new Service Prinicpal
 
 2- Set it to the Azure Key Vault policy
 
-3- Restart the Pods 
+3- Restart the Pods
 
+Example _azure-pipelines.yml_
 
-_azure-pipelines.yml_
-
-```
+```Yaml
 trigger:
 - master
 
@@ -183,16 +181,16 @@ steps:
    azureSubscription: '$(SubscriptionServcieEndpoint)'
    scriptLocation: inlineScript
    inlineScript: |
-     
-     # Create a new Service Principal 
+
+     # Create a new Service Principal
      servicePrincipal=$(az ad sp create-for-rbac --name KeyVaultPrinicpal$(Build.BuildId))
      echo $servicePrincipal
      clientId=$(echo $servicePrincipal | jq '.appId')
      clientSecret=$(echo $servicePrincipal | jq '.password')
-     
+
      clientId=$(echo "${clientId//\"}")
      clientSecret=$(echo "${clientSecret//\"}")
-     
+
      echo $clientId
      echo $clientSecret
 
@@ -204,12 +202,12 @@ steps:
      # Assign Role to the Servcie Principal for KeyVault
      az role assignment create --role Reader --assignee $clientId --scope $keyVaultScope
 
-     # Set Policy to the KeyVault 
+     # Set Policy to the KeyVault
      az keyvault set-policy -n $(KeyVaultName) --key-permissions get --spn $clientId
      az keyvault set-policy -n $(KeyVaultName) --secret-permissions get --spn $clientId
      az keyvault set-policy -n $(KeyVaultName) --certificate-permissions get --spn $clientId
 
-     # Create secret file 
+     # Create secret file
      clientIdBase64=$(echo -n $clientId | base64)
      clientSecretBase64=$(echo -n $clientSecret | base64)
      cat <<EOF > kvcred.yml
@@ -249,6 +247,6 @@ steps:
     checkLatest: true
 ```
 
-# Consideration
+## Considerations
 
-This pipeline continuously creates Service Principals. You should carefully configure the expiration of the service principal. You can create a script to remove Old Service Principal once it has expired using [Key Vault notifications](AKS_secret_rotation_strategies.md).
+This pipeline continuously creates Service Principals. You should carefully configure the expiration of the service principal. You should consider creating a script to remove expired/stale Service Principals once it has expired using [Key Vault notifications](AKS_secret_rotation_strategies.md).

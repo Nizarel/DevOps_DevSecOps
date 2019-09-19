@@ -4,7 +4,7 @@ Using Azure CLI, and the logging feature in azure Keyvault you can track/report 
 
 Azure Keyvault uses Azure storage account service to store the logs of every event executed on a keyvault. The logs are stored as blobs where every log blob contains the logs of the events executed on the key vault for one hour.
 
-## Azure Keyvault logging setup :
+## Azure Keyvault logging setup
 
 1- create or use an exisiting azure key vault instance.
 
@@ -27,14 +27,16 @@ Set-AzDiagnosticSetting -ResourceId $kv.ResourceId -StorageAccountId $sa.Id -Ena
 If you use Azure CLI
 
 ```bash
-$ StorageId=$(az storage account show -n YOURSTORAGEACCOUNTNAME -g RG01 --query id -o tsv)
-$ KeyVaultId=$(az keyvault show -n YOURVAULTNAME -g RG01 --query id -o tsv)
-$ az monitor diagnostic-settings create -n mydiagnostics --resource $KeyVaultId --storage-account $StorageId --logs '[{"category": "AuditEvent", "enabled": true, "retentionPolicy": { "enabled": true, "days": 180}}]'
+StorageId=$(az storage account show -n YOURSTORAGEACCOUNTNAME -g RG01 --query id -o tsv)
+
+KeyVaultId=$(az keyvault show -n YOURVAULTNAME -g RG01 --query id -o tsv)
+
+az monitor diagnostic-settings create -n mydiagnostics --resource $KeyVaultId --storage-account $StorageId --logs '[{"category": "AuditEvent", "enabled": true, "retentionPolicy": { "enabled": true, "days": 180}}]'
 ```
 
 It takes several minutes to find the log on the storage account.
 
-## Report Azure keyvault stale secrets :
+## Report Azure keyvault stale secrets
 
 Now that you have the logging enabled on your keyvault. you can run the following bash script to report the stale secrets that have not been used in the last X days
 
@@ -142,7 +144,7 @@ daysOldLimit=$4
 
 ```
 
-**References:**
+**References**
 
 - [Azure key-vault-logging](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-logging)
 

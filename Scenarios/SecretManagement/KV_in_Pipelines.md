@@ -1,4 +1,5 @@
 # Secret management with Azure KeyVault
+
 Use Key Vault to safeguard and manage cryptographic keys and secrets used by cloud applications and services.
 
 ## Azure Keyvault integration with Azure Devops
@@ -9,9 +10,9 @@ Manual integration with an existing keyvault, as apart of the pipeline setup.
 
 1- create an azure keyvault instance and set the keys/secrets.
 
-2- create a new variable group in azdo pipeline, enable "Link secrets from an azure keyvault as variables", then provide the subcsrition and keyvault name to link.
+2- create a new variable group in azdo pipeline, enable "Link secrets from an azure keyvault as variables", then provide the subscription and keyvault name to link.
 
-3- Ensure the Azure service connection has at least Get and List management permissions on the vault for secrets.
+3- Ensure the Azure service connection has at least Get and List management permissions on the vault for secrets.  NOTE: You can authorize access to the key vault from Azure Devops if you are linking the key vault to a variable group.  If you are only using the key vault task, you need to set get/list permissions.
 
 4- In the variable groups page, choose + Add to select specific secrets from your vault that will be mapped to this variable group.
 
@@ -28,8 +29,9 @@ Manual integration with an existing keyvault, as apart of the pipeline setup.
 5- You can control users, and thier access roles to the linked variable group, from the security tab in the variable group.
 
 Refernences:
-- [Key vault with varibale groups](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml)
 
+- [Key vault with varibale groups](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml)
+- [Secure your keyvault](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-secure-your-key-vault)
 
 ### Integration by using Azure KeyVault task
 
@@ -51,11 +53,12 @@ The task can be used to fetch the latest values of all or a subset of secrets fr
 
 1- Newly added, or deleted secrets to the vault are automatically reflected in created task variablesif you chose '*' in secret filter field in task setup.
 
-Refernences:
+References:
+
 - [Key vault task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops)
 
-
 ## Azure Keyvault integration with Jenkins
+
 TO be investigated
 
 ## Design/split secrets across environments for AZDO with KV
@@ -70,4 +73,4 @@ TO be investigated
 
 Gives more control on who case see, use the linked variable groups.
 
-- You can still have multiple groups as above reading from the same variable group (e.g Prod2, prod 2, prod 3) can all read from the production key vault as they are linked to "relase to Prod" phase in the release pipeline 
+- You can still have multiple groups as above reading from the same variable group (e.g Prod2, prod 2, prod 3) can all read from the production key vault as they are linked to "relase to Prod" phase in the release pipeline
