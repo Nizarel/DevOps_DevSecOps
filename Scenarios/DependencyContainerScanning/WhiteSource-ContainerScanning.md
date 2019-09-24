@@ -4,12 +4,13 @@
 ![whitesource for containers](./images/ws-for-container.png)
 
 ## Requirements for Azure Container Registry Usage
+- WhiteSource [account setup](./WhiteSource.md) is required, but the product/project configuration can be skipped with regards to container scanning. 
 - Authorized account to Azure Container Registry
 - Permissions for image pulling from Azure Container Registry
 - Docker installed
 
 Download the Unified Agent and Configuration File
-- [WS Agent](https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar%22)
+- [WS Agent](https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar)
 - [WS Configuration](https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.config)
 
 *Notes:*
