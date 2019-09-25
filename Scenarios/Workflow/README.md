@@ -1,50 +1,46 @@
 # DevSecOps Workflow
 
-This document seeks to provide some best practices around improving workflow during Pull Request.  DevSecOps introduces several tools needed to complete automation of DevSecOps task and complicates Continous Integration when CI marks a pull request as failing CI requirements.
+Pull request are a central activity in adopting Git and Agile based workflows that leverage Continous Integration (CI).  DevSecOps seeks to shift security left and introduces several scenarios/processes/tools needed to have broad security coverage. These additional scenarios during CI can have an impact on developer productivity.  This scenario seeks to improve/optimize workflow during Pull Request.
 
-## Shift left
+## Shift left (conceptually)
 
-We used to have a security testing on the staging phase. The idea of shift left is moving the security testing eariler stage of development to get feedback more quickly.
+In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/ staging phases of the development lifecycle. The concept of shifting left is to move the security testing eariler stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting task left and earlier in the cycle.
 
-![Shift Left](images/ShiftLeft.png)
+<img src="images/ShiftLeft.png" alt="Shift Left" style="width:800px;">
 
-We recommend to security test to shif left. If you have all security testing on the Local Development phase, it might be ideal. Especially for Credential, SSN, CreditCard number scanning. It protect to push your code with sensitive data. However, it depends on the support of the Service/Product.
-If you are available, we recomment to use it. Generally, speaking, we recommend to start the security testing on Pull Request review.
+Generally, we will seek to shift most of the secnarios around DevSecops into CI that runs as part of pull request automation as it helps:
 
-## Security Testing with Pull Request
+* Security Quality Gates integrated with CI
+* It helps alleviate vulnerablity ever making it to the master branch
+* As a developer, we want to holistically see vulnerablity reports in one place
+* Developers can deliberately suppress false positives (Optional) and have those decisions as part of PR history
 
-The reason why we recommend pull request validation for security testing is
-
-* It reduce the number of issue in one validation
-* Quality Gate integrated with CI
-* It protect us to inject the vulnerablity to master branch
-* As a developer, we want to see several vulnerablity reports in one place
-* Want to suppress false positives (Optional)
-
-For the pull request model, some products support that it just report the delta for the issue.
-It helps to developers to focus on what they change and fix it. Also we can specify a quality gate for the pull request. The quality gate start a CI pipeline and validate the code. Unless developers pass the gate,
-the PR is never get merged. Pull request also help to developers to notice all vulnerablity in one place.
-
-![Overview](images/Overview.png)
+<img src="images/Overview.png" alt="PR Screen" style="width:1000px;">
 
 For the advanced scenario, we can use PR Bot to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
 
 ## WorkFlow patterns
 
-![WorkFlowType](images/WorkFlowType.png =800x400)
+We have developed three options for including DevSecOps scenarios into your applications development workflow.  These options provide flexibility based on not only the desired security analysis but also the resources and time needed to execute them.  Our recommendation for optimal performance is to have an agent pool with parallel job size >= 5.  The hybrid scenario works best with 2-3 parallel jobs and the serial flow is built for the scenario where you only have one agent and CI execution time is not a concern or not addressable.  To adjust the number of parallel jobs, review the documentation [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops).
+
+<img src="images/WorkFlowType.png" alt="WorkFlowType" style="width:800px;">
 
 ### Serial Flow
 
-If you have a flow that you need to execute one by one, use the Serial folow pattern.
+If you have a flow that you need to execute one by one, use the Serial folow pattern.  Fully implemented this pipeline will take approxiamately 30 minutes to fully execute on average.
 
 ### Parallel Flow
 
-If you don't need to execute the serially, you can use the parrllel flow. It help to reduce the execution time of CI.
+If you don't need to execute the serially, you can use the parrllel flow. This can greatly reduce execution time to 5-7 minutes.
+
+### Hybrid Flow
+
+Hybrid flow is a compromise on parallel jobs where you continue to run CI in its own pipeline but delegate all DevSecOps task to a secondary pipeline.  The benefit of this model is you can apply org policy effectively and reuse the DevSecOps across projects with minimal modifications potentially.  Execution time can very but is generally around 12 minutes in our test scenario.
 
 ### Enforce Policy
 
 If you want to inject specific task for all pipeline on your organization or project, you can use this strategy.
-Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Documentation.
+Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Scenario Documentation.
 
 ## Configration
 
@@ -55,7 +51,7 @@ Create multiple jobs then configrue a dependency and condition for each jobs.
 If you have Job A, job B, Job C, you need to configure the dependency and condition.
 Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed.
 
-![SerialFlow](images/SerialFlowOverview.png)
+<img src="images/SerialFlowOverview.png" alt="SerialFlow" style="width:800px;">
 
 You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
 
