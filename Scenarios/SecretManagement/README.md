@@ -1,5 +1,11 @@
 # Secret Management Scenarios
 
+## Scenario PreReqs
+
+- Familiarity with Azure KeyVault
+
+## Content Organization
+
 - [AKS Secret Rotation](./AKS_secret_rotation.md) - Rotate the Service Principal used by AKS
 - [AKS Blue Green Rotation](./AKS_blue_green_rotation.md) -
 - [AKS Secret Rotation Strategies](./AKS_secret_rotation_strategies.md)

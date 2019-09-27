@@ -43,7 +43,7 @@ CredScan failed with 4 issues found.
 4 total issues were found across 1 tools. Failed.
 ```
 
-To correct the failures, follow guidance on creating suppressions below:
+To correct the failures, follow guidance ([link to 1es wiki](https://microsoft.sharepoint.com/teams/CESecEngineering/CredScan/CredScan%20Wiki/Suppression%20Usage%20Examples.aspx)) on creating suppressions below:
 
 ```Text
 [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="….")]
