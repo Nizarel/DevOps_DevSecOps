@@ -1,0 +1,317 @@
+resources:
+  repositories:
+  - repository: eShopOnWeb
+    type: git
+    name: eShopOnWeb
+
+trigger:
+- master
+
+jobs:
+  -job: Run CredScan
+    pool:
+      name: Hosted VS2017
+       #Your build pipeline references an undefined variable named ‘CWI.Id’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+    variables:
+      AssignTo: 'USERFIRSTNAME USERLASTNAME <USEREMAIL>'
+      AZDOProjectName: 'YOURAZDOPROJECTNAME'
+      AZDOAreaPath: 'YOURAZDOPROJECTAreaPath'
+      AZDOIterationPath: 'YOURAZDOPROJECTIterationPath'
+      AZDOOrgName: 'YOURAZDOORGNAME'
+
+    steps:
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
+      displayName: 'Run CredScan'
+      inputs:
+        debugMode: false
+
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+      displayName: 'Create Security Analysis Report'
+      inputs:
+        CredScan: true
+
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@2
+       displayName: 'Publish Security Analysis Logs'
+       inputs:
+        AllTools: false
+        AntiMalware: false
+        APIScan: false
+        BinSkim: false
+        CodesignValidation: false
+        FortifySCA: false
+        FxCop: false
+        ModernCop: false
+        MSRD: false
+        PoliCheck: false
+        RoslynAnalyzers: false
+        SDLNativeRules: false
+        Semmle: false
+        TSLint: false
+        WebScout: false
+
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
+       displayName: 'Post Analysis'
+       inputs:
+        CredScan: true
+
+    - task: CreateWorkItem@1
+       displayName: 'Create work item'
+       inputs:
+        teamProject: $(AZDOProjectName)
+        workItemType: Bug
+        title: 'CredScan Task Failed: $(System.PullRequest.PullRequestId)'
+        assignedTo: '$(AssignTo)'
+        areaPath: $(AZDOAreaPath)
+        iterationPath: $(AZDOIterationPath)
+        fieldMappings: 'System Info=Credential Scanning Task Failed. For more information please refer to this <a href="$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)">link</a>'
+        associate: true
+        linkPR: true
+        preventDuplicates: true
+        keyFields: System.Title
+        createOutputs: true
+        outputVariables: 'CWI.Id=System.Id'
+    condition: failed()
+
+    - task: CreatePRCommentTask@0
+       displayName: 'Create PR Comment'
+       inputs:
+        Comment: 'CredScan reports a <a href="https://dev.azure.com/$(AZDOOrgName)/$(AZDOProjectName)/_workitems/edit/$(CWI.Id)">Bug</a> created. Please review it. '
+    condition: and(failed(), ne(variables['CWI.Id'], ''))
+
+  -job: Run SonarCloud
+    pool:
+        name: Hosted VS2017
+        demands: java
+    dependsOn: Pen Testing
+        #Your build pipeline references an undefined variable named ‘CWI.Id’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+    variables:
+        BuildConfiguration: 'Release'
+        SonarCloud: 'YOURSONARCLOUDSERVICEENDPOINT'
+        SonarCloudOrganization: 'YOURORG'
+        SonarCloudProjectKey: 'YOURPROJECTKEY'
+        SonarCloudProjectName: 'YOURPROJECTNAME'
+        AZDOProjectName: 'YOURAZDOPROJECTNAME'
+        AZDOAreaPath: 'YOURAZDOPROJECTAreaPath'
+        AZDOIterationPath: 'YOURAZDOPROJECTIterationPath'
+        AZDOOrgName: 'YOURAZDOORGNAME'
+        AssignTo: 'USERFIRSTNAME USERLASTNAME <USEREMAIL>'
+       
+    steps:
+    - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+      displayName: 'Prepare analysis on SonarCloud'
+      inputs:
+        SonarCloud: $(SonarCloud)
+        organization: $(SonarCloudOrganization)
+        projectKey: $(SonarCloudProjectKey)
+        projectName: $(SonarCloudProjectName)
+
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 2.2.300'
+      inputs:
+        version: 2.2.300
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        projects: '**/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: Test
+      inputs:
+        command: test
+        projects: '**/*[Tt]ests/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+      displayName: 'Run Code Analysis'
+
+    - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+      displayName: 'Publish Quality Gate Result'
+
+    - task: DotNetCoreCLI@2
+      displayName: Publish
+      inputs:
+        command: publish
+        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+
+    - task: SimondeLang.sonarcloud-buildbreaker.sonar-buildbreaker.sonarcloud-buildbreaker@1
+      displayName: 'Break build on quality gate failure'
+      inputs:
+        SonarCloud: $(SonarCloud)
+
+    - task: CreateWorkItem@1
+    displayName: 'Create work item'
+    inputs:
+        teamProject: $(AZDOProjectName)
+        workItemType: Bug
+        title: 'SonarCloud Scan Failed: $(System.PullRequest.PullRequestId)'
+        assignedTo: '$(AssignTo)'
+        areaPath: $(AZDOAreaPath)
+        iterationPath: $(AZDOIterationPath)
+        fieldMappings: 'System Info=SonarCloud Task failed. For more information please refer to this <a href="$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)">link</a>'
+        associate: true
+        linkPR: true
+        preventDuplicates: true
+        keyFields: System.Title
+        createOutputs: true
+        outputVariables: 'CWI.Id=System.Id'
+    condition: failed()
+
+    - task: CreatePRCommentTask@0
+    displayName: 'Create PR Comment'
+    inputs:
+        Comment: 'SonarCloud reports a <a href="https://dev.azure.com/$(AZDOOrgName)/$(AZDOProjectName)/_workitems/edit/$(CWI.Id)">Bug</a> created. Please review it. '
+    condition: and(failed(), ne(variables['CWI.Id'], ''))
+  -job: Pen Testing
+    pool:
+      vmImage: 'ubuntu-16.04'
+    dependsOn: Run CredScan
+    steps:
+    - checkout: none
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion:  '17.09.0-ce'
+
+        ## During the CI/CD process and additional docker build step could be added here. 
+
+    - bash: 'docker run -d -p 5000:5000 training/webapp'
+      displayName: 'Run app in docker container'
+
+    - task: owaspzap@0
+      displayName: 'ZAP Scanner'
+      inputs:
+        aggressivemode: false
+        scantype: 'agentScan'
+        threshold: 20
+        provideCustomContext: false
+        port: 5000
+
+
+    - task: CopyFiles@2
+      condition: always()
+      inputs:
+        SourceFolder: 'owaspzap/'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      condition: always()
+      inputs:
+        ArtifactName: 'owasp_zap_reports'
+
+    - bash: |   
+       sudo npm install -g handlebars-cmd
+       
+       cat <<EOF > owaspzap/nunit-template.hbs
+       {{#each site}}
+       
+       <test-run
+           id="2" 
+           name="Owasp test" 
+           start-time="{{../[@generated]}}"  >
+           <test-suite 
+               id="{{@index}}"
+               type="Assembly" 
+               name="{{[@name]}}" 
+               result="Failed" 
+               failed="{{alerts.length}}">
+               <attachments>
+                   <attachment>
+                       <filePath>$(Build.ArtifactStagingDirectory)/report.html</filePath>
+                   </attachment>
+                   <attachment>
+                       <filePath>$(Build.ArtifactStagingDirectory)/report.json</filePath>
+                    </attachment>
+               </attachments>
+           {{#each alerts}}<test-case 
+               id="{{@index}}"
+               name="{{alert}}"  
+               result="Failed" 
+               fullname="{{alert}}"
+               time="1">
+                   <failure>
+                       <message>
+                           <![CDATA[{{{desc}}}]]>
+                       </message>
+                       <stack-trace>
+                           <![CDATA[
+       Solution:
+       {{{solution}}}
+       
+       Reference:
+       {{{reference}}}
+                           
+       instances:{{#each instances}}
+       * {{uri}}
+           - {{method}}
+           {{#if evidence}}- {{{evidence}}}{{/if}}
+                           {{/each}}]]>
+                       </stack-trace>
+                   </failure>
+           </test-case>
+           {{/each}}
+           </test-suite>
+       </test-run>
+       {{/each}}
+       EOF
+      displayName: 'owasp nunit template'
+      condition: always()
+
+    - bash: ' handlebars owaspzap/report.json < owaspzap/nunit-template.hbs > owaspzap/test-results.xml'
+      displayName: 'generate nunit type file'
+      condition: always()
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results **/TEST-*.xml'
+      inputs:
+        testResultsFormat: NUnit
+        testResultsFiles: 'owaspzap/test-results.xml'
+      condition: always()
+  -job: Build and Test eShopOnWeb
+    pool:
+      vmImage: 'windows-latest'
+      
+    variables:
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+      
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        projects: '**/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: Test
+      inputs:
+        command: test
+        projects: '**/UnitTests.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: Publish
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+        zipAfterPublish: True
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+      condition: succeededOrFailed()
