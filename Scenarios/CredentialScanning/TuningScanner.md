@@ -1,5 +1,7 @@
 # Tuning CredScan
 
+When using CredScan on large code bases, you have the option to improve performance through the available configuration options.  Small code bases may not see much impact from changing the defaults.
+
 ## Scanner Performance
 
 There are a number of things that can be done in order to tune the performance of the CredScan tooling. The options in the table below can be used in both the Client executable that can be imported to the Azure DevOps agent and be executed from the Command line or alternatively it can be used with the Installed Azure DevOps Task.
