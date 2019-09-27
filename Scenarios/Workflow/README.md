@@ -43,23 +43,31 @@ If you want to inject specific task for all pipeline on your organization or pro
 Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Scenario Documentation.
 
 ## Configration
+Adding multiple sets of task to accomplish various security scenarios can complicate the feedback look of your CI.  In order to help target feedback, we recommend adding one of two extensions.  The decision on which extension to use comes down to whether you want feedback as new work items or as comments in the PR.  The work item extension is much more mature in that it allows for a flexible experience when adding additional information to the issue that was found.  The PR comments extension can drive a more natural experience where the feedback is intended to help drive resolution within the PR but the extension is somewhat basic as this time because it requires you to come up with some formatted HTML to insert in the PR comment.  We welcome feedback and code contributions to the PR comments extension should you want to help contribute.
 
-## Serial Flow configuration
+* PR comments extension
+
+* Create Work Item Extension
+
+## Serial Flow Configuration
 
 Create multiple jobs then configrue a dependency and condition for each jobs.
 
-If you have Job A, job B, Job C, you need to configure the dependency and condition.
-Job B depends on Job A, Job C depends on JobB, also you can configure the configuration of Job B and C as "Even if a previous job has failed.
+If you have Job A, job B, Job C, you need to configure the dependency and condition.  For example, Job B depends on Job A, and Job C depends on JobB.  In addition, you should configure the `Run this job` setting of Jobs B and C to **Even if a previous job has failed.**
 
 <img src="images/SerialFlowOverview.png" alt="SerialFlow" style="width:800px;">
 
 You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
 
-## Parallel Flow configuration
+## Parallel Flow Configuration
 
-Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.
+This flow creates multiple jobs in Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.
 
 You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).
+
+## Hybrid Flow Configuration
+
+This flow seeks to not touch existing CI but to add a single parallel job that runs all the
 
 ## Tips for the configurations
 
