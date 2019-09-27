@@ -4,7 +4,7 @@ pool:
 
 variables:
   RestoreBuildProjects: '**/*.csproj'
-  TestProjects: '**/*[Tt]ests/*.csproj'
+  TestProjects: '**/*.csproj'
   BuildConfiguration: 'Release'
   SonarCloud: 'YOURSONARCLOUDSERVICEENDPOINT'
   SonarCloudOrganization: 'YOURORG'
