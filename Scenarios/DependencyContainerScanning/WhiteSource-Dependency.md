@@ -50,7 +50,7 @@ Finally, add the other mentioned "CMD" task and configure it to run the scanner
 - Configure the script as follows:
 
 ``` shell
-    java -jar whitesource-fs-agent.jar -c whitesource-fs-agent.config -apiKey <api-key>
+    java -jar whitesource-fs-agent.jar -c <filename>.config -apiKey <api-key>
 ```
 
 *NOTE:* Although the API key can be added to the configuration file added to the source code repo it is recommended that keys of that type be secured. As a best practice adding the API Key to the pipeline/variable configuration offers better control.
