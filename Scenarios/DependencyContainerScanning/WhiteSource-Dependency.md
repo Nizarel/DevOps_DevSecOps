@@ -7,32 +7,32 @@ _If a configuration has already been added to your source skip downloading the t
 ## Minimum configuration details
 
 ``` shell
-
-    #check policies at the end of the scan. The default is to complete the scan and only report in whitesource inventory.
-    #with this option set true we can get feedback into the pipeline and fail the build on best-practice and custom policies.  
+ 
     checkPolicies=true
+    #check policies at the end of the scan. The default is to complete the scan and only report in whitesource inventory.
+    #with this option set true we can get feedback into the pipeline and fail the build on best-practice and custom policies.
     ...
 
-    #ensure that the url matches your WhiteSource provided url with the /agent endpoint specified
     wss.url=https://saas.whitesourcesoftware.com/agent
+    #ensure that the url matches your WhiteSource provided url with the /agent endpoint specified
     ...
 
+    apiKey=
     #The API Key must be provided. It can be explicitly set at runtime, or provided in this config.
     #Privacy of source code is a major deciding factor on location and lean toward setting the apiKey in the pipeline.
-    apiKey=
 
-    #projectName or projectToken is required. Both are not accepted in a single configuration and will cause the scan to fail.
+
     projectName=
-    ...
     projectToken=
+    #projectName or projectToken is required. Both are not accepted in a single configuration and will cause the scan to fail.
 
-    #productName and productToken can both be given, but the requirement is for one or the other.
     productName=
     productVersion=
     productToken=
+    #productName and productToken can both be given, but the requirement is for one or the other.
 
-    #the config requires have 1 (and only 1) include line that defines the patterns of files to scan.
     includes=**/*.dll **/*.cs **/*.nupkg **/*.js
+    #the config requires have 1 (and only 1) include line that defines the patterns of files to scan.
 
 ```
 
