@@ -30,6 +30,10 @@ _If a configuration has already been added to your source skip downloading the t
     productName=
     productVersion=
     productToken=
+
+    #the config requires have 1 (and only 1) include line that defines the patterns of files to scan.
+    includes=**/*.dll **/*.cs **/*.nupkg **/*.js
+
 ```
 
 With the project's whitesourece config set as described above any policy violations will cause the pipeline to fail. We simply need to create a couple of task in the pipeline that run the scanner. Firstly, we will need to download the scanner into our build agent. In a new or existing pipeline agent add 2 task of the type "CMD".
