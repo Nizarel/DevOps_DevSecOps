@@ -67,4 +67,3 @@ With the example configuration above the scanner will check for policies that ap
 
 - Scan is prone to failure related to corrupted downloads of wss-agent possibly related to load on download site.
 - If there are any issues with the whitesource api then pipeline is slowed significantly. A timeout should be set inline with allowable fault tolerance for the pipeline.
-- Checking the "Fail plugin policy check" option on a policy will fail the policy without taking additional actions. For instance no issues will be generated on a policy with action set to "Issue" if the option is checked.
