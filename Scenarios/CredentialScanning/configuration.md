@@ -16,6 +16,12 @@ Once you have installed the extension into the org from the marketplace, you can
 
 ![CredScan basic pipeline](./images/CredScan_Pipeline_Components.png)
 
+**NOTE: Microsoft tenants only** - If you are working in a Microsoft only tenant, you can enforce secrets scan on push with internal credscan version of extesion.  If you are installing the extension using your MSFT account in an AZDO org backed by MSFT Internal AD this is what you get.   once CredScan is installed you can also prevent users from pushing code with credentials to the repo by enabling ```Check for Credentials and Other Secrets``` (_Screenshot Below_)
+
+![Check for Credentials and Other Secrets](./images/Repo_Settings.png)
+
+External AzDo tenants can accomplish the same using [pipeline decorators](https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-pipeline-decorator?view=azure-devops).
+
 ## External Links
 
 - [CredScan Install](https://secdevtools.azurewebsites.net/helpcredscan.html)
