@@ -48,9 +48,9 @@ Adding multiple sets of task to accomplish various security scenarios can compli
 
 The work item extension is much more mature in that it allows for a flexible experience when adding additional information to the issue that was found.  The PR comments extension can drive a more natural experience where the feedback is intended to help drive resolution within the PR but the extension is somewhat basic as this time because it requires you to come up with some formatted HTML to insert in the PR comment.  We welcome feedback and code contributions to the PR comments extension should you want to help contribute.
 
-* [PR comments extension](https://marketplace.visualstudio.com/azuredevops) - This extension is an MVP for creating comments on a pull request from your automatoin.  We welcome feedback and contributions if you see a feature that could be useful.  This extension allows you to insert HTML formatted comments in the pull request.
+* [PR comments extension](https://marketplace.visualstudio.com/items?itemName=CSE-DevOps.create-pr-comment-task) - This extension is an MVP for creating comments on a pull request from your automatoin.  We welcome feedback and contributions if you see a feature that could be useful.  This extension allows you to insert HTML formatted comments in the pull request.  Contact the cse devops team if you would like to contribute.
 
-* [Create Work Item Extension](https://marketplace.visualstudio.com/azuredevops)
+* [Create Work Item Extension](hhttps://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem)
 
 ## Serial Flow Configuration
 
@@ -124,13 +124,13 @@ Finally, set the `outputVariables` to `CWI.Id=System.Id`.  Doing so, enables sub
 
 ### Using PR Comments extension
 
-[Create PR Comment task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment.
+[Create PR Comment Extension](https://marketplace.visualstudio.com/items?itemName=CSE-DevOps.create-pr-comment-task) will create comment as a pull request review comment.
 
 ![Create PR Comment](images/Comment.png)
 
 #### Configuration
 
-Configure comment body and condition. In some case, `CWI.Id` will be Null. Azure Pipe represent Null as ''.  more details in [here](https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline?noredirect=1#comment100347634_56875665).
+Configuring the task involves creating a comment body and optionally setting a condition.  Example below:
 
 ```JSON
 and(failed(), ne(variables['CWI.Id'], ''))
