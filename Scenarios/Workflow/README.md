@@ -21,7 +21,7 @@ For the advanced scenario, we can use PR Bot to suppress false positives and cre
 
 ## WorkFlow patterns
 
-We have developed three options for including DevSecOps scenarios into your applications development workflow.  These options provide flexibility based on not only the desired security analysis but also the resources and time needed to execute them.  Our recommendation for optimal performance is to have an agent pool with parallel job size >= 5.  The hybrid scenario works best with 2-3 parallel jobs and the serial flow is built for the scenario where you only have one agent and CI execution time is not a concern or not addressable.  To adjust the number of parallel jobs, review the documentation [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops).
+We have developed three options for including DevSecOps scenarios into your applications development workflow.  These options provide flexibility based on not only the desired security analysis but also the resources and time needed to execute them.  Our recommendation for optimal performance is to have an agent pool with parallel job size >= 5.  The hybrid scenario works best with 2-3 parallel jobs and the serial flow is built for the scenario where you only have access to one agent and CI execution time is not a concern or not addressable.  To adjust the number of parallel jobs, review the documentation [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops).
 
 <img src="images/WorkFlowType.png" alt="WorkFlowType" style="width:800px;">
 
@@ -37,17 +37,20 @@ If you don't need to execute the serially, you can use the parrllel flow. This c
 
 Hybrid flow is a compromise on parallel jobs where you continue to run CI in its own pipeline but delegate all DevSecOps task to a secondary pipeline.  The benefit of this model is you can apply org policy effectively and reuse the DevSecOps across projects with minimal modifications potentially.  Execution time can very but is generally around 12 minutes in our test scenario.
 
-### Enforce Policy
+### Policy Enforcement
 
-If you want to inject specific task for all pipeline on your organization or project, you can use this strategy.
+If you want to inject specific task for all pipelines in your organization or project, you can use this strategy.
 Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Scenario Documentation.
 
 ## Configration
-Adding multiple sets of task to accomplish various security scenarios can complicate the feedback look of your CI.  In order to help target feedback, we recommend adding one of two extensions.  The decision on which extension to use comes down to whether you want feedback as new work items or as comments in the PR.  The work item extension is much more mature in that it allows for a flexible experience when adding additional information to the issue that was found.  The PR comments extension can drive a more natural experience where the feedback is intended to help drive resolution within the PR but the extension is somewhat basic as this time because it requires you to come up with some formatted HTML to insert in the PR comment.  We welcome feedback and code contributions to the PR comments extension should you want to help contribute.
 
-* PR comments extension
+Adding multiple sets of task to accomplish various security scenarios can complicate the feedback loop of your CI.  In order to help target feedback, we recommend adding one of two extensions.  The decision on which extension to use comes down to whether you want feedback as new work items or as comments in the PR.  It is common practice to put automation results as comments in the PR.  This allows the PR submitter to review feedback as part of the overall conversation and doesn't clutter the work item tracking system.  Use of work items is another option and we support both.  This is a decision for the team to make of what works best for them.
 
-* Create Work Item Extension
+The work item extension is much more mature in that it allows for a flexible experience when adding additional information to the issue that was found.  The PR comments extension can drive a more natural experience where the feedback is intended to help drive resolution within the PR but the extension is somewhat basic as this time because it requires you to come up with some formatted HTML to insert in the PR comment.  We welcome feedback and code contributions to the PR comments extension should you want to help contribute.
+
+* [PR comments extension](https://marketplace.visualstudio.com/azuredevops) - This extension is an MVP for creating comments on a pull request from your automatoin.  We welcome feedback and contributions if you see a feature that could be useful.  This extension allows you to insert HTML formatted comments in the pull request.
+
+* [Create Work Item Extension](https://marketplace.visualstudio.com/azuredevops)
 
 ## Serial Flow Configuration
 
@@ -61,38 +64,35 @@ You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csed
 
 ## Parallel Flow Configuration
 
-This flow creates multiple jobs in Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.
+This flow creates multiple jobs in Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.  When setting up parallel jobs be sure not to set the [dependsOn](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema#job) setting.
 
 You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).
 
 ## Hybrid Flow Configuration
 
-This flow seeks to not touch existing CI but to add a single parallel job that runs all the
+This flow seeks to not touch existing CI but to add a single parallel pipeline that runs all the scenario jobs in that second pipeline.  An example of this pipeline can be found [here](https://csefy19.visualstudio.com/Strategic%20Tech%20Program/_git/DevOps_DevSecOps?path=%2Fpipelines%2FChallenge%204%2FWorkFlow%2FHybrid-CI.yml&version=GBmaster). With the addition of container reference we are also working to make the pen test a standard container that is available for addtion to the hybrid job.  We will update guidance once we have this tested and implemented.
 
-## Tips for the configurations
+## Tips for the configuration
 
-You can refer the Scanners configuration detail on this repo. This document will explain Workflow specific tips for you.
+### Use quality gates when available
 
-### Fail if the quality gate has failed
-
-Scanners have a quality gate. Usually, each task has a future of fail if it doesn't reach the quality gate, however, some of them don't have the future for that.
-SonarCloud is the one. In case of Sonar Cloud, you can use a task.
+Some of the Scanners have a quality gate task that is available for setting thresholds on whether the CI pipeline should pass/fail. SonarCloud is an example where you can set a quality gate in your CI.  Sonar cloud offers code smells for security static analysis and is a good option to consider.  The quality gate however doesn't fail the build by default.  You need to add an extension called build breaker to make this all work.  This works for both SonarCloud/SonarQube scenarios.
 
 * [SonarCloud build breaker](https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonarcloud-buildbreaker)
 
-You can find it for SonarQube as well. For the configuration of the Sonar Cloud pipeline and PR validation, please refer [This](../StaticCodeAnalysis/SonarCloud.md) page.
+For configuration of Sonar Cloud pipeline and PR validation, please refer [Static Code Analysis scenario](../StaticCodeAnalysis/SonarCloud.md).
 
-### Create Work Item
+### Using Create Work Item extension
 
-If you want to create a work item when the scan is failed, you can use Create Work Item task.
+If you want to create a work item when the job has failed, you can use Create Work Item task.  This extension is useful when you want segment CI failures as a static analysis failure might go to a different team member over a dependency or pen test failure.
 
 * [Create Work Item](https://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem)
 
-You can find a sample configuration for the task. For more detail of the configuration, please refer the link above.
+Below is a sample configuration for the task. Note the linkPR value.  Setting this value to true will automatically link the work item to the pull request if the CI was initiated via pull request as part of your [branch policy](https://docs.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops).
 
 ```YAML
 variables:
-  AssignTo: 'Tsuyoshi Ushio <tsushi@microsoft.com>'
+  AssignTo: 'team member <teammember@microsoft.com>'
 
 steps:
 - task: CreateWorkItem@1
@@ -114,43 +114,19 @@ steps:
   condition: failed()
 ```
 
-This task suppress to create a duplicate work item by setting `keyFields` and preventDuplicates. In this example, this task compare the Title and if it is the same, then this task doesn't create a new work item.
-The title incluce the pull request id.
+This task also attempts to suppress the creation of a duplicate work item by `preventDuplicates` to true and setting `keyFields` to a work item field to key duplicate detection off of. In this example, the task compares the work item `Title` field.  A good best practice is to add the pull request ID to the title field as is done in the example above, `Fossa Scan Failed: $(System.PullRequest.PullRequestId)`.  This means a duplicate bug will not be created for the same issue in the same pull request.
+
+<img src="images/prtitle.png" alt="PR ID" style="width:500px;">
 
 `condition` should be `failed` or `Only when a previous task has failed.`
 
-One more tips is please specify the `outputVariables` as `CWI.Id=System.Id`. It enable us to get the WorkItem.Id on the subsequnt task.
+Finally, set the `outputVariables` to `CWI.Id=System.Id`.  Doing so, enables subsequnt task to get the WorkItem Id.
 
-**NOTE:** Currently, this task has a bug that fails when there is a work item that has the same Title name. We have a branch to fix it. However, it is going to be merged soon.
-
-### Create a comment to PR
+### Using PR Comments extension
 
 [Create PR Comment task](https://dev.azure.com/csedevops/DevSecOps/_git/CreatePRCommentTask?path=%2FREADME.md&version=GBfeature%2Fsimplecomment&_a=preview) will create comment as a pull request review comment.
 
 ![Create PR Comment](images/Comment.png)
-
-Since this is an alpha version for internal use, we don't push it to the market place. You can use to follow this.
-
-#### isntall tfx command
-
-Go to [Node CLI for Azure DevOps](https://github.com/Microsoft/tfs-cli) and install the cli.
-
-#### Login your AzureDevOps organization
-
-Get the Personal Access Token of your Azure DevOps, then login it using the cli.
-
-```BASH
-tfx login -t {Your personal access token} -u https://{your organization name}.visualstudio.com/DefaultCollection
-```
-
-#### Upload task
-
-```BASH
-cd Task
-tsc
-(update the task.json version)
-tfx build tasks --task-path .\Task\
-```
 
 #### Configuration
 
