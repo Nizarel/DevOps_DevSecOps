@@ -6,7 +6,7 @@ When selecting third-party components (both commercial and open source), it’s 
 
 - [Aqua Dependency scanning](./Aqua.md)
 - [Dependency Scanning with Sonar Qube](./sonarQube-Dependency.md)
-- [Dependency Scanning with WhiteSource](./Scenarios//WhiteSource-Dependency.md) ([Account Setup Required](./WhiteSource-Setup.md))
+- [Dependency Scanning with WhiteSource](./WhiteSource-Dependency.md) ([Account Setup Required](./WhiteSource-Setup.md))
 
 ## Container Scanning
 
