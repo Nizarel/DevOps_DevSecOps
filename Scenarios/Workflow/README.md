@@ -8,7 +8,7 @@ In the past, where teams were in a waterfall development model, security testing
 
 <img src="images/ShiftLeft.png" alt="Shift Left" style="width:800px;">
 
-Generally, we will seek to shift most of the secnarios around DevSecops into CI that runs as part of pull request automation as it helps:
+Generally, we will seek to shift most of the scenarios around DevSecOps into CI that runs as part of pull request automation as it helps:
 
 * Security Quality Gates integrated with CI
 * It helps alleviate vulnerablity ever making it to the master branch
@@ -17,7 +17,7 @@ Generally, we will seek to shift most of the secnarios around DevSecops into CI 
 
 <img src="images/Overview.png" alt="PR Screen" style="width:1000px;">
 
-For the advanced scenario, we can use PR Bot to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
+For the advanced scenario, we can use [PR Bot](./SecurityBot.md) to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
 
 ## WorkFlow patterns
 
@@ -31,7 +31,7 @@ If you have a flow that you need to execute one by one, use the Serial folow pat
 
 ### Parallel Flow
 
-If you don't need to execute the serially, you can use the parrllel flow. This can greatly reduce execution time to 5-7 minutes.
+If you don't need to execute the tasks serially, you can use the parrllel flow. This can greatly reduce execution time to 5-7 minutes.
 
 ### Hybrid Flow
 
@@ -50,7 +50,7 @@ The work item extension is much more mature in that it allows for a flexible exp
 
 * [PR comments extension](https://marketplace.visualstudio.com/items?itemName=CSE-DevOps.create-pr-comment-task) - This extension is an MVP for creating comments on a pull request from your automatoin.  We welcome feedback and contributions if you see a feature that could be useful.  This extension allows you to insert HTML formatted comments in the pull request.  Contact the cse devops team if you would like to contribute.
 
-* [Create Work Item Extension](hhttps://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem)
+* [Create Work Item Extension](https://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem)
 
 ## Serial Flow Configuration
 
