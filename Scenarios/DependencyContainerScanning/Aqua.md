@@ -53,16 +53,23 @@ Once you have installed the extension, create a pipeline with a Linux based host
 
 The steps that supports this workflow are detailed below:
 
-* Build a target image
-* Login to the Aqua Security registry
-* Pull the scanner image
-* Scan the target image
+* Create the necessary service connections
+* Create a pipeline that:
+  * Build a target image
+  * Login to the Aqua Security registry and pull the Aqua scanner image
+  * Scan the target image
 
 ![CI overview](images/CI.png)
 
+**An example YAML pipeline is available in the pipelines folder [here](../../pipelines/Challenge%202/ContainerScanning/Aqua-CI.yml).**
+
+### Create the service connections
+
+You will need to create 2 [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.  One to your Azure Container Registry and the other to the Aqua Container Registry.  If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.
+
 ### Build a target image
 
-Build your docker image in this task. Don't forget to add a tag to uniquely identify the result of a pipeline execution.  Provide configuration information for your Container Registry by supplying the address to DockerHub or your private Azure Container Registry.
+Build your docker image in this task. Don't forget to add a tag to uniquely identify the result of a pipeline execution.  Best Practice is to use the BuildId as your image tag.  You will need to setup a service connection to your Azure Container Registry. Provide configuration information for your Container Registry by supplying the address to DockerHub or your private Azure Container Registry.
 
 ![Docker build](images/docker-build.png)
 
