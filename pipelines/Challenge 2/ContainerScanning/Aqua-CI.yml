@@ -12,17 +12,18 @@ pool:
 
 variables:
   eShopDockerFile: 'Dockerfile'
-  ACRName: 'YOURACRNAME'
-  AquaServiceConnection: 'YOURAQUASERVICECONNECTIONNAME'
-  AquaImage: 'registry.aquasec.com/scanner:3.5'
-  REPOSITORY: 'eShopOnWeb'
-  AquaManagementConsoleServiceConnection: 'YOURAQUAMAANGMENTSERVICECONNECTIONNAME'
+  ACRConnectionName: 'YOUR_ACR_CONNECTION_NAME'
+  ACRLoginServer: 'YOUR_ACR_LOGIN_SERVER'
+  AquaServiceConnection: 'YOUR_AQUA_SERVICE_CONNECTION_NAME'
+  AquaImage: 'registry.aquasec.com/scanner:4.2'
+  REPOSITORY: 'eshoponweb'
+  AquaManagementConsoleServiceConnection: 'YOUR_AQUA_MAANGMENT_SERVICE_CONNECTION_NAME'
 
 steps:
 - task: Docker@2
   displayName: Build
   inputs:
-    containerRegistry: $(ACRName)
+    containerRegistry: $(ACRConnectionName)
     repository: $(REPOSITORY)
     command: build
     Dockerfile: $(eShopDockerFile)
@@ -42,9 +43,9 @@ steps:
 - task: aquasec.aquasec.showCommits.aquasecScanner@4
   displayName: 'Scan Image'
   inputs:
-    image: '$(ACRNAME)/$(REPOSITORY):$(Build.BuildId)'
+    image: '$(ACRLoginServer)/$(REPOSITORY):$(Build.BuildId)'
     register: true
-    registry: '$(ACRNAME)'
+    registry: '$(ACRConnectionName)'
     connection: $(AquaManagementConsoleServiceConnection)
     caCertificates: true
 
