@@ -36,7 +36,9 @@ _If a configuration has already been added to your source skip downloading the t
 
 ```
 
-With the project's whitesourece config set as described above any policy violations will cause the pipeline to fail. We simply need to create a couple of task in the pipeline that run the scanner. Firstly, we will need to download the scanner into our build agent. In a new or existing pipeline agent add 2 task of the type "CMD".
+With the project's whitesourece config set as described above any policy violations will cause the pipeline to fail. We simply need to create a couple of task in the pipeline that run the scanner. We will start out by adding an appropriate task for making our dependencies availble to whitesource. Although the WhiteSource agent scans package management files we need to restore dependencies to make sure none are missed. For instance, if we are working with dotnet core we would want to preempt running the scan with **dotnet retore**, or in a TypeScript application we would start by running **npm install** on any directories that have package.json dependencies.
+
+Next, we will need to download the scanner into our build agent. In a new or existing pipeline agent add 2 task of the type "CMD".
 
 ![add cmd task](images/add-cmd.png)
 
