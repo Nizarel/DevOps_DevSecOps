@@ -43,6 +43,14 @@ After a scan has been concluded. You will see a collection of results alerting y
 ![Sensitive Data](images/sensitive.png)
 ![Vulnerability](images/vulnerability.png)
 
+## Configuring Assurance Policies
+
+In order to have the correct behaviour in you Azure DevOps pipeline (i.e break a build when vulnerabilities are found) it is important to at the very least configure assurance policies.
+
+In the Aqua dashboard, using the left navigation menu,  click on Policies -> Assurance Policies and Select the Default Image Policy as depicted below:
+
+
+
 ## Configure the Aqua Task in a CI pipeline in Azure DevOps
 
 Navigate to the address below or search for Aqua security in the Azure DevOps Marketplace.
