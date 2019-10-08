@@ -160,7 +160,7 @@ Download the scanner-cli from scanner-cli (Windows).
 
 ### Download and install scanner-cli
 
-* [Version 3.5.0.3 (2019 Jan 14)](https://docs.aquasec.com/v3.5/docs/version-3503)
+* [Windows Scanner CLI Version 4.2](https://download.aquasec.com/windows-scanner/4.2.0/AquaScannerWindowsInstaller.4.2.0.12326.msi)
 
 You will need to provide the installer with the URL of the Aqua DashBoard(on k8s), the Username and password of the Aqua Server when prompted.This can be automated with msiexec if you prefer.
 
