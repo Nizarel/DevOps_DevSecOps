@@ -47,7 +47,7 @@ Add in the step to run the OWASP/ZAP Scanner.
 - task: owaspzap@0
   displayName: 'ZAP Scanner'
   inputs:
-    agressivemode: false
+    aggressivemode: false
     scantype: 'agentScan'
     threshold: 50
     provideCustomContext: false
