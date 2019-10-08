@@ -51,6 +51,10 @@ In the Aqua dashboard, using the left navigation menu,  click on Policies -> Ass
 
 ![Configure Assurance Policy](images/configure-assurance-policy.png)
 
+In the **Controls** sub-menu, select **Vulnerability Severity** and decide which level level is in-line with your policy.
+
+![Configure Assurance Policy](images/configure-assurance-policy2.png)
+
 ## Configure the Aqua Task in a CI pipeline in Azure DevOps
 
 Navigate to the address below or search for Aqua security in the Azure DevOps Marketplace.
