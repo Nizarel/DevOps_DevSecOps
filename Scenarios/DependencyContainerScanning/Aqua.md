@@ -2,6 +2,8 @@
 
 ## Install Aqua on AKS
 
+If you are not using the Azure Hosted Marketplace Virtual Machine for your Aqua Server environment. You can optionally install Aqua directly into a Kubernetes environment.
+
 Instructions [here](./InstallAquaOnAKS.md)
 
 ## View the dashboard
@@ -12,7 +14,7 @@ To view the administrator dashboard, from a browser window,navigate to  `http://
 
 This token can be retrieved from <https://my.aquasec.com> and pasted in the area provided on this screen.
 
-![my.aquqsec.com token](images/token2.png)
+![my.aquasec.com token](images/token2.png)
 
 The Aqua dashboard will be displayed which will provide you with configuration options for your instance.
 
@@ -45,7 +47,7 @@ After a scan has been concluded. You will see a collection of results alerting y
 
 ## Configuring Assurance Policies
 
-You wiil likely notice that even though vulnerabilities are found, the Image is reflected as "Approved". In order to have the correct behavior in your Azure DevOps pipeline (i.e break a build when vulnerabilities are found) it is important, to at the very least configure assurance policies.
+You will likely notice that even though vulnerabilities are found, the Image is reflected as "Approved". In order to have the correct behavior in your Azure DevOps pipeline (i.e break a build when vulnerabilities are found) it is important, to at the very least configure assurance policies.
 
 In the Aqua dashboard, using the left navigation menu,  click on Policies -> Assurance Policies and Select the Default Image Policy as depicted below:
 
@@ -61,13 +63,13 @@ Navigate to the address below or search for Aqua security in the Azure DevOps Ma
 
  [Container Security](https://marketplace.visualstudio.com/items?itemName=aquasec.aquasec)
 
-Once you have installed the extension, create a pipeline with a Linux based hosted agent. e.g. Hosted Ubuntu 1604.
+Once you have installed the extension, create a pipeline with a **Linux based** hosted agent. e.g. Hosted Ubuntu 1604.
 
 The steps that supports this workflow are detailed below:
 
 * Create the necessary service connections
 * Create a pipeline that:
-  * Build a target image
+  * Builds a target image
   * Login to the Aqua Security registry and pull the Aqua scanner image
   * Scan the target image
 
@@ -77,7 +79,23 @@ The steps that supports this workflow are detailed below:
 
 ### Create the service connections
 
-You will need to create 2 [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.  One to your Azure Container Registry and the other to the Aqua Container Registry.  If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.
+You will need to create three (3) [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.
+
+One to your **Azure Container Registry** (So you can push images that hav been scanned)
+
+![Create ACR Docker Service Connection](images/service-conn-acr.png)
+
+The second to the **Aqua Container Registry** (So you can pull the latest scanner image)
+
+![Create Aqua Docker Service Connection](images/service-conn-aquaregistry.png)
+
+The third to your **Aqua Management Console** (So the CI pipeline can update the console with Scan Results)
+
+![Create Generic Service Connection to Management Console](images/service-conn-aquamgtconsole.png)
+
+If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.
+
+
 
 ### Build a target image
 
