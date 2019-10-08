@@ -6,7 +6,7 @@ Pull request are a central activity in adopting Git and Agile based workflows th
 
 In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/ staging phases of the development lifecycle. The concept of shifting left is to move the security testing eariler stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting task left and earlier in the cycle.
 
-<img src="images/ShiftLeft.png" alt="Shift Left" style="width:800px;">
+![Shift Left](images/ShiftLeft.png =800x)
 
 Generally, we will seek to shift most of the scenarios around DevSecOps into CI that runs as part of pull request automation as it helps:
 
@@ -15,7 +15,7 @@ Generally, we will seek to shift most of the scenarios around DevSecOps into CI 
 * As a developer, we want to holistically see vulnerablity reports in one place
 * Developers can deliberately suppress false positives (Optional) and have those decisions as part of PR history
 
-<img src="images/Overview.png" alt="PR Screen" style="width:1000px;">
+![PR Screen](images/Overview.png =1000x)
 
 For the advanced scenario, we can use [PR Bot](./SecurityBot.md) to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
 
@@ -23,7 +23,7 @@ For the advanced scenario, we can use [PR Bot](./SecurityBot.md) to suppress fal
 
 We have developed three options for including DevSecOps scenarios into your applications development workflow.  These options provide flexibility based on not only the desired security analysis but also the resources and time needed to execute them.  Our recommendation for optimal performance is to have an agent pool with parallel job size >= 5.  The hybrid scenario works best with 2-3 parallel jobs and the serial flow is built for the scenario where you only have access to one agent and CI execution time is not a concern or not addressable.  To adjust the number of parallel jobs, review the documentation [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops).
 
-<img src="images/WorkFlowType.png" alt="WorkFlowType" style="width:800px;">
+![WorkFlowType](images/WorkFlowType.png =800x)
 
 ### Serial Flow
 
@@ -58,7 +58,7 @@ Create multiple jobs then configrue a dependency and condition for each jobs.
 
 If you have Job A, job B, Job C, you need to configure the dependency and condition.  For example, Job B depends on Job A, and Job C depends on JobB.  In addition, you should configure the `Run this job` setting of Jobs B and C to **Even if a previous job has failed.**
 
-<img src="images/SerialFlowOverview.png" alt="SerialFlow" style="width:800px;">
+![SerialFlow](images/SerialFlowOverview.png =800x)
 
 You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
 
@@ -116,7 +116,7 @@ steps:
 
 This task also attempts to suppress the creation of a duplicate work item by `preventDuplicates` to true and setting `keyFields` to a work item field to key duplicate detection off of. In this example, the task compares the work item `Title` field.  A good best practice is to add the pull request ID to the title field as is done in the example above, `Fossa Scan Failed: $(System.PullRequest.PullRequestId)`.  This means a duplicate bug will not be created for the same issue in the same pull request.
 
-<img src="images/prtitle.png" alt="PR ID" style="width:500px;">
+![PR ID](images/prtitle.png =500x)
 
 `condition` should be `failed` or `Only when a previous task has failed.`
 
