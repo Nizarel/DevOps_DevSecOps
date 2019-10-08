@@ -45,11 +45,11 @@ After a scan has been concluded. You will see a collection of results alerting y
 
 ## Configuring Assurance Policies
 
-In order to have the correct behaviour in you Azure DevOps pipeline (i.e break a build when vulnerabilities are found) it is important to at the very least configure assurance policies.
+You wiil likely notice that even though vulnerabilities are found, the Image is reflected as "Approved". In order to have the correct behavior in your Azure DevOps pipeline (i.e break a build when vulnerabilities are found) it is important, to at the very least configure assurance policies.
 
 In the Aqua dashboard, using the left navigation menu,  click on Policies -> Assurance Policies and Select the Default Image Policy as depicted below:
 
-
+![Configure Assurance Policy](images/configure-assurance-policy.png)
 
 ## Configure the Aqua Task in a CI pipeline in Azure DevOps
 
