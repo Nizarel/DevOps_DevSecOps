@@ -2,7 +2,7 @@
 
 With a White Source [account setup](./WhiteSource-Setup.md) we need to add a configuration file to the source code that will be associated with the project. This will need to be done for each repo.
 
-_If a configuration has already been added to your source skip downloading the template and review the configuration as indicated below._ A template configuration for WhiteSource can be found [here](https://s3.amazonaws.com/unified-agent/wss-unified-agent.config) and will need to have several settings altered before being committed to the repository.
+_If a configuration has already been added to your source skip downloading the template and review the configuration as indicated below._ A template configuration for WhiteSource can be found [here](https://s3.amazonaws.com/unified-agent/wss-unified-agent.config) and will need to have several settings altered before being committed to the repository.  To retrieve the api key, navigate to the **Integrate** tab in your whitesource organization.
 
 ## Minimum configuration details
 

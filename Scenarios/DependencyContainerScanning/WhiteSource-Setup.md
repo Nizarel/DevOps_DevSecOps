@@ -38,9 +38,7 @@ To make full use of the scanner we can produce generate work items directly into
 ![admin](images/ws-setup.admin-page.png)
 
 From the Issue Tracker Settings page the Work Items URL and Creds must be provided.  
-*NOTE* To add issues to an Azure DevOps Board you will need a link similar to older VSTS links. This can be accomplished by appending your Azure DevOps organization name to the ".visualstudio.com" domain. 
-
-> https://_orgname_.visualstudio.com
+*NOTE* To add issues to an Azure DevOps Board you will need to create a PAT and give whitesource access to your org/project.  Instructions **[here](https://whitesource.atlassian.net/wiki/spaces/WD/pages/33882353/Issue+Tracker+Integration#IssueTrackerIntegration-WorkItemsIntegration)**.
 
 ![work items](images/ws-setup.work-item-config.png)
 

@@ -73,15 +73,15 @@ The steps that supports this workflow are detailed below:
   * Login to the Aqua Security registry and pull the Aqua scanner image
   * Scan the target image
 
-![CI overview](images/CI.png)
-
 **An example YAML pipeline is available in the pipelines folder [here](../../pipelines/Challenge%202/ContainerScanning/Aqua-CI.yml).**
+
+![CI overview](images/CI.png)
 
 ### Create the service connections
 
 You will need to create three (3) [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.
 
-One to your **Azure Container Registry** (So you can push images that hav been scanned)
+One to your **Azure Container Registry** (So you can push images that have been scanned).  **NOTE If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.**
 
 ![Create ACR Docker Service Connection](images/service-conn-acr.png)
 
@@ -92,48 +92,6 @@ The second to the **Aqua Container Registry** (So you can pull the latest scanne
 The third to your **Aqua Management Console** (So the CI pipeline can update the console with Scan Results)
 
 ![Create Generic Service Connection to Management Console](images/service-conn-aquamgtconsole.png)
-
-If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.
-
-
-
-### Build a target image
-
-Build your docker image in this task. Don't forget to add a tag to uniquely identify the result of a pipeline execution.  Best Practice is to use the BuildId as your image tag.  You will need to setup a service connection to your Azure Container Registry. Provide configuration information for your Container Registry by supplying the address to DockerHub or your private Azure Container Registry.
-
-![Docker build](images/docker-build.png)
-
-If you have not pre-configured the service connection to your container registry, click manage link and configure the host,username and password.
-
-![Service Connection (Azure Container Registry)](images/ContainerRegistrySettings.png)
-
-![Azure Portal (Azure Container Registry)](images/containerRegistry.png)
-
-### Login to the Aqua Security registry
-
-Supply the log in information for the Aqua Security registry
-
-![Docker login](images/docker-login.png)
-
- If you have not pre-configured the service connection to the Aqua Security registry, click the "Manage" link and follow the configuration instructions, remembering to provide the username/password that you use to log into <https://my.aquqsec.com>.
-
- ![Aqua registry](images/ContainerRegistrySettingsForAqua.png)
-
-### Pull the scanner image
-
-Download the scanner image from Aqua registry. (The Aqua Security task will use this image to scan the target image for vulnerabilities).
-
-![Download the scanner](images/docker-pull.png)
-
-### Scan the target image using the Aqua Security Scanning Task
-
-Please note that the default configuration of the Docker task will append the Azure Container Registry hostname as a prefix to the image name. It is also prudent to insure that an a unique image tag is provided. It is therefore important to match this when configuring the Aqua Security Scanning Task.
-
-![Image scan](images/docker-aqua-scan.png)
-
-If you have not pre-configured the service connection to the Aqua Management Consol, click "Manage" and provide the configuration information for your Aqua management consol.
-
-![Aqua management console connection](images/aqua-management-console-connection-settings.png)
 
 ## Security Vulnerability Reports
 
