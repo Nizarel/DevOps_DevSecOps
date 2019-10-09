@@ -11,6 +11,7 @@ When selecting third-party components (both commercial and open source), it’s 
 ## Container Scanning
 
 - [Aqua Container scanning](./Aqua.md)
+- [Sample Aqua yml pipeline](../../pipelines/ContainerScanning/Aqua-CI.yml)
 - [Container Scanning with WhiteSource](./WhiteSource-ContainerScanning.md) ([Account Setup Required](./WhiteSource-Setup.md))
 
 ## License Scanning

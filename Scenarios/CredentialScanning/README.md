@@ -11,3 +11,4 @@
 - [Tuning CredScan](./TuningScanner.md)
 - [Adding Suppressions](./Suppressions.md)
 - [Implementing Custom Searchers for CredScan](./CredScanSearcher.md)
+- [Sample Credscan yml pipeline](../../pipelines/CredScanning/CredScan.yml)

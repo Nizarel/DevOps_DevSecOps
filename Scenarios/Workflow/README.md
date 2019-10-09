@@ -70,7 +70,7 @@ You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/cs
 
 ## Hybrid Flow Configuration
 
-This flow seeks to not touch existing CI but to add a single parallel pipeline that runs all the scenario jobs in that second pipeline.  An example of this pipeline can be found [here](https://csefy19.visualstudio.com/Strategic%20Tech%20Program/_git/DevOps_DevSecOps?path=%2Fpipelines%2FChallenge%204%2FWorkFlow%2FHybrid-CI.yml&version=GBmaster). With the addition of container reference we are also working to make the pen test a standard container that is available for addtion to the hybrid job.  We will update guidance once we have this tested and implemented.
+This flow seeks to not touch existing CI but to add a single parallel pipeline that runs all the scenario jobs in that second pipeline.  An example of this pipeline can be found [here](../../pipelines/WorkFlow/Hybrid-CI.yml). With the addition of container reference we are also working to make the pen test a standard container that is available for addtion to the hybrid job.  We will update guidance once we have this tested and implemented.
 
 ## Tips for the configuration
 
