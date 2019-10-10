@@ -2,13 +2,14 @@
 
 With a White Source [account setup](./WhiteSource-Setup.md) we need to add a configuration file to the source code that will be associated with the project. This will need to be done for each repo.
 
-_If a configuration has already been added to your source skip downloading the template and review the configuration as indicated below._ A template configuration for WhiteSource can be found [here](https://s3.amazonaws.com/unified-agent/wss-unified-agent.config) and will need to have several settings altered before being committed to the repository.  To retrieve the api key, navigate to the **Integrate** tab in your whitesource organization.
+_If a configuration has already been added to your source skip downloading the template and review the configuration as indicated below._ A template configuration for WhiteSource can be found [here](https://s3.amazonaws.com/unified-agent/wss-unified-agent.config) and will need to have several settings altered before being committed to the repository.  To retrieve the api key, navigate to the **Integrate** tab in your whitesource organization.  Documentation for Whitesource config file settings can be found [here](https://whitesource.atlassian.net/wiki/spaces/WD/pages/489160834/Unified+Agent+Configuration+File+Parameters).
 
 ## Minimum configuration details
 
 ``` shell
- 
+
     checkPolicies=true
+    forceCheckAllDependencies=true
     #check policies at the end of the scan. The default is to complete the scan and only report in whitesource inventory.
     #with this option set true we can get feedback into the pipeline and fail the build on best-practice and custom policies.
     ...
@@ -33,6 +34,17 @@ _If a configuration has already been added to your source skip downloading the t
 
     includes=**/*.dll **/*.cs **/*.nupkg **/*.js
     #the config requires have 1 (and only 1) include line that defines the patterns of files to scan.
+
+    nuget.resolvePackagesConfigFiles=false
+    nuget.resolveCsProjFiles=true
+    nuget.resolveDependencies=true
+    nuget.restoreDependencies=true
+    nuget.preferredEnvironment=dotnet
+    nuget.packagesDirectory=
+    nuget.ignoreSourceFiles=false
+    nuget.runPreStep=true
+    nuget.resolveNuspecFiles=false
+    #These are recommended settings for .net core projects.
 
 ```
 
