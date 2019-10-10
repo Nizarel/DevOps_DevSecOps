@@ -9,7 +9,8 @@ A good example of such a task would be running a malware detector on every pipel
 ## When to run decorators
 
 Decorators can be run either before or after a regular pipeline. The contributions section of the vss-extension.json file needs to contain the following for pre-processing: 
- 
+
+```json 
 "targets": [
                 "ms.azure-pipelines-agent-job.pre-job-tasks"
             ]
@@ -19,14 +20,11 @@ and conversely for post-processing:
 "targets": [
                 "ms.azure-pipelines-agent-job.post-job-tasks"
             ] .
-
-
-
+```
 For more information about [creating and publishing Azure DevOps extensions](https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-build-task?toc=%2Fazure%2Fdevops%2Fextend%2Ftoc.json&bc=%2Fazure%2Fdevops%2Fextend%2Fbreadcrumb%2Ftoc.json&view=azure-devops) and  creating a [pipeline decorator](https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-pipeline-decorator?view=azure-devops) follow the aforementioned hyperlinks.
 
-An example that demonstrates how to inject a credential scanning and reporting into each pipeline can be found in the [CSE DevSecOps Repo](https://dev.azure.com/csedevops/DevSecOps/_git/SecOps_PipelineDecorator)
+** An example that demonstrates how to inject a credential scanning and reporting into each pipeline can be found in the [CSE DevSecOps Repo](https://dev.azure.com/csedevops/DevSecOps/_git/SecOps_PipelineDecorator) **
  
-
  ## Installation
 
  To [install](https://docs.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops) an Azure DevOps Extension to your Azure DevOps Organisation. You will need to be an organization admin or you may have to request the assistance of one.
