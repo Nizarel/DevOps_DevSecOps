@@ -1,0 +1,14 @@
+trigger: none
+pr: master
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+
+- script: 'curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar'
+  displayName: 'Download WS Agent'
+
+- script: 'java -jar whitesource-fs-agent.jar -c <PATH_TO_AGENT_CONFIG> -apiKey <YOUR_API_KEY>'
+  displayName: 'Run Whitesource agent'
