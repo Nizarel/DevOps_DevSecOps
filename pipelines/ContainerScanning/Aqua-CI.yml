@@ -1,22 +1,16 @@
-resources:
-  repositories:
-  - repository: eShopOnWeb
-    type: git
-    name: eShopOnWeb
-
-trigger:
-- master
+trigger: none
+pr: master
 
 pool:
   name: Hosted Ubuntu 1604
 
 variables:
-  eShopDockerFile: 'Dockerfile'
+  pathToDockerFile: 'Dockerfile'
   ACRConnectionName: 'YOUR_ACR_CONNECTION_NAME'
   ACRLoginServer: 'YOUR_ACR_LOGIN_SERVER'
   AquaServiceConnection: 'YOUR_AQUA_SERVICE_CONNECTION_NAME'
   AquaImage: 'registry.aquasec.com/scanner:4.2'
-  REPOSITORY: 'eshoponweb'
+  REPOSITORY: 'YOUR_REPO_NAME'
   AquaManagementConsoleServiceConnection: 'YOUR_AQUA_MAANGMENT_SERVICE_CONNECTION_NAME'
 
 steps:
@@ -26,7 +20,7 @@ steps:
     containerRegistry: $(ACRConnectionName)
     repository: $(REPOSITORY)
     command: build
-    Dockerfile: $(eShopDockerFile)
+    Dockerfile: $(pathToDockerFile)
 
 - task: Docker@2
   displayName: Login

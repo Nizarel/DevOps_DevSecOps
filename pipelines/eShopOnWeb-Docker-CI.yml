@@ -2,8 +2,7 @@
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- master
+trigger: none
 
 pool:
   vmImage: 'ubuntu-16.04'
@@ -19,6 +18,6 @@ steps:
   inputs:
     script: |
       docker login -u $(registryName) -p $(registryPassword) $(registryUrl)
-      docker build . -t $(registryUrl)/eshoponweb:$(Build.BuildId) 
+      docker build . -t $(registryUrl)/eshoponweb:$(Build.BuildId)
       docker tag $(registryUrl)/eshoponweb:$(Build.BuildId) $(registryUrl)/eshoponweb:latest
       docker push $(registryUrl)/eshoponweb

@@ -1,6 +1,6 @@
 
-trigger:
-- master
+trigger: none
+pr: master
 
 pool:
   name: Hosted VS2017

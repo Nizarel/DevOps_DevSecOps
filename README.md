@@ -16,7 +16,7 @@ The documentation in this repository is meant to guide engineers through adding 
 
 ## Licensing
 
-Please note that some of the components used in these scenarios are third party components that may require licensing from the product vendor. Unless expressly stated otherwise, none of the third party products used here are an endorsement, they serve merely as examples. Independent evaluation should be conducted to find the product mix that supports your goals and meets your budget. Should you require a license for the purposes of conducting a customer hackathon or for demonstration, please refer to  [Component Licensing Information ](./Scenarios/ComponentLicensingInfo/README.md)
+Please note that some of the components used in these scenarios are third party components that may require licensing from the product vendor. Unless expressly stated otherwise, none of the third party products used here are an endorsement, they serve merely as examples. Independent evaluation should be conducted to find the product mix that supports your goals and meets your budget. Should you require a license for the purposes of conducting a customer hackathon or for demonstration, please refer to  [Component Licensing Information](./Scenarios/ComponentLicensingInfo/README.md)
 
 ## Code Contributions
 
@@ -24,4 +24,4 @@ Please note that some of the components used in these scenarios are third party 
 
 ## How To Contribute
 
-### TODO: Explain how other users and developers can contribute to make your code better.
+### TODO: Explain how other users and developers can contribute to make your code better
