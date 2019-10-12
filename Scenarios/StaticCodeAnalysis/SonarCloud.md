@@ -37,29 +37,7 @@ then they can add a comment like '@workitem' then a work item ID created by the 
 ### Fail on CI without Pull Request
 
 SonarCloud recommends us to use PR validation. However, you might want to fail the CI by Quality Gates.
-In this case, you need to create a custom PowerShell task **after** the SonarCloud tasks. For example, the following checks the SonarCloud API to query
-the quality gate associated with a specific project key, and fail accordingly:
-
-```powershell
-$token = [System.Text.Encoding]::UTF8.GetBytes($env:SONAR_TOKEN_ENV_VAR + ":")
-$base64 = [System.Convert]::ToBase64String($token)
-
-$basicAuth = [string]::Format("Basic {0}", $base64)
-$headers = @{ Authorization = $basicAuth }
-
-$result = Invoke-RestMethod -Method Get -Uri http://sonarcloud.io/api/qualitygates/project_status?projectKey=MY_PROJECT_KEY_GOES_HERE -Headers $headers
-$result | ConvertTo-Json | Write-Host
-
-if ($result.projectStatus.status -eq "OK") {
-    Write-Host "Quality Gate Succeeded"
-} else {
-    Write-Error "Quality Gate Failed"
-    exit 1
-}
-```
-
-A sample implementation can be found at
-<https://dev.azure.com/csedevops/devsecopshack/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=46>
+In this case, you can use [SonarQube build breaker](https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonar-buildbreaker)
 
 ### Mono Project Scanning
 
