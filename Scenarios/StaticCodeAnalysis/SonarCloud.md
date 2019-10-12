@@ -12,6 +12,8 @@ This documentation will help you to configure SonarCloud with Pull Request valid
 
 * [Integrate Visual Studio Team Services with SonarCloud](https://docs.microsoft.com/en-us/labs/devops/sonarcloudlab/)
 
+* If you also want to enable code coverage reporting, you will need to review and implement the guidance in this [article](https://writeabout.net/2019/04/27/net-core-code-coverage-done-right/).
+
 ### Tips and Recommendataions
 
 ### Eliminate False Positives
