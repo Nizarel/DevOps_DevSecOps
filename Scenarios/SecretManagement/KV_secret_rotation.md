@@ -49,6 +49,7 @@ After performing the general steps 1, 2, 3
     $keyVaultName = 'YOURKEYVAULTNAME'
     $keyVaultMasterSecretKey = 'StorageAccountPrimaryKey'
     $keyVaultSecondarySecretKey = 'StorageAccountSecondaryKey'
+    $KeyVaultMasterConnString = 'StorageAccountPrimaryConnString'
 
     # Re-generate the storage account primary key
     New-AzureRmStorageAccountKey -ResourceGroupName $resourceGroup -Name $storageAccountName -KeyName "key1"
@@ -61,6 +62,11 @@ After performing the general steps 1, 2, 3
 
     # Update the Secret Value in the Key Vault
     Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultMasterSecretKey -SecretValue $secureValue
+
+    # Update the storage account master connection string in the Key Vault
+    $masterConnString ="DefaultEndpointsProtocol=https;AccountName="+$storageAccountName+";AccountKey="+$storageAccountMasterKey+";EndpointSuffix=core.windows.net"
+    $secureMasterConnString = ConvertTo-SecureString $masterConnString -AsPlainText -Force
+    Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $KeyVaultMasterConnString -SecretValue $secureMasterConnString
 
     Start-Sleep -s 240
 
