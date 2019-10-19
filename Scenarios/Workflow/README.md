@@ -1,10 +1,10 @@
 # DevSecOps Workflow
 
-Pull request are a central activity in adopting Git and Agile based workflows that leverage Continous Integration (CI).  DevSecOps seeks to shift security left and introduces several scenarios/processes/tools needed to have broad security coverage. These additional scenarios during CI can have an impact on developer productivity.  This scenario seeks to improve/optimize workflow during Pull Request.
+Pull requests are a central activity in adopting Git and Agile based workflows that leverage Continous Integration (CI).  DevSecOps seeks to shift security left and introduces several scenarios/processes/tools needed to have broad security coverage. These additional scenarios during CI can have an impact on developer productivity.  This scenario seeks to improve/optimize workflow during Pull Requests.
 
 ## Shift left (conceptually)
 
-In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/ staging phases of the development lifecycle. The concept of shifting left is to move the security testing eariler stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting task left and earlier in the cycle.
+In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/ staging phases of the development lifecycle. The concept of shifting left is to move the security testing eariler stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting tasks left and earlier in the cycle.
 
 ![Shift Left](images/ShiftLeft.png)
 
@@ -17,7 +17,7 @@ Generally, we will seek to shift most of the scenarios around DevSecOps into CI 
 
 ![PR Screen](images/Overview.png)
 
-For the advanced scenario, we can use [PR Bot](./SecurityBot.md) to suppress false positives and create advanced work item integration. You can refer the PR bot strategy on the other document.
+For an advanced scenario, we can use a [PR Bot](./SecurityBot.md) to suppress false positives and create advanced work item integration. You can refer the PR bot strategy in this [document](./SecurityBot.md).
 
 ## WorkFlow patterns
 
@@ -42,7 +42,7 @@ Hybrid flow is a compromise on parallel jobs where you continue to run CI in its
 If you want to inject specific task for all pipelines in your organization or project, you can use this strategy.
 Please refer the [Enforce policy](../EnforceOrgSecurityPolicy/README.md) Scenario Documentation.
 
-## Configration
+## Configuration
 
 Adding multiple sets of task to accomplish various security scenarios can complicate the feedback loop of your CI.  In order to help target feedback, we recommend adding one of two extensions.  The decision on which extension to use comes down to whether you want feedback as new work items or as comments in the PR.  It is common practice to put automation results as comments in the PR.  This allows the PR submitter to review feedback as part of the overall conversation and doesn't clutter the work item tracking system.  Use of work items is another option and we support both.  This is a decision for the team to make of what works best for them.
 
@@ -60,13 +60,13 @@ If you have Job A, job B, Job C, you need to configure the dependency and condit
 
 ![SerialFlow](images/SerialFlowOverview.png)
 
-You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).
+**You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).**
 
 ## Parallel Flow Configuration
 
-This flow creates multiple jobs in Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.  When setting up parallel jobs be sure not to set the [dependsOn](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema#job) setting.
+This flow creates multiple jobs in Create multiple jobs. Jobs run in parallel in default.  We recommend having an agent pool with a minimum size of 4 to get the best performance out of a parellel job workflow.  This can potentially give the best performance and feedback to developers.  **When setting up parallel jobs be sure not to set the [dependsOn](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema#job) setting.**
 
-You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).
+**You will find a Parallel Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=71).**
 
 ## Hybrid Flow Configuration
 
