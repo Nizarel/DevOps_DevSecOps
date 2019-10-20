@@ -5,7 +5,7 @@
 ## OWASP ZAP-Scanner Extension
 
 - Additional Steps may be required for [self-hosted agents](./Self_Hosted.md).
-- Requires installation of the [OWASP/Zap-Scanner Extension](https://marketplace.visualstudio.com/items?itemName=CSE-DevSecOps.zap-scanner)
+- Requires installation of the [OWASP/Zap-Scanner Extension](https://marketplace.visualstudio.com/items?itemName=CSE-DevOps.zap-scanner)
 
 - _Currently a private extension - Must be shared directly from the **CSE-DevOps Team**._
 
