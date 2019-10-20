@@ -6,17 +6,13 @@ If you are not using the Azure Hosted Marketplace Virtual Machine for your Aqua 
 
 Instructions [here](./InstallAquaOnAKS.md)
 
-## View the dashboard
+## Logon to Aqua Instance
 
-To view the administrator dashboard, from a browser window,navigate to  `http://<dns of public IP in Aqua RG>:8080` and provide the license token for your environment as depicted below.
+To view the administrator dashboard, from a browser window,navigate to  `http://<dns of public IP in Aqua RG>:8080` and logon to you Aqua instance using the credentials for your Aquasec Management Console
 
-![Token input](images/token.png)
+![](images/aqua-login.png)
 
-This token can be retrieved from <https://my.aquasec.com> and pasted in the area provided on this screen.
-
-![my.aquasec.com token](images/token2.png)
-
-The Aqua dashboard will be displayed which will provide you with configuration options for your instance.
+Once successfully logged on. The Aqua dashboard will be displayed which will provide you with configuration options for your instance.
 
 ### Configure Azure Container Registry integration
 
@@ -79,17 +75,17 @@ The steps that supports this workflow are detailed below:
 
 ### Create the service connections
 
-You will need to create three (3) [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.
+You will need to create **three (3)** [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) in Azure DevOps.
 
-One to your **Azure Container Registry** (So you can push images that have been scanned).  **NOTE If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.**
+- One to your **Azure Container Registry** (So you can push images that have been scanned).  **NOTE If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.**
 
-![Create ACR Docker Service Connection](images/service-conn-acr.png)
+![Create ACR Docker Service Connection](images/service-conn-acr-other.png)
 
-The second to the **Aqua Container Registry** (So you can pull the latest scanner image)
+- The second to the **Aqua Container Registry** (So you can pull the latest scanner image)
 
 ![Create Aqua Docker Service Connection](images/service-conn-aquaregistry.png)
 
-The third to your **Aqua Management Console** (So the CI pipeline can update the console with Scan Results)
+- The third to your **Aqua Management Console** (So the CI pipeline can update the console with Scan Results)
 
 ![Create Generic Service Connection to Management Console](images/service-conn-aquamgtconsole.png)
 
@@ -122,7 +118,7 @@ Download the scanner-cli from scanner-cli (Windows).
 
 You will need to provide the installer with the URL of the Aqua DashBoard(on k8s), the Username and password of the Aqua Server when prompted.This can be automated with msiexec if you prefer.
 
-### Integratinq with the Azure DevOps Pipeline
+### Integrating with the Azure DevOps Pipeline
 
 Configure the Task in the same way that it is configured for Linux image scans, expect in the case of the settings depicted below. Bear in mind that you do not need to pull the scanner docker since it may already be installed.
 
