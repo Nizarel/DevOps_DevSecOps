@@ -1,6 +1,6 @@
 # SonarCloud
 
-SonarCloud offers static code analysis with their cloud-based software as a service product. It is easy to set up a CI/CD pipeline with PR validation with SonarCloud in Azure DevOps.
+SonarCloud offers static code analysis with their cloud-based software as a service product. A CI pipeline for Azure DevOps can be found [here](../../pipelines/StaticCodeAnalysis/SonarCloud.yml).
 
 SonarCloud recommends that the workflow uses pull requests to control changes, which can be configured to validate the code.
 
@@ -14,13 +14,27 @@ This documentation will help you to configure SonarCloud with Pull Request valid
 
 * If you also want to enable code coverage reporting, you will need to review and implement the guidance in this [article](https://writeabout.net/2019/04/27/net-core-code-coverage-done-right/).
 
-### Tips and Recommendataions
+## Tips and Recommendataions
 
-### Eliminate False Positives
+### Setting up Quality Gate
 
-SonarCloud has a feature to report false positives. It also has a feature to bulk report on the false positives.
-The false positive report is inherited by the master after the PR is merged. One issue of this workflow is that
+Sonar Cloud has a feature called Quality Gates. You can configure a threshold to fail the PR if it doesn't meet the quality you configured.  To configure the quality gate, go to your organization in SonarCloud > Quality Gate. Pick the condition that meets the goals of your organization. We recommend you test your pipeline for both success failure conditions to ensure it is working as expected.
+
+![Quality Gate](images/qualitygate.png =800x500)
+
+Then go to your organization > project > Administrator > Quality Gate to pick the one you have configured.
+
+![Quality Gate Configuration](images/qualitygateconfig.png =800x500)
+
+For more details see [Quality Gates](https://sonarcloud.io/documentation/user-guide/quality-gates/).
+
+### Eliminate False-Positives
+
+SonarCloud has a feature to report false-positives. It also has a feature to bulk report on the false-positives.
+The false-positive report is inherited by the master after the PR is merged. One issue of this workflow is that
 only the Administrator role can report the false positives.
+
+The other way to suppress false positive is just add `//NOSONAR` comment on your code. For more detail, refer to [FAQ](https://sonarcloud.io/documentation/faq/).
 
 While a developer can see the false positive on the pull request, they cannot themselves report a false positive on the PR.
 This means a developer would need to ask the Administrator to report false positives; this is possible room for future improvement.
