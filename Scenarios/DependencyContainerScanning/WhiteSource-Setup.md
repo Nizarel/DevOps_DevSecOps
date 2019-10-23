@@ -44,4 +44,11 @@ From the Issue Tracker Settings page the Work Items URL and Creds must be provid
 
 The final piece of adding work items is to add a policy with the Match set to "By Security Vulnerability" with an appropirate level for your intented failure level and the action set to "Issue". For "Tracker Type" select "Work Items". You should see a list of the available projects to record the issues in based on the credentials provided during the Issue Tracker Settings configuration. You will also need to configure the Issue Type and Assignee on the board. Make sure to save the policy after you are redirected back to the Policy page!
 
+To confgure the policy (can be set at project or product level):
+
+1. Navigate to Whitesource portal
+2. Click *Products* or *Project* and select your *product* or *project*
+3. Click *Policies* button
+4. Click *Add Policy*
+
 ![add issues](images/ws-setup.add-issues-policy.png)

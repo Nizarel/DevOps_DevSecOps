@@ -20,7 +20,7 @@ _If a configuration has already been added to your source skip downloading the t
 
     apiKey=
     #The API Key must be provided. It can be explicitly set at runtime, or provided in this config.
-    #Privacy of source code is a major deciding factor on location and lean toward setting the apiKey in the pipeline.
+   #Privacy of source code is a major deciding factor on location.  We recommend setting the apiKey in your pipeline using secure variables.
 
 
     projectName=
