@@ -150,8 +150,10 @@ After performing the general steps 1, 2, 3
 
 - [Azure Powershell SDK](https://docs.microsoft.com/en-us/powershell/module/az.keyvault/set-azkeyvaultsecret?view=azps-2.0.0)
 
-- [Scheduling a runbook in Azure Automation](https://docs.microsoft.com/en-us/azure/automation/shared-resources/schedules)
+- [Starting an Azure Automation runbook with a webhook](https://docs.microsoft.com/en-us/azure/automation/automation-webhooks)
 
+- [Create, schedule, and run recurring tasks with the Recurrence trigger in Azure Logic Apps](https://docs.microsoft.com/en-us/azure/connectors/connectors-native-recurrence)
+  
 - [Managing Azure Key Vault using Azure Automation](https://docs.microsoft.com/en-us/azure/key-vault/automation-manage-key-vault)
 
 - [Setup key rotation](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-key-rotation-log-monitoring)
