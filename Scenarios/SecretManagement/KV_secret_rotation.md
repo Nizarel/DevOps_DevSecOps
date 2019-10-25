@@ -24,7 +24,7 @@ After performing the general steps 1, 2, 3
 
 - Add Required PowerShell Modules to Azure Automation Account.
 
-  - In the Azure Automation Accout, Open "Modules Gallery" blade to install  AzureRm.KeyVault, AzureRm.Profile, and AzureRM.Storage modules.
+  - In the Azure Automation Account, Open "Modules Gallery" blade to install AzureRm.Profile, AzureRm.KeyVault, and AzureRM.Storage modules.
 
 - Create an Azure Automation Runbook.
 
