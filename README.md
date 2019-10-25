@@ -15,12 +15,12 @@ We have created some [sample pipelines](./pipelines/README.md) that can be added
 - [Enforce Organizational Security](./Scenarios/EnforceOrgSecurityPolicy/README.md)
 - [Penetration Testing](./Scenarios/PenetrationTesting/README.md)
 - [Secret Management](./Scenarios/SecretManagement/README.md)
-- [Setup](./Scenarios/Setup/Whitesource.md)
 - [Static Code Analysis](./Scenarios/StaticCodeAnalysis/README.md)
+- [Workflows](./Scenarios/Workflow/README.md)
 
 ## Licensing
 
-Please note that some of the components used in these scenarios are third party components that may require licensing from the product vendor. Unless expressly stated otherwise, none of the third party products used here are an endorsement, they serve merely as examples. Independent evaluation should be conducted to find the product mix that supports your goals and meets your budget. Should you require a license for the purposes of conducting a customer hackathon or for demonstration, please refer to  [Component Licensing Information](./Scenarios/ComponentLicensingInfo/README.md)
+Please note that some of the components used in these scenarios are third party components that may require licensing from the product vendor. Unless expressly stated otherwise, none of the third party products used here are an endorsement, they serve merely as examples. Rotating, independent evaluation should be conducted to find the product mix that supports your goals and meets your budget. Should you require a license for the purposes of conducting a customer hackathon or for demonstration, please refer to  [Component Licensing Information](./Scenarios/ComponentLicensingInfo/README.md)
 
 ## Code Contributions
 
