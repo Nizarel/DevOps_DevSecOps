@@ -26,6 +26,8 @@ Once you have installed the extension into the org, you can start to add compone
 
 - [CredScan Install](https://secdevtools.azurewebsites.net/helpcredscan.html)
 
+- [CredScan Overview](https://strikecommunity.azurewebsites.net/articles/4114/credential-scanner-overview.html)
+
 - [Post Analysis Setup](https://secdevtools.azurewebsites.net/helpPostAnalysis.html)
 
 - [1eswiki](https://www.1eswiki.com/wiki/CredScan_Azure_DevOps_Build_Task)

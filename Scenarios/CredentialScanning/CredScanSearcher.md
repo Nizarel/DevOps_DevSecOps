@@ -4,14 +4,14 @@ The CredScan tool comes with many built in scanners and the list of
 scanners keep growing in order to support all of the industry standard
 ways that credentials are often represented in code and files related to
 your project. So it is recommended that you review the available
-searchers and by reaching out to <credscancore@microsoft.com> if you
+searchers in the [strike docs](https://strikecommunity.azurewebsites.net/articles/4114/credential-scanner-overview.html) and by reaching out to <credscancore@microsoft.com> if you
 need additional scanners to be added to the tool.
 
 ## Defining Your Own Searcher
 
-There are Scnarios that you may want to implement your own searcher in
-order to identify patterns of secrets that you may be aware of kreeping
-in to your code and associated files.
+There are Scenarios where you may want to implement your own searcher in
+order to identify patterns of secrets that you may be aware of creeping
+into your code and associated files.
 
 A content searcher is defined as follows and can be saved in an xml file
 which you can use either in the client side tooling or in the Azure
@@ -19,7 +19,7 @@ DevOps Extension:
 
 | **Property**                  | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Name**                      | The descriptive searcher name to be used in CredScan output file. It is recommended to use camel case naming convention for searcher names.                                                                                                                                                                                                                                                                                                                                                                                                             |
+| **Name**                      | The descriptive searcher name to be used in CredScan output file. It is recommended to use the "camelCase" naming convention for searcher names.                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **RuleId**                    | The stable opaque id of the searcher. CredScan default searchers are assigned with the RuleIds like CSCAN0010, CSCAN0020, CSCAN0030, etc. The last digit is reserved for potential searcher regex group merging or division. RuleId for customized searchers should have its own namespace in the format of: CSCAN-{Namespace}0010, CSCAN-{Namespace}0020, CSCAN-{Namespace}0030, etc. The fully qualified searcher name is the combination of the RuleId and the searcher name, e.g. CSCAN0010.KeyStoreFiles, CSCAN0020.Base64EncodedCertificate, etc. |
 | **ResourceMatchPattern**      | Regex of file extensions to check against searcher.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | **ContentSearchPatterns**     | Array of strings containing Regex statements to match. If no search patterns are defined, all files matching the resource match pattern will be returned                                                                                                                                                                                                                                                                                                                                                                                                |

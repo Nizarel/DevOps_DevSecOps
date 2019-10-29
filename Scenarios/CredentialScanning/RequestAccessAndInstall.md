@@ -12,4 +12,4 @@ The other method is to request internall through [1eswiki instructions](https://
 
 [AzDo Marketplace](https://marketplace.visualstudio.com/items?itemName=securedevelopmentteam.vss-secure-development-tools&targetId=85fb3d5a-9f21-420f-8de3-fc80bf29054b&utm_source=vstsproduct&utm_medium=ExtHubManageList)
 
-An Project/Org administor will need to approve the extension to make it available to projects.  Documentation found [here](https://docs.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops).
+An administor (project or org) will need to approve the extension to make it available to projects.  Documentation found [here](https://docs.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=azure-devops).

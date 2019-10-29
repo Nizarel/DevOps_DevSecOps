@@ -114,4 +114,4 @@ For PEM files
 ----- Begin RSA Private Key -----
 ```
 
-I fixed the above failures using inline or linenext guidance and then reran the pipeline.  All failures were resolved.  Be sure to include justification in the suppression so others know why you suppressed the result.
+I fixed the above failures using "inline" guidance and then reran the pipeline.  All failures were resolved.  Be sure to include justification in the suppression so others know why you suppressed the result.
