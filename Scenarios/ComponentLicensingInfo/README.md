@@ -5,11 +5,11 @@
 Aqua Security is a container and serverless scanning tool that offers DevSecOps automation.
 The idea is “Shift Left” security early into the DevOps pipeline, accelerating application delivery and removing obstacles to digital transformation.
 
-### Licensing Contact Information
+### Aqua Licensing Contact Information
 
 Contact Tilak Yalamanchili <tilaky@aquasec.com> for any new or trial license requests. Trial licenses are qualified and issued in blocks of two weeks for the trial. if you need more time for testing it is prudent to make this known in your request. Also note, depending on the customer a non-disclosure agreement may also be required.
 
-### Information that will be needed to set up the trial
+### Information that will be needed to set up the Aqua trial
 
 - Container Technology and Version. eg ( Docker)
 - Container Registry Type. eg (Azure Container Registry / DockerHub)
@@ -21,16 +21,18 @@ Contact Tilak Yalamanchili <tilaky@aquasec.com> for any new or trial license req
 - Network Overlay. eg ( VPN / Proxies / Express Routes)
 - Use Case. eg ( Top 2 or 3.)
 
+### WhiteSource Open Source Scanning
 
-## WhiteSource Open Source Scanning 
+WhiteSource offers a comprehensive suite of tools that provide security scanning and vulnerability accessments related to the use of Open Source components in your development projects.
 
-WhiteSource offers a comprehensive suite of tools that provide security scanning and vulnerability accessments related to the use of Open Source components in your development projects. 
+### WhiteSource Licensing Contact Information
 
-### Licensing Contact Information
+Contact Doyle Turner <doyle.turner@microsoft.com> for a temporary license/environment. _Please Note:_ this is the route for obtaining licenses for OH Lite.
 
-Contact Doyle Turner <doyle.turner@microsoft.com> for a temporary license/environment. _Please Note:_ this is the route for short one-time engagement accounts and not for handing off to customers after engagemnets. 
+For longer lived licensing and customer engagements reach out to Ryan Harrington <ryan.harrington@whitesourcesoftware.com> or through the [MS Co-Sell Portal](https://appsource.microsoft.com/en-us/product/web-apps/whitesource-software.whitesource)
 
-### Information that will be needed to set up the trial
+### Information that will be needed to set up the WhiteSource trial
 
 - Duration of the engagement for which the license is required
 - Email addresses of users indicated user/admin role
+- For full license WhiteSource reps will help details required information and scope of license.
