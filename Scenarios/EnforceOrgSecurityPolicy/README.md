@@ -8,6 +8,6 @@ Pipeline decorators can be used to enforce custom policies in your Azure DevOps 
 
 ## Azure DevOps Component Governance
 
-Using the Governance service, you can register the usage of an existing or new open source components in a given governed repository.
+Using the Governance service, you can register the usage of an existing or new open source component in a governed repository.
 
 More information about Azure DevOps Component Governance can be found [here](https://docs.microsoft.com/en-us/rest/api/azure/devops/componentgovernance/?view=azure-devops-rest-5.1)
