@@ -1,6 +1,6 @@
 # Self-hosted Agents and Pen-Testing
 
-- Create or select an existing VM to host the Linux agent.
+- Create or select an existing VM to host the required Linux agent.
 - Install a [self-hosted agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops).
 
 ## NOTES
