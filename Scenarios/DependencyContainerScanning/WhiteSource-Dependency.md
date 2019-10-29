@@ -1,6 +1,6 @@
-# Add WhiteSource Configuration to Source
+# Add WhiteSource Configuration to Source Code
 
-With a White Source [account setup](./WhiteSource-Setup.md) we need to add a configuration file to the source code that will be associated with the project. This will need to be done for each repo.
+With a WhiteSource account [setup](./WhiteSource-Setup.md) we need to add a configuration file to the source code that will be associated with the project. This will need to be done for each repo.
 
 _If a configuration has already been added to your source skip downloading the template and review the configuration as indicated below._ A template configuration for WhiteSource can be found [here](https://s3.amazonaws.com/unified-agent/wss-unified-agent.config) and will need to have several settings altered before being committed to the repository.  To retrieve the api key, navigate to the **Integrate** tab in your whitesource organization.  Documentation for Whitesource config file settings can be found [here](https://whitesource.atlassian.net/wiki/spaces/WD/pages/489160834/Unified+Agent+Configuration+File+Parameters).
 
@@ -79,6 +79,8 @@ Finally, add the other mentioned "CMD" task and configure it to run the scanner
 ![run the WS scanner](images/run-scanner.png)
 
 ## Run the pipeline
+
+*NOTE:* If you have not already set up policies in you WhiteSource account you will want to do so before running the pipeline. Read back through the [setup doc](./WhiteSource-Setup.md/) for help with that.
 
 At this point you sould be able to run the WhiteSource scanner and find vulnerable packages with exclusions & inclusions based on best practice (Defaults in whitesource) combined with any customer policies.
 

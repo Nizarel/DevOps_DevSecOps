@@ -1,6 +1,6 @@
 # Install Aqua on Kubernetes
 
-This article explains, how to configure Aqua Security Tools on Azure Kubernetes Service with a scanning container in Azure Container Registry and use an Azure DevOps pipeline to scan containers during build operation. Enforcers can also be configured to scan deployed environments to insure that vulnerable containers are addressed that previously had no issues reported.
+This article explains, how to configure Aqua Security Tools on Azure Kubernetes Service with a scanning container in Azure Container Registry and use an Azure DevOps pipeline to scan containers during build operation. Enforcers can also be configured to scan deployed environments to assure that vulnerable containers are addressed that previously had no issues reported.
 
 ## Prerequistes
 
@@ -9,11 +9,11 @@ This article explains, how to configure Aqua Security Tools on Azure Kubernetes 
 * An Azure DevOps Project
 * Azure CLI (latest version installed) / Cloudshell
 
-You can find a link to the official product documentation below. Of the many ways to get Aqua installed in your environment, one of the simplest ways to accomplish this is with a helm chart and the process is detailed in the link below:
+You can find a link to the official product documentation below. Of the many ways to get Aqua installed in your environment, one of the simplest ways to accomplish this is with a helm chart using the process that is detailed in the link below:
 
 * [Kubernetes - Aqua](https://docs.aquasec.com/docs/std-deployment-kubernetes)
 
-PS. Login may be required in order to access the official documentation.
+_Note:_ Login is required to access the official documentation.
 
 ## Get the credentials of the k8s cluster
 
@@ -243,17 +243,17 @@ spec:
             path: /var/run/docker.sock
 ```
 
-Once create the YAML file, apply it.
+Once the YAML file is create go ahead and apply it.
 
-```Bash
+``` Bash
 kubectl create -f aqua-server.yaml -n aqua-security
 ```
 
 ## Configure the Aqua Security Dashboard
 
-After the deployment, You can see the aqua-web external ip-address. For the purpose of this document the IP address will bre represented as  `13.66.214.195`, please change the address to the IP Address for your environment.
+After the deployment you can see the aqua-web external ip-address. For the purposes of this document the IP address will be represented as  `13.66.214.195`. **Important:** change the address to the IP Address for your environment!
 
-```Bash
+``` Bash
 kubectl get service aqua-web -n aqua-security
 NAME       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                        AGE
 aqua-web   LoadBalancer   10.0.94.99   13.66.214.195   443:30029/TCP,8080:30734/TCP   1m
