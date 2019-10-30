@@ -51,7 +51,7 @@ The task can be used to fetch the latest values of all or a subset of secrets fr
 
 **Notes:**
 
-1- Newly added, or deleted secrets to the vault are automatically reflected in created task variablesif you chose '*' in secret filter field in task setup.
+1- Newly added, or deleted secrets to the vault are automatically reflected in created task variables if you chose '*' in secret filter field in task setup.
 
 References:
 
@@ -73,4 +73,4 @@ TO be investigated
 
 Gives more control on who case see, use the linked variable groups.
 
-- You can still have multiple groups as above reading from the same variable group (e.g Prod2, prod 2, prod 3) can all read from the production key vault as they are linked to "relase to Prod" phase in the release pipeline
+- You can still have multiple groups as above reading from the same variable group (e.g Prod2, prod 2, prod 3) can all read from the production key vault as they are linked to "release to Prod" phase in the release pipeline

@@ -47,91 +47,91 @@ Now that you have the logging enabled on your keyvault. you can run the followin
 usage(){
         echo "***Find stale secrets in an azure keyVault through logging***"
         echo "Usage: ./KV_Stale_secrets.sh <storageAccountName> <keyvaultName> <azSubscriptionId> <daysOldLimit>"
-		echo "Expects 3 arguments: storageAccountName, azure storage account name, key vault name, az SubscriptionId, and the no of days limit from last use"
+        echo "Expects 3 arguments: storageAccountName, azure storage account name, key vault name, az SubscriptionId, and the no of days limit from last use"
 }
 ReportKVStaleSecrets(){
 
-	#set the azure subscription
-	echo "set default azure subscrition to:"$azSubscriptionId
-	azSub=$(az account set -s $azSubscriptionId)
+    #set the azure subscription
+    echo "set default azure subscrition to:"$azSubscriptionId
+    azSub=$(az account set -s $azSubscriptionId)
 
-  	#Get all azure audit blobs in the storage account
-	echo "Get the list of logs blobs in the storage account"
-	blobs=$(az storage blob list -c insights-logs-auditevent --account-name $storageAccountName)
+    #Get all azure audit blobs in the storage account
+    echo "Get the list of logs blobs in the storage account"
+    blobs=$(az storage blob list -c insights-logs-auditevent --account-name $storageAccountName)
 
-	#Get the list of vault secrets
-	echo "Get the list of vault secrets"
-	kvsecretslist=($(echo $(az keyvault secret list --vault-name $keyvaultName) | jq -r '.[].id' ))
+    #Get the list of vault secrets
+    echo "Get the list of vault secrets"
+    kvsecretslist=($(echo $(az keyvault secret list --vault-name $keyvaultName) | jq -r '.[].id' ))
 
-	declare -A kvsecretslastuselist
-	for ((idx=0; idx<${#kvsecretslist[@]}; ++idx)); do
-			secret=${kvsecretslist[idx]}
-			kvsecretslastuselist+=([$secret]=$(date -d 2000-01-01T01:00:00.5444810Z- +%F))
-	done
+    declare -A kvsecretslastuselist
+    for ((idx=0; idx<${#kvsecretslist[@]}; ++idx)); do
+            secret=${kvsecretslist[idx]}
+            kvsecretslastuselist+=([$secret]=$(date -d 2000-01-01T01:00:00.5444810Z- +%F))
+    done
 
-	#Get the list of azure blobs names
-	blobnameslist=($(echo $blobs | jq -r '.[].name' ))
+    #Get the list of azure blobs names
+    blobnameslist=($(echo $blobs | jq -r '.[].name' ))
 
-	#loop on every blob
-	echo "download every blob in logs, read the contents and check the secrets events dates"
-	for blobname in ${blobnameslist[*]}
-	do
+    #loop on every blob
+    echo "download every blob in logs, read the contents and check the secrets events dates"
+    for blobname in ${blobnameslist[*]}
+    do
 
-		echo "dowload log file "$blobname
-		#download the blob it self sing the cmd
-		blobfilename="blobfile"
-		az storage blob download -f $blobfilename -c insights-logs-auditevent --account-name $storageAccountName -n $blobname
+        echo "dowload log file "$blobname
+        #download the blob it self sing the cmd
+        blobfilename="blobfile"
+        az storage blob download -f $blobfilename -c insights-logs-auditevent --account-name $storageAccountName -n $blobname
 
-		#open the file to explor the events contents
-		echo "open the file to explor the log contents, and check the secrets history"
-		bloboperationslist=$(cat $blobfilename| jq '.')
-		operationsnames=($(echo $bloboperationslist| jq -r '.operationName'))
+        #open the file to explor the events contents
+        echo "open the file to explor the log contents, and check the secrets history"
+        bloboperationslist=$(cat $blobfilename| jq '.')
+        operationsnames=($(echo $bloboperationslist| jq -r '.operationName'))
 
-		operationsids=($(echo $bloboperationslist| jq -r '.properties.id'))
-		operationstime=($(echo $bloboperationslist| jq -r '.time'))
-
-
-		for ((idx=0; idx<${#operationsnames[@]}; ++idx)); do
-			if [ ${operationsnames[idx]} == 'SecretSet' ] || [ ${operationsnames[idx]} == 'SecretGet'  ]
-			then
-
-				#check if the secret id has version combined
-				secretvalueurl=${operationsids[idx]}
-				vaultsecretname=${secretvalueurl##*secrets}
-				charcount=$(echo $vaultsecretname | tr -cd '/' | wc -c)
+        operationsids=($(echo $bloboperationslist| jq -r '.properties.id'))
+        operationstime=($(echo $bloboperationslist| jq -r '.time'))
 
 
-				#remove the version, if found, from the secret ID
-				if [  $charcount  -le 1 ]
-				then
-					secrettrimmedid=${operationsids[idx]}
+        for ((idx=0; idx<${#operationsnames[@]}; ++idx)); do
+            if [ ${operationsnames[idx]} == 'SecretSet' ] || [ ${operationsnames[idx]} == 'SecretGet'  ]
+            then
 
-				else
-					secrettrimmedid=${operationsids[idx]%/*}
-				fi
-
-				after=$(date -d ${operationstime[idx]} +%s)
-				before=$(date -d ${kvsecretslastuselist[$secrettrimmedid]}  +%s)
+                #check if the secret id has version combined
+                secretvalueurl=${operationsids[idx]}
+                vaultsecretname=${secretvalueurl##*secrets}
+                charcount=$(echo $vaultsecretname | tr -cd '/' | wc -c)
 
 
-				if [ $after > $before ]
-				then
-					kvsecretslastuselist[$secrettrimmedid]=$(date -d ${operationstime[idx]} +%F)
-				fi
-			fi
-		done
-	done
+                #remove the version, if found, from the secret ID
+                if [  $charcount  -le 1 ]
+                then
+                secrettrimmedid=${operationsids[idx]}
 
-	#Print secrets last use
-	for ((idx=0; idx<${#kvsecretslist[@]}; ++idx)); do
-			secret=${kvsecretslist[idx]}
-			daysdiff=$(( ($(date +%s) - $(date -d ${kvsecretslastuselist[$secret]} +%s) )/(60*60*24) ))
+                else
+                    secrettrimmedid=${operationsids[idx]%/*}
+                fi
 
-			if [ $daysdiff -ge $daysOldLimit ]
-			then
-				echo "stale secret: ["$secret"]" ", last time used : " "${kvsecretslastuselist[$secret]}"
-			fi
-	done
+                after=$(date -d ${operationstime[idx]} +%s)
+                before=$(date -d ${kvsecretslastuselist[$secrettrimmedid]}  +%s)
+
+
+               if [ $after > $before ]
+                  then
+                    kvsecretslastuselist[$secrettrimmedid]=$(date -d ${operationstime[idx]} +%F)
+                fi
+            fi
+        done
+    done
+
+    #Print secrets last use
+    for ((idx=0; idx<${#kvsecretslist[@]}; ++idx)); do
+            secret=${kvsecretslist[idx]}
+            daysdiff=$(( ($(date +%s) - $(date -d ${kvsecretslastuselist[$secret]} +%s) )/(60*60*24) ))
+
+            if [ $daysdiff -ge $daysOldLimit ]
+            then
+                echo "stale secret: ["$secret"]" ", last time used : " "${kvsecretslastuselist[$secret]}"
+            fi
+    done
 }
 ${kvsecretslastuselist[$secret]}
 storageAccountName=$1
@@ -144,7 +144,7 @@ daysOldLimit=$4
 
 ```
 
-**References**
+### References
 
 - [Azure key-vault-logging](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-logging)
 

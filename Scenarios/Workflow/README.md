@@ -4,18 +4,18 @@ Pull requests are a central activity in adopting Git and Agile based workflows t
 
 ## Shift left (conceptually)
 
-In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/ staging phases of the development lifecycle. The concept of shifting left is to move the security testing eariler stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting tasks left and earlier in the cycle.
+In the past, where teams were in a waterfall development model, security testing tended to occur during late testing/staging phases of the development lifecycle. The concept of shifting left is to move the security testing to an earlier stage of development to get feedback more quickly.  In an agile delivery model that leverages Git as the version control platform, the pull request becomes a central activity for shifting tasks left and earlier in the cycle.
 
-![Shift Left](images/ShiftLeft.png)
+![Shift left concept](images/ShiftLeft.png)
 
 Generally, we will seek to shift most of the scenarios around DevSecOps into CI that runs as part of pull request automation as it helps:
 
 * Security Quality Gates integrated with CI
-* It helps alleviate vulnerablity ever making it to the master branch
-* As a developer, we want to holistically see vulnerablity reports in one place
-* Developers can deliberately suppress false positives (Optional) and have those decisions as part of PR history
+* Stops some vulnerabilities from ever making it to the master branch
+* Centralize vulnerability discovery and reporting for development teams
+* Empower developers to deliberately suppress false positives as appropriate (Optional) and have those decisions remain part of history in the source code
 
-![PR Screen](images/Overview.png)
+![PR screen demostrating captured history](images/Overview.png)
 
 For an advanced scenario, we can use a [PR Bot](./SecurityBot.md) to suppress false positives and create advanced work item integration. You can refer the PR bot strategy in this [document](./SecurityBot.md).
 
@@ -54,11 +54,11 @@ The work item extension is much more mature in that it allows for a flexible exp
 
 ## Serial Flow Configuration
 
-Create multiple jobs then configrue a dependency and condition for each jobs.
+Create multiple jobs then configure a dependency and condition for each job.
 
 If you have Job A, job B, Job C, you need to configure the dependency and condition.  For example, Job B depends on Job A, and Job C depends on JobB.  In addition, you should configure the `Run this job` setting of Jobs B and C to **Even if a previous job has failed.**
 
-![SerialFlow](images/SerialFlowOverview.png)
+![SerialFlow demostrated in a AzDo Pipeline](images/SerialFlowOverview.png)
 
 **You will find a Serial Flow Pipeline sample in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-ciworkflow.build-ci-hub?_a=edit-build-definition&id=73).**
 
@@ -116,7 +116,7 @@ steps:
 
 This task also attempts to suppress the creation of a duplicate work item by `preventDuplicates` to true and setting `keyFields` to a work item field to key duplicate detection off of. In this example, the task compares the work item `Title` field.  A good best practice is to add the pull request ID to the title field as is done in the example above, `Fossa Scan Failed: $(System.PullRequest.PullRequestId)`.  This means a duplicate bug will not be created for the same issue in the same pull request.
 
-![PR ID](images/prtitle.png)
+![PR ID for generated bug](images/prtitle.png)
 
 `condition` should be `failed` or `Only when a previous task has failed.`
 
@@ -128,7 +128,7 @@ Finally, set the `outputVariables` to `CWI.Id=System.Id`.  Doing so, enables sub
 
 ![Create PR Comment](images/Comment.png)
 
-#### Configuration
+#### Task Configuration
 
 Configuring the task involves creating a comment body and optionally setting a condition.  Example below:
 

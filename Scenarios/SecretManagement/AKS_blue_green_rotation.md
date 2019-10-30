@@ -44,13 +44,13 @@ Storage Account
 
 `kubectl rollout restart {deployment name}` will restart the pods one by one. `kubectl rollout status {deployment name}` will wait until the rollout is finished.
 
-NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set Key Vault secrets.To double check if the service principal can access the target Key Vault See Key Vault > Access Policies on your portal.
+NOTE: To execute this pipeline, a service prinicpal is required with  execute permission to set KeyVault secrets. To double check if the service principal can access the target KeyVault See KeyVault > Access Policies on your portal.
 
-You can see the full configuration of this pipeline in [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
+You can see the full configuration of this pipeline [here](https://dev.azure.com/csedevops/DevSecOps/_apps/hub/ms.vss-build-web.ci-designer-hub?pipelineId=132&branch=master).
 
 Example _azure_pipeline.yml_
 
-```yaml
+``` yaml
 trigger:
 - none
 
@@ -148,31 +148,29 @@ steps:
 
 ## Deploy application
 
-To test the pipeline, Deploy a sample application. The application fetches contents from blob storage. To run this application, you need the following.
+To test the pipeline, deploy a sample application. The application fetches contents from blob storage. To run this application, you need the following.
 
 * A Service Principal that can fetch data from Key Vault.
-* A Storage Account with a text file(verysecret.txt) in a container (container).
-* Build Deploy the application to a Kubernetes Cluster
+* A Storage Account with a text file (verysecret.txt) in a container (container).
+* Build and Deploy the application to a Kubernetes Cluster
 
-I created a sample application with ASP.NET (.Net core). I also created [a pipeline to build/push this application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) that is named StorageViewer.CI. The image is already pushed. This app references the `container/verysecret.txt` file on your blob with a secret on the Key Vault. using [Key Vault flex volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
-
-This is where you can find [the Sample Application's repo](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster).
+The source code for a [sample application built on ASP.Net (.Net core)](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2F&version=GBmaster) is available as well a [pipeline to build & push the application to an ACR](https://dev.azure.com/csedevops/DevSecOps/_build?definitionId=131&_a=summary) named "StorageViewer.CI." The application references an expected "container/verysecret.txt" file on your blob with a secret on the KeyVault using [KeyVault Flex Volume](https://github.com/Azure/kubernetes-keyvault-flexvol).
 
 ## Create Secret
 
-Create a service principal to access Key Vault from the sample app and set it to the secret.
+Create a service principal to access KeyVault from the sample app and set it to the secret.
 
-```Bash
+``` bash
 az ad sp create-rbac --name ServicePrinipalForApp
 
 kubectl create secret generic kvcreds --from-literal clientid=<CLIENTID> --from-literal clientsecret=<CLIENTSECRET> --type=azure/kv
 ```
 
-## Set Policy to the Key Vault
+## Set Policy to the KeyVault
 
-Add policy to the Key Vault.
+Add policy to the KeyVault.
 
-```Bash
+``` bash
 az role assignment create --role Reader --assignee <principalid> --scope /subscriptions/<subscriptionid>/resourcegroups/<resourcegroup>/providers/Microsoft.KeyVault/vaults/<keyvaultname>
 
 az keyvault set-policy -n $KV_NAME --key-permissions get --spn <YOUR SPN CLIENT ID>
@@ -182,7 +180,7 @@ az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn <YOUR SPN
 
 ## Apply
 
-After publishing the sample app's image, you can deploy it to a k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `option` part according to your enviornment.
+After publishing the sample app's image, you can deploy it to a k8s cluster. with [this yaml file](https://dev.azure.com/csedevops/DevSecOps/_git/StorageViewer?path=%2Fstorage-viewer.yml&version=GBmaster). Change the `options` part according to your enviornment.
 
 Example _storage-viewer.yml_
 
@@ -227,9 +225,9 @@ spec:
             tenantid: "YOUR_TENANT_ID"                    # [REQUIRED] the tenant ID of the KeyVault
 ```
 
-## Test
+## Varify deployment
 
-```Bash
+``` bash
 kubectl get pods
 
 NAME                                          READY   STATUS    RESTARTS   AGE
@@ -241,7 +239,7 @@ storage-viewer-deployment-6d9b9495fd-sl7xz    1/1     Running   0          159d
 
 You will find that the pod is deployed to the cluster.
 
-```Bash
+``` bash
  kubectl port-forward pod/storage-viewer-deployment-6d9b9495fd-9pz9 8090:80
  ```
 
@@ -249,4 +247,4 @@ You can see the web page to access `http://localhost:8090`
 
 ![images/WebPage.png](images/WebPage.png)
 
-It downloaded the `verysecret.txt` file from blob storage and displays the contents after the `Secret:`. If it is successfully displayed, your secret (storageAccount connection string) is fetched correctly.
+The 'verysecret.txt file was downloaded from blob storage and displays the contents after the `Secret:`. If it is successfully displayed, your secret (storageAccount connection string) is fetched correctly.
