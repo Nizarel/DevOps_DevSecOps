@@ -1,6 +1,6 @@
 # Installation & Configuration
 
-First you need to [request access](./RequestAccess.md).
+First you need to [request access](./RequestAccessAndInstall.md).
 
 Once you have installed the extension into the org, you can start to add components into the pipeline.  You need to add the following four components in order to have an effective pipeline.
 

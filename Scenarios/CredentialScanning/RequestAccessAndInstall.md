@@ -1,12 +1,39 @@
 # Get Access
 
-## Request Access through External Portal
+## Request Access during engagement
 
-You or your partner can request access through the [external link](https://secdevtools.azurewebsites.net/)
+Credscan is not a free tool.  Currently licensing is per org on a yearly basis.  You can however request access for the length of the dev crew engagement as per our azgreement with Azure Security Tools Product Team.  This process allows CSE to request access to the extension in the partners org so we can demonstrate DevSecOps best practices.  CredScan is an excellent tool for preventing credentials from entering the git history and we strongly recommend you add this to your planning and execution.  The process is as follows:
 
-## Request Access internally
+* Request the Azure DevOps org url from your partner along with partner contact.
 
-The other method is to request internall through [1eswiki instructions](https://www.1eswiki.com/wiki/SecDevTools_for_Azure_DevOps_FAQ#Onboarding)
+* Send email to:
+
+  * Microsoft Security Code Analysis Support <mscahelp@microsoft.com>
+  * Richard Guthrie <rguthrie@microsoft.com>
+  * Sukhandeep Singh <sukhans@microsoft.com>
+
+using the following template:
+
+    **EMAIL SUBJECT**: Request for SDT Access for engagement <INSERT CSENG ENGAGMENT ID> **Partner Name**
+
+    **EMAIL BODY**
+    I am a member of the CSE organization requesting access to the Secure Development Tools extension for work with my partner.  The org we are requesting the extension for is:
+
+    `<INSERT ORG URL>`
+
+    We are requesting the extension be available for trail until:
+
+    `<INSERT ESTIMATED PROJECT COMPLETION DATE>`
+
+    The Point of contact for MSFT team will be:
+
+    `<MSFT ALIAS>`
+
+    The Point of contact for PARTNER team will be:
+
+    `<PARTNER EMAIL>`
+
+You or your partner learn more through the external [documentation link](https://aka.ms/mscadocs)
 
 ## Once you have access, install into your org from
 
