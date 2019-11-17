@@ -39,8 +39,8 @@ steps:
   displayName: 'Scan Image'
   inputs:
     image: '$(ACRLoginServer)/$(REPOSITORY):$(Build.BuildId)'
-    register: true
-    registry: '$(ACRConnectionName)'
+    register: false
+    scanType: local
     connection: $(AquaManagementConsoleServiceConnection)
     caCertificates: true
 
