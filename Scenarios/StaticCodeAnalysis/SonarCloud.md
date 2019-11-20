@@ -16,6 +16,28 @@ This documentation will help you to configure SonarCloud with Pull Request valid
 
 ## Tips and Recommendataions
 
+### Configure options in pipeline
+
+Sonar cloud and sonar qube allow for configuration of the executing task to tune the execution.  This can have a dramatic impact on code smells detected and make it much simpler to get good feedback from the tooling.  In addition, areas like code coverage require some additional configuration in order to get the correct reporting.  You can find information on all available options here:
+
+* [Analysis Parameters](https://sonarcloud.io/documentation/analysis/analysis-parameters/)
+* [Test Coverage and Execution](https://sonarcloud.io/documentation/analysis/coverage/)
+
+Example - In the YAML below we configure: 
+
+* The path to opencover formatted test coverage report
+* Exclude the lib directory since we have dependency scanning to scan our dependencies
+* Set verbose output to true (This is optional but handy when first working with Sonarcloud)
+* branch parameter changes [how sonar cloud does scans on feature branches](https://sonarcloud.io/documentation/branches/overview/).
+
+``` YAML
+    extraProperties: |
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml
+      sonar.exclusions=src/Web/wwwroot/lib/**/*
+      sonar.verbose=true
+      sonar.branch.name=$(Build.SourceBranchName)
+```
+
 ### Setting up Quality Gate
 
 Sonar Cloud has a feature called Quality Gates. You can configure a threshold to fail the PR if it doesn't meet the quality you configured.  To configure the quality gate, go to your organization in SonarCloud > Quality Gate. Pick the condition that meets the goals of your organization. We recommend you test your pipeline for both success failure conditions to ensure it is working as expected.
