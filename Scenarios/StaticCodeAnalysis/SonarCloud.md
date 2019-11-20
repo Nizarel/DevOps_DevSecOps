@@ -11,8 +11,9 @@ SonarCloud recommends that the workflow uses pull requests to control changes, w
 This documentation will help you to configure SonarCloud with Pull Request validation (the recommended setup).
 
 * [Integrate Visual Studio Team Services with SonarCloud](https://docs.microsoft.com/en-us/labs/devops/sonarcloudlab/)
+    * **Important**: last we checked an issue with navigation on this page was broken, please view Markdown on [GitHub directly](https://github.com/MicrosoftDocs/labs/blob/master/labs/devops/SonarCloudLab/includes/SetupPRintegration.md).
 
-* If you also want to enable code coverage reporting, you will need to review and implement the guidance in this [article](https://writeabout.net/2019/04/27/net-core-code-coverage-done-right/).
+* If you also want to enable code coverage reporting, you will need to implement [code coverage report generation for .NET](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops#collect-code-coverage). It may be helpful to review and guidance in this [article](https://writeabout.net/2019/04/27/net-core-code-coverage-done-right/) as well.
 
 ## Tips and Recommendataions
 

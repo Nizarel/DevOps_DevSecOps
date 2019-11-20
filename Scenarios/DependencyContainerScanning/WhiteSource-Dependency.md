@@ -68,10 +68,11 @@ Configure the first task to download the WhiteSource agent into the build agent.
 Finally, add the other mentioned "CMD" task and configure it to run the scanner
 
 - Set the display name of the task to something like "Run WS Agent"
-- Configure the script as follows:
+- Configure the script as follows, replacing `FILENAME` and `API_KEY`:
 
 ``` shell
-    java -jar whitesource-fs-agent.jar -c <filename>.config -apiKey <api-key>
+    java -jar whitesource-fs-agent.jar -c FILENAME.config -apiKey API_KEY
+    exit $?
 ```
 
 *NOTE:* Although the API key can be added to the configuration file added to the source code repo it is recommended that keys of that type be secured. As a best practice adding the API Key to the pipeline/variable configuration offers better control.

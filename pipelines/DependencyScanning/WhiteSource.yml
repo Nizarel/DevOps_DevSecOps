@@ -10,5 +10,7 @@ steps:
 - script: 'curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar'
   displayName: 'Download WS Agent'
 
-- script: 'java -jar whitesource-fs-agent.jar -c <PATH_TO_AGENT_CONFIG> -apiKey <YOUR_API_KEY>'
+- script: |
+    java -jar whitesource-fs-agent.jar -c PATH_TO_AGENT_CONFIG -apiKey YOUR_API_KEY
+    exit $?
   displayName: 'Run Whitesource agent'

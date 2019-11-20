@@ -17,47 +17,53 @@ pool:
 
 ```YAML
 steps:
-- checkout: none
 - task: DockerInstaller@0
   inputs:
-    dockerVersion:  '17.09.0-ce'
+    dockerVersion:  '19.03.4'
 ```
 
-_If the scan is to be executed against a **containerized application** add something similar to the following (with your port and image details) so the container is running in the background on your agent during the scan:_
+_Depending on where you choose to implement the scanning tasks in your CI pipelines, you may not need to check-out code (this can be the case if you are testing the live endpoint). You can save time by skipping checkout:_
+```YAML
+steps:
+- checkout: none
+```
+
+_If you choose to scan against a **containerized application** add something similar to the following (with your port and image details) so the container is running in the background on your agent during the scan:_
 
 ```YAML
-docker run -d -p 3000:3000 myrepo/myimage:tag
+docker run -d -p hostport:containerport myrepo/myimage:tag
 ```
+The container runs its webserver on port 8080.
 
-_Prep the agent to work-around forced use of \r\n in Azure DevOps scripts and add the directory structure needed for the -volume we will create to export the scan results from the container._
+_Prep the agent to work-around forced use of \r\n in Azure DevOps scripts and add the directory structure needed for the volume we will create to export the scan results from the container._
 
 ```YAML
 - script: |
-    #!/bin/bash
-    if [ $# -eq 0 ]; then echo "Rewriting self." ; sudo apt install -yq dos2unix > /dev/null 2>&1 ; dos2unix -q "${BASH_SOURCE[0]}" > /dev/null 2>&1 ; chmod a+x "${BASH_SOURCE[0]}" ; exec "${BASH_SOURCE[0]}" --no-rewrite ; else echo "Hot patching successful." ; fi ;
+  #!/bin/bash
+  if [ $# -eq 0 ]; then echo "Rewriting self." ; sudo apt install -yq dos2unix > /dev/null 2>&1 ; dos2unix -q "${BASH_SOURCE[0]}" > /dev/null 2>&1 ; chmod a+x "${BASH_SOURCE[0]}" ; exec "${BASH_SOURCE[0]}" --no-rewrite ; else echo "Hot patching successful." ; fi ;
 
-   mkdir /tmp/owaspzap && chmod 777 /tmp/owaspzap
+  mkdir /tmp/owaspzap && chmod 777 /tmp/owaspzap
 ```
 
-_**Next:** add the following to our script in to pull down the latest stable OWASP/ZAP container and perform the scan repacing << scan-target >> with the appropriate entry for your target._
+_**Next:** add the following to our script in to pull down the latest stable OWASP/ZAP container and perform the scan setting the correct value for $SCAN_TARGET with the appropriate HTTP endpoint for your scan target._
 
 ### Scan targets
-
+Depending on where you intend to scan, set SCAN_TARGET appropriately in your pipeline script:
 - Application running on localhost/docker:
 
 ```Bash
-    << scan-target >> = "http://$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):your-apps-port-number"
+    SCAN_TARGET="http://$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/'):your-apps-or-docker-mapped-port-number"
 ```
 
 - VM created for test-deployment in situation where application to test is not containerized and needs to run in a different environment than provided by this test agent. This would act as a CD stage-gate type componant because of the nature of non-containerized applications. **NOTE:** In this case you should have taken additional steps for [self-hosted agents](./Self_Hosted.md) mentioned earlier to make sure that your agent has access to scan within your testing VNET.
 
 ```Bash
-    << scan-target >> = "https://ip-address-for-vm:appropriate-port"
+    SCAN_TARGET="https://ip-address-for-vm:your-apps-port-number"
 ```
 
-```YAML
-
-    docker run -v /tmp/owaspzap:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t << scan-target >> -J report.json -r report.html
+Finally, start a scan against the target you configured above:
+```Bash
+    docker run -v /tmp/owaspzap:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t $SCAN_TARGET -J report.json -r report.html
 ```
 
 _Next, define the failing threshold for the scan if one has not already been defined as an environment variable. This threshold defines the score at which scans will fail your build. **Note:** This threshold can optionally be set as an environment variable [FAIL_THRESHOLD=value].
