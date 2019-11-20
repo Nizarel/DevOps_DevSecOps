@@ -20,7 +20,7 @@ after a pipeline runs a code checkout
 
 ``` json
 "targets": [
-                "ms.azure-pipeliens-agent-job.post-checkout-tasks"
+                "ms.azure-pipelines-agent-job.post-checkout-tasks"
             ]
 ```
 
