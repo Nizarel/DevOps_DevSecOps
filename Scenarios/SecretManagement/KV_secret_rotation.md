@@ -68,7 +68,8 @@ After performing the general steps 1, 2, 3
     $secureMasterConnString = ConvertTo-SecureString $masterConnString -AsPlainText -Force
     Set-AzureKeyVaultSecret -VaultName $keyVaultName -Name $KeyVaultMasterConnString -SecretValue $secureMasterConnString
 
-    Start-Sleep -s 240
+    # The sleep in to allow the rotation of the master, and secondary keys without causing a down time to the applications connecting to the storage account, recommended way is to rotate master and secondary keys on differenet schedule.
+    Start-Sleep -s 90
 
     #Re-generate the storage account Secondary Key
     New-AzureRmStorageAccountKey -ResourceGroupName $resourceGroup -Name $storageAccountName -KeyName "key2"
