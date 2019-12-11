@@ -17,4 +17,4 @@ When selecting third-party components (both commercial and open source) it’s i
 
 ## License Scanning
 
-- [OSS License scanning with FOSSA](./FOSSA.md)
+- [OSS License scanning with FOSSA](./fossa/FOSSA.md)
