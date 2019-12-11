@@ -4,8 +4,9 @@ Instructions to configure Aqua Security Tools on Azure Kubernetes Service (AKS) 
 
 ## Prerequistes
 
-* A running instance of Azure Kubernetes Services
-* Azure CLI (latest version installed) or Cloudshell
+- A running instance of Azure Kubernetes Services
+- Azure CLI (latest version installed) or Cloudshell
+- Aqua CSP License Token (provided by Aquasec)
 
 Although there are several ways to install Aqua tools in your environmnet this document focuses getting setup in AKS as adapted from these [aquasec docs](https://docs.aquasec.com/docs/deploy-kubernetes). **Note:** that an aquasec login is required to access those docs.
 
@@ -81,3 +82,20 @@ kubectl get service aqua-web -n aqua-security
 NAME       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                        AGE
 aqua-web   LoadBalancer   10.0.94.99   xxx.xxx.xxx   443:30029/TCP,8080:30734/TCP   1m
 ```
+
+## Wrapping Up
+
+### First logon - Password Creation
+
+The new installation is created with an "administrator" user that requires a password be create from the UI. Navigate to `http://<external IP for aqua-web>:8080` to create a password to log into the installation.
+
+- username: "administrator"
+- passwored: _any-8-alphanumeric-characters_
+
+![Aqua login page](../images/aqua-login.png)
+
+### Activate the new install
+
+The final step before configuring your Aqua installation to work with AzDO is to activate the new install with the License Token provided by Aquasec. When you login to the console for the first time you will be presented with a page to enter the Token and begin using Aqua Security Tools in your project.
+
+![Aqua activation page](../images/aqua-install-activation.png)

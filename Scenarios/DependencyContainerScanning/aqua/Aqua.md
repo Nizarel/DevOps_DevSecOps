@@ -1,10 +1,9 @@
 # Aqua Security Configuration
 
-## Install Aqua on AKS
+## Installing Aqua
 
-If you are not using the Azure Hosted Marketplace Virtual Machine for your Aqua Server environment. You can optionally install Aqua directly into a Kubernetes environment.
+If you do not already have an installation of Aqua - instructions for installing aqua on AKS can be found [here](./InstallAquaOnAKS.md). Additional install options can be found in the [Aqua Documents](https://docs.aquasec.com/docs/deployments-about). The Aqua docs require an account provided by Aquasec.
 
-Instructions [here](./InstallAquaOnAKS.md)
 
 ## Logon to Aqua Instance
 
