@@ -10,7 +10,7 @@ Instructions [here](./InstallAquaOnAKS.md)
 
 To view the administrator dashboard from a browser window navigate to  `http://<dns of public IP in Aqua RG>:8080` and logon to you Aqua instance using the credentials for your AquaSec Management Console
 
-![Aqua login page](images/aqua-login.png)
+![Aqua login page](../images/aqua-login.png)
 
 Once successfully logged on. The Aqua dashboard will be displayed which will provide you with configuration options for your instance.
 
@@ -23,23 +23,23 @@ If you are interested in integrating the scanner with your existing ACR so that 
 In the Aqua left menu select:
   **System > integration**
 
-![Azure Container Registry integration](images/aqua-integration.png)
+![Azure Container Registry integration](../images/aqua-integration.png)
 
 Input the value of the Container Registry, click Save changes > Test Connection.
 
 Then to scan the images in the registry, click `ADD IMAGES`  and scan.
 
-![Add Images](images/images.png)
+![Add Images](../images/images.png)
 
 ### Review Scan Results
 
 After a scan has been concluded the results will alert about vulnerabilities found, sensitive information identified and whether or not malware was detected. Some samples are depicted below:
 
-![Dashboard showing scan status and risk](images/risk.PNG)
-![Table of images scanned](images/scan-images.PNG)
-![Sample of files scanned for a single image](images/Resources.png)
-![Sensitive data identified in a scan](images/sensitive.png)
-![Drill-down into a discovered vulnerability](images/vulnerability.png)
+![Dashboard showing scan status and risk](../images/risk.PNG)
+![Table of images scanned](../images/scan-images.PNG)
+![Sample of files scanned for a single image](../images/Resources.png)
+![Sensitive data identified in a scan](../images/sensitive.png)
+![Drill-down into a discovered vulnerability](../images/vulnerability.png)
 
 ## Configuring Assurance Policies
 
@@ -47,11 +47,11 @@ You will likely notice that even though vulnerabilities are found, the Image is 
 
 In the Aqua dashboard, using the left navigation menu,  click on Policies -> Assurance Policies and Select the Default Image Policy you would like to set by checking the appropriate checkbox for **Image**.
 
-![Configure Assurance Policy highlighting Image](images/configure-assurance-policy.png)
+![Configure Assurance Policy highlighting Image](../images/configure-assurance-policy.png)
 
 In the **Controls** sub-menu that appears, select **Vulnerability Severity** and decide which level is in-line with your policy (Low, Medium, Hard).
 
-![Configure Assurance Policy, Low - Medium - Hard Options](images/configure-assurance-policy2.png)
+![Configure Assurance Policy, Low - Medium - Hard Options](../images/configure-assurance-policy2.png)
 
 ## Configure the Aqua Task in a CI pipeline in Azure DevOps
 
@@ -71,7 +71,7 @@ The steps that support this workflow are detailed below:
 
 **An example YAML pipeline is available in the pipelines folder [here](../../pipelines/Challenge%202/ContainerScanning/Aqua-CI.yml).**
 
-![CI overview](images/CI.png)
+![CI overview](../images/CI.png)
 
 ### Create the service connections
 
@@ -79,15 +79,15 @@ You will need to create **three (3)** [service connections](https://docs.microso
 
 * One to your **Azure Container Registry** (used to push images that have been scanned).  **NOTE If the ACR is located in a subscription other than one available to the logged in user, you will need to use `Service Type: Other`.**
 
-![Create ACR Docker Service Connection](images/service-conn-acr-other.png)
+![Create ACR Docker Service Connection](../images/service-conn-acr-other.png)
 
 * The second to the **Aqua Container Registry** (to pull the latest scanner image)
 
-![Create Aqua Docker Service Connection](images/service-conn-aquaregistry.png)
+![Create Aqua Docker Service Connection](../images/service-conn-aquaregistry.png)
 
 * The third to your **Aqua Management Console** (to allow for the CI pipeline to update the console with Scan Results)
 
-![Create Generic Service Connection to Management Console](images/service-conn-aquamgtconsole.png)
+![Create Generic Service Connection to Management Console](../images/service-conn-aquamgtconsole.png)
 
 ## Security Vulnerability Reports
 
@@ -95,7 +95,7 @@ You will need to create **three (3)** [service connections](https://docs.microso
 
 Once the pipeline has executed, a new tab named "Aqua Security Report" will be visible. This tab should provide vulnerability information for the image scanned directly in the pipeline and as a result there is no need to navigate to the Aqua Dashboard to view. It should be noted that this information is also stored in the AquaSec Database in your k8s cluster. The image below depicts a sample pipeline report.
 
-![Azure DevOps Aqua Scanner Report tab](images/pipeline-report.png)
+![Azure DevOps Aqua Scanner Report tab](../images/pipeline-report.png)
 
 ### Dashboard report
 
@@ -103,7 +103,7 @@ To view a history of reports, produced by the tool. Navigate to the AquaSec Port
 
 Go to Images > CI/CD Scans. Here you will be able to inspect reports produced as a result of image scans within your build pipeline.
 
-![AquaSec portal dashboard report](images/dashboard-report.png)
+![AquaSec portal dashboard report](../images/dashboard-report.png)
 
 ## Windows Container Scanning with CI on a Self-Hosted agent
 
@@ -125,7 +125,7 @@ Configure the Task in the same way that it is configured for Linux image scans w
 * Check box "Register"
 * Select "Scanner Version" = 4.2.0 under "Windows Parameters"
 
-![Aqua Security Task Windows settings](images/scanning.png)
+![Aqua Security Task Windows settings](../images/scanning.png)
 
 * [Azure DevOps (Microsoft VSTS) Integration](https://docs.aquasec.com/docs/azure-devops-integration)
 * [Scanner-CLI](https://docs.aquasec.com/v3.5/docs/command-line)
