@@ -1,6 +1,6 @@
 # Whitesource Container Scanning
 
-![whitesource echosystem for containers](./images/ws-for-container.png)
+![whitesource echosystem for containers](../images/ws-for-container.png)
 
 ## Requirements for Azure Container Registry Usage
 
