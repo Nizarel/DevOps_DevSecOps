@@ -1,50 +1,48 @@
 # Install Aqua on Kubernetes
 
-This article explains, how to configure Aqua Security Tools on Azure Kubernetes Service (AKS) with a scanning container in Azure Container Registry and use an Azure DevOps pipeline to scan containers during build operation. Enforcers can also be configured to scan deployed environments to assure that vulnerable containers are addressed that previously had no issues reported.
+Instructions to configure Aqua Security Tools on Azure Kubernetes Service (AKS) which can be used in Azure DevOps (AzDO) pipelines to scan containers during build operations in order to identify vulnerabilities. This document is concerned only with setting up the tools in AKS but details on setting up the AzDO pipelines can be found [here](./aqua.md).
 
 ## Prerequistes
 
 * A running instance of Azure Kubernetes Services
-* An Azure Container Registry
-* An Azure DevOps Project
-* Azure CLI (latest version installed) / Cloudshell
+* Azure CLI (latest version installed) or Cloudshell
 
-You can find a link to the official product documentation below. Of the many ways to get Aqua installed in your environment, one of the simplest ways to accomplish this is with a helm chart using the process that is detailed in the link below:
+Although there are several ways to install Aqua tools in your environmnet this document focuses getting setup in AKS as adapted from these [aquasec docs](https://docs.aquasec.com/docs/deploy-kubernetes). **Note:** that an aquasec login is required to access those docs.
 
-* [Kubernetes - Aqua](https://docs.aquasec.com/docs/std-deployment-kubernetes)
-
-_Note:_ Login is required to access the official documentation.
-
-## Get the credentials of the k8s cluster
+## Get the credentials of the AKS cluster
 
 In order to manage your cluster using the kubectl command line tools you will need to retrieve the relevant cluster's access credentials. Start up a console window and issue the commands below:
 
-``` Bash
+``` bash
 az login
 az aks get-credentials -n <YOUR CLUSTER NAME> -g <RESOURCE GROUP NAME>
 ```
 
 ## Create a security namespace
 
-Create a separate security namespace by issuing the command below:
+Setting up Aqua tools in K8s (including AKS) will require an "aqua-security" namespace that can be created by issuing the command below:
 
-``` Bash
+``` bash
 kubectl create namespace aqua-security
 ```
 
-## Create a secret to access the Aqua Registry
+## Prepare your AKS cluster for connecting to the Aqua Registry
 
-NOTE: This is not for accessing your private registry. This will be used for the vendor registry.
+### Create a secret for the aqua-regestry credentials
 
-Create a secret by issuing the comand below: (You will need the vendor issued username/password to login <https://my.aquasec.com>).
+**Take note:** This secret is for the aqua registry and not your private registry.
 
-``` Bash
+Create a secret containing your aqua provided credentials using the command below. **Note** these are the same credentials you would use to log on at <https://my.aquasec.com>:
+
+``` bash
 kubectl create secret docker-registry aqua-registry --docker-server=registry.aquasec.com --docker-username=<Aquq Username>  --docker-password=<Aquq Password> --docker-email=no@email.com -n aqua-security
 ```
 
-## Create a Service account
+### Create a Service account
 
-``` Yaml
+You will need a service account to allow your cluster to connect with the aqua registry. It can be created as follows:
+
+``` yaml
 kubectl create -n aqua-security -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -56,28 +54,30 @@ EOF
 
 ```
 
-## Create a secret for AquaDB
+### Create a secret for AquaDB
 
-```Bash
+The database backing your Aqua install requires a password. That password should be created as a secret via kubectl and container only alphanumeric characters to ensure compatability with Aqua.
+
+``` bash
 kubectl create secret generic aqua-db --from-literal=password=<DB_PASSWORD> -n aqua-security
 ```
 
-## Create a YAML file
+### Create a YAML file
 
-The aqua deployments consists of an Aqua Server, Database (Aqua uses a PostgreSQL database to store scanning log.) and Gateway Server all of which can be installed using [this yaml](./aqua.yaml)
+The aqua deployments consists of an Aqua Server, PostgreSQL Database, and Gateway Server. For convienience all of the bits can be installed by downloading or copying [this yaml](./aqua.yaml) and applying it to your AKS cluster. **Note:** when copying yaml ensure that the integrity of the yaml, including spacing, is maintained. Otherwise applying the file will fail. You may want to use a YAML validator like [this one](https://jsonformatter.org/yaml-validator) before applying copied yaml.
 
-Once the YAML file is create go ahead and apply it.
+Once the YAML file is ready and validated go ahead and apply it as indicated below.
 
-``` Bash
-kubectl create -f aqua-server.yaml -n aqua-security
+``` bash
+kubectl create -f aqua-install.yaml -n aqua-security
 ```
 
 ## Configure the Aqua Security Dashboard
 
-After the deployment you can see the aqua-web external ip-address. For the purposes of this document the IP address will be represented as  `13.66.214.195`. **Important:** change the address to the IP Address for your environment!
+After deployment you can easily retreive the external address for the aqua-web container from kubectl.
 
-``` Bash
+``` bash
 kubectl get service aqua-web -n aqua-security
 NAME       TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)                        AGE
-aqua-web   LoadBalancer   10.0.94.99   13.66.214.195   443:30029/TCP,8080:30734/TCP   1m
+aqua-web   LoadBalancer   10.0.94.99   xxx.xxx.xxx   443:30029/TCP,8080:30734/TCP   1m
 ```
