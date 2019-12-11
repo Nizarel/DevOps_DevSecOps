@@ -81,7 +81,7 @@ The steps that support this workflow are detailed below:
 In order to take advantage of the Aquasec tools in you pipeline three [service connections](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml) are required.
 
 1. A service connection to your *Azure Container Registry* is required. This connection is used to push images that have been scanned and passed your policies to your ACR. **Note** if the ACR is located in different subscription than your Azure DevOps user, you will need to use `Service Type: Other` for this service connection.
-2. A service connection must be create for the *Aqua Container Registry*. This connection will be used to pull the latest scanner image.
+2. A service connection must be created for the *Aqua Container Registry*. This connection will be used to pull the latest scanner image.
 3. A service connection is needed for the *Aqua Management Console* that allows the CI to update the scan results and apply policies previously defined.
 
 #### (1) Azure Container Registry Service Connection
