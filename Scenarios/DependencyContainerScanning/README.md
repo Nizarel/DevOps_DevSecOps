@@ -4,17 +4,17 @@ When selecting third-party components (both commercial and open source) it’s i
 
 ## Dependency Scanning
 
-- [Aqua Dependency scanning](./Aqua.md)
-- [Dependency Scanning with Sonar Qube](./sonarQube-Dependency.md)
-- [Dependency Scanning with WhiteSource](./WhiteSource-Dependency.md) ([Account Setup Required](./WhiteSource-Setup.md))
+- [Aqua Dependency scanning](./aqua/Aqua.md)
+- [Dependency Scanning with Sonar Qube](./sonarqube/sonarQube-Dependency.md)
+- [Dependency Scanning with WhiteSource](./whitesource/WhiteSource-Dependency.md) ([Account Setup Required](./whitesource/WhiteSource-Setup.md))
 - [Sample Whitesource Pipeline](../../pipelines/DependencyScanning/WhiteSource.yml)
 
 ## Container Scanning
 
-- [Aqua Container scanning](./Aqua.md)
+- [Aqua Container scanning](./aqua/Aqua.md)
 - [Sample Aqua yml pipeline](../../pipelines/ContainerScanning/Aqua-CI.yml)
-- [Container Scanning with WhiteSource](./WhiteSource-ContainerScanning.md) ([Account Setup Required](./WhiteSource-Setup.md))
+- [Container Scanning with WhiteSource](./whitesource/WhiteSource-ContainerScanning.md) ([Account Setup Required](./whitesource/WhiteSource-Setup.md))
 
 ## License Scanning
 
-- [OSS License scanning with FOSSA](./FOSSA.md)
+- [OSS License scanning with FOSSA](./fossa/FOSSA.md)

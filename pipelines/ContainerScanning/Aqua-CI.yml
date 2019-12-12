@@ -11,7 +11,7 @@ variables:
   AquaServiceConnection: 'YOUR_AQUA_SERVICE_CONNECTION_NAME'
   AquaImage: 'registry.aquasec.com/scanner:4.2'
   REPOSITORY: 'YOUR_REPO_NAME'
-  AquaManagementConsoleServiceConnection: 'YOUR_AQUA_MAANGMENT_SERVICE_CONNECTION_NAME'
+  AquaManagementConsoleServiceConnection: 'YOUR_AQUA_MANGMENT_SERVICE_CONNECTION_NAME'
 
 steps:
 - task: Docker@2

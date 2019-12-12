@@ -39,7 +39,7 @@ Support information and Installation instructions can be found on Fossa's websit
 
 1. Navigate to the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Fossa.fossa-vsts) and download the Fossa Azure DevOps Extension and approve the installation for your organisation.
 2. Create a Service Connection for Fossa. This requires the API Token for the previously created FOSSA account!
-![Fossa Configuration 1: Creating a service connection.](images/FossaTaskConfig1.png)
+![Fossa Configuration 1: Creating a service connection.](../images/FossaTaskConfig1.png)
 3. Configure the Fossa Azure DevOps Task in your pipeline
 
 - Set the endpoint to "FOSSA"
@@ -47,4 +47,4 @@ Support information and Installation instructions can be found on Fossa's websit
 - FOSSA analysis results should be set to "Fail build if issues are found"
 - Run FOSSA with debug output should have the value "Show debug output"
 
-   ![Fossa Configuration 2: Configuring the FOSSA task.](images/FossaTaskConfig2.png)
+   ![Fossa Configuration 2: Configuring the FOSSA task.](../images/FossaTaskConfig2.png)

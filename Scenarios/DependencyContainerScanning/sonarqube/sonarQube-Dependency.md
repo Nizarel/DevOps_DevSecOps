@@ -26,7 +26,7 @@ This pipeline enable to use Dependency Scanning with pushing result to Sonar Qub
 
 I use Windows VS 2017 Hosted Agent for writing this document.  
 
-![pipeline overview](images/pipeline.png)
+![pipeline overview](../images/pipeline.png)
 
 This article explain the configuration of the key part. This document assume that you already know the configuration of the SonarQube.
 
@@ -142,10 +142,10 @@ Write-Host "See dependency report $(dependency)?$(dependencyScanResultSASToken)"
 Once execute this CI, you can see the result on SonerQube portal, and HTML report on the Azure Blob Storage.
 
 _Report on SonarQube Portal_
-![SonarQubePortal](images/sonarqube.png)
+![SonarQubePortal](../images/sonarqube.png)
 
 _Report on Blob storage_
-![HTML Report](images/report.png)
+![HTML Report](../images/report.png)
 
 ## Conclusion
 
