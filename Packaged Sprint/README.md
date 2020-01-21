@@ -27,21 +27,21 @@ We have developed three options for including DevSecOps scenarios into your appl
 
 ### Serial Flow
 
-If you have a flow that you need to execute one by one, use the Serial folow pattern.  Fully implemented this pipeline will take approxiamately 30 minutes to fully execute on average.
+If you have a flow that you need to execute one by one, use the Serial flow pattern.  Fully implemented this pipeline will take approxiamately 30 minutes to fully execute on average.
 
 ### Parallel Flow
 
-If you don't need to execute the tasks serially, you can use the parrllel flow. This can greatly reduce execution time to 5-7 minutes.
+If you don't need to execute the tasks serially, you can use the parellel flow. This can greatly reduce execution time.
 
 ### Hybrid Flow
 
-Hybrid flow is a compromise on parallel jobs where you continue to run CI in its own pipeline but delegate all DevSecOps task to a secondary pipeline.  The benefit of this model is you can apply org policy effectively and reuse the DevSecOps across projects with minimal modifications potentially.  Execution time can very but is generally around 12 minutes in our test scenario.
+Hybrid flow is a compromise on parallel jobs where you continue to run CI in its own pipeline but delegate all DevSecOps task to a secondary pipeline.  The benefit of this model is you can apply org policy effectively and reuse the DevSecOps across projects with minimal modifications potentially.  Execution time can very but is generally improved over serial flow.
 
 ## Setting up the packaged sprint in your project
 
-The goal of the packaged sprint is to provide an efficient and flexible way to Shift Left in your project. The Packaged Sprint consists of a spreadsheet containing an Epic, Features, User Stories, and Tasks, which, when imported in ADO, will help your team make choices on what fits your specific project.
+The goal of the packaged sprint is to provide an efficient and flexible way to Shift Left in your project. The Packaged Sprint consists of a spreadsheet containing Epics, Features, User Stories, and Tasks, which, when imported in ADO, will help your team make choices on what fits your specific project.
 
-Begin by importing the spreadsheet into your ADO Project to start the team on this exciting journey! Just look for the "Import Work Items" on the Boards page of ADO and import the PackagedSprint.csv file included with the packaged sprint materials. More details on importing can be found [here](https://docs.microsoft.com/en-us/azure/devops/boards/queries/import-work-items-from-csv?view=azure-devops#import-new-work-items).
+Begin by importing the spreadsheet into your ADO Project to start the team on this exciting journey! Just look for the "Import Work Items" option on the Boards page of ADO and import the PackagedSprint.csv file included with the packaged sprint materials. More details on importing work items into ADO can be found [here](https://docs.microsoft.com/en-us/azure/devops/boards/queries/import-work-items-from-csv?view=azure-devops#import-new-work-items).
 
 ![Import Work Items](images/import-work-items-csv.png)
 
@@ -61,4 +61,4 @@ These features offer a selection of stories that will drastically improve feedba
 
 ## Next Steps
 
-After importing the Packaged Sprint it is paramount that the team understand the purpose of the Epic and review Features and Stories during planning. Some choices have to be made on any stories that aren't a fit for the project, if the selection of tooling called out by the CSE DevOps team are the right choices for your project, and prioritization of the work. Start with the Feature "Planning for DevSecOps" which will help move the team forward by deciding what and how to Shift Left.
+After importing the Packaged Sprint it is paramount that the team understands the purpose of the Epic and review Features and Stories during planning. Some choices have to be made on any stories that aren't a fit for the project, if the selection of tooling called out by the CSE DevOps team are the right choices for your project, and prioritization of the work. Start with the Feature "Plan DevSecOps Approach" which will help move the team forward by deciding what and how to Shift Left.
