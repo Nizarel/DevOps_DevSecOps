@@ -47,9 +47,9 @@ Begin by importing the spreadsheet into your ADO Project to start the team on th
 
 ## New Items Created
 
-The packaged sprint csv will add an Epic to your project that includes the following (6) Features:
+Importing the Packaged Sprint will add a DevSecOps Epic to your project that includes the following (6) Features:
 
-* Select a Workflow for DevSecOps
+* Plan DevSecOps Approach
 * Workflow
 * Credential and Secret Scanning
 * Dependency and Container Scanning
@@ -61,4 +61,4 @@ These features offer a selection of stories that will drastically improve feedba
 
 ## Next Steps
 
-After importing the Packaged Sprint it is paramount that the team understand the purpose of the Epic and review Features and Stories during planning. Some choices have to be made on any stories that aren't a fit for the project, if the selection of tooling called out by the CSE DevOps team are the right choices for your project, and prioritization of the work. Start with the Feature "Select a worflow for DevSecOps" which will help move the team forward by deciding what and how to Shift Left.
+After importing the Packaged Sprint it is paramount that the team understand the purpose of the Epic and review Features and Stories during planning. Some choices have to be made on any stories that aren't a fit for the project, if the selection of tooling called out by the CSE DevOps team are the right choices for your project, and prioritization of the work. Start with the Feature "Planning for DevSecOps" which will help move the team forward by deciding what and how to Shift Left.
