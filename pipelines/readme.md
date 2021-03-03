@@ -17,3 +17,4 @@ All the samples are configureable,, Hence you might need to check the 'Variables
 - [YAML schema reference](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=example)
 
 - [Build pipeline triggers](https://docs.microsoft.com/en-us/azure/devops/pipelines/build/triggers?tabs=yaml&view=azure-devops#ci-triggers)
+- COntinuous Security Check
